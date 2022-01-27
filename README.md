@@ -1,2 +1,0 @@
-# coho
-Cosmic Horizon Blockchain
