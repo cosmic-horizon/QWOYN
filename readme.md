@@ -1,52 +1,86 @@
-# coho
-**coho** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://starport.com).
+# Cosmic Horizon Testnets
 
-## Get started
+You will find all testnet implementations of the Cosmic Horizon Network in this repository.
 
-```
-starport chain serve
-```
+# Installing CoHo
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
+## Quick Links
+Genesis: **coming soon**
 
-### Configure
+Git tag: coho v0.1
 
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.com).
+Block explorer: **coming soon**
 
-### Web Frontend
+Seeds: TBA
 
-Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
+## Hardware Requirements
+Here are the minimal hardware configs required for running a validator/sentry node
+ - 8GB RAM
+ - 4vCPUs
+ - 200GB Disk space
 
-```
-cd vue
-npm install
-npm run serve
-```
+## Software Requirements
 
-The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
+- Ubuntu 18.04 or higher
+- [Go v1.17.1](https://golang.org/doc/install)
+- [Starport](https://docs.starport.network/guide/install.html)
 
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
+# Install CoHo, Generate Wallet and Start your Node
 
-```
-git tag v0.1
-git push origin v0.1
-```
+You have two options for installing the cohod binary. First, our team will be providing releases of cohod in our github repository, please check the [releases page](https://github.com/cosmic-horizon/coho/releases) for the latest version of cohod.  Secondly, you can follow the steps below to compile coho yourself.
 
-After a draft release is created, make your final changes from the release page and publish it.
-
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
+## Install Go version 1.17.1
 
 ```
-curl https://get.starport.com/cosmic-horizon/coho@latest! | sudo bash
+sudo apt update  
+sudo apt install build-essential jq wget git -y
+
+wget https://dl.google.com/go/go1.17.1.linux-amd64.tar.gz
+tar -xvf go1.17.1.linux-amd64.tar.gz
+sudo mv go /usr/local
 ```
-`cosmic-horizon/coho` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
 
-## Learn more
+Now add go to your bashrc -
+```
+echo "" >> ~/.bashrc
+echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
+echo 'export GOBIN=$GOPATH/bin' >> ~/.bashrc
+echo 'export PATH=$PATH:/usr/local/go/bin:$GOBIN' >> ~/.bashrc
 
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
+# use this new bashrc configuration
+source ~/.bashrc
+```
+
+## Install Starport
+
+This command invokes curl to download the install script and pipes the output to bash to perform the installation. The starport binary is installed in /usr/local/bin.
+
+To learn more or customize the installation process, see [Starport installer docs](https://github.com/allinbits/starport-installer) on GitHub.
+
+```
+curl https://get.starport.network/starport! | bash
+```
+
+**(Optional)**
+Starport installation requires write permission to the /usr/local/bin/ directory. If the installation fails because you do not have write permission to /usr/local/bin/, run the following command:
+
+```
+curl https://get.starport.network/starport | bash
+```
+Then run this command to move the starport executable to /usr/local/bin/:
+```
+sudo mv starport /usr/local/bin/
+```
+
+## Build CoHo
+
+These next steps will install the cohod binary which is used to run your chain.
+```
+# Clone the Repo
+git clone https://github.com/cosmic-horizon/coho.git
+
+# Install CoHo
+cd ~/coho
+starport chain build
+```
