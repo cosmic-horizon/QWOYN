@@ -4,15 +4,6 @@ You will find all testnet implementations of the Cosmic Horizon Network in this 
 
 # Installing CoHo
 
-## Quick Links
-Genesis: **coming soon**
-
-Git tag: coho v0.1
-
-Block explorer: **coming soon**
-
-Seeds: TBA
-
 ## Hardware Requirements
 Here are the minimal hardware configs required for running a validator/sentry node
  - 8GB RAM
