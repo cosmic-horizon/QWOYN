@@ -69,9 +69,6 @@ BUILD_FLAGS := -tags "$(build_tags)" -ldflags '$(ldflags)'
 
 all: install tools lint
 
-# The below include contains the tools.
-include contrib/devtools/Makefile
-
 build: go.sum
 ifeq ($(OS),Windows_NT)
 	go build -mod=readonly $(BUILD_FLAGS) -o build/cohod.exe ./cmd/cohod
@@ -234,9 +231,6 @@ lint: golangci-lint
 
 benchmark:
 	@go test -mod=readonly -bench=. ./...
-
-# include simulations
-include sims.mk
 
 .PHONY: all build-linux install install-debug \
 	go-mod-cache draw-deps clean build \
