@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -rf ~/.cohod
+rm -rf ~/.coho
 
 # Build genesis
 cohod init --chain-id=test test
@@ -10,4 +10,4 @@ cohod gentx validator 100000000ucoho --keyring-backend="test" --chain-id=test
 cohod collect-gentxs
 
 # Start node
-cohod start --pruning=nothing
+cohod start --pruning=nothing --minimum-gas-prices="0ucoho"
