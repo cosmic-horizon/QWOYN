@@ -69,3 +69,8 @@ On-chain governance with COHO token holders - would be interacting with technica
 - Any other tokens that can be issued on game
 
 This should be done with third parties like Osmosis?
+
+# game fee manager module
+
+- Fee collection
+- Fee distribution
