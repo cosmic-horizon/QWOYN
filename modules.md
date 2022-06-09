@@ -62,3 +62,10 @@ There could be funds allocated for competition.
 # governance module (native Cosmos SDK module)
 
 On-chain governance with COHO token holders - would be interacting with technical subjects for chain maintenance.
+
+# token swap module
+
+- COHO / Sagan
+- Any other tokens that can be issued on game
+
+This should be done with third parties like Osmosis?
