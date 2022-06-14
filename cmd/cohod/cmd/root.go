@@ -51,7 +51,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithViper("")
 
 	rootCmd := &cobra.Command{
-		Use:   "gaiad",
+		Use:   "cohod",
 		Short: "Stargate Cosmos Hub App",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			initClientCtx, err := client.ReadPersistentCommandFlags(initClientCtx, cmd.Flags())
@@ -68,8 +68,8 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 				return err
 			}
 
-			customTemplate, customGaiaConfig := initAppConfig()
-			return server.InterceptConfigsPreRunHandler(cmd, customTemplate, customGaiaConfig)
+			customTemplate, customCohoConfig := initAppConfig()
+			return server.InterceptConfigsPreRunHandler(cmd, customTemplate, customCohoConfig)
 		},
 	}
 
@@ -256,7 +256,7 @@ func (ac appCreator) appExport(
 		loadLatest = true
 	}
 
-	gaiaApp := app.New(
+	cohoApp := app.New(
 		logger,
 		db,
 		traceStore,
@@ -269,10 +269,10 @@ func (ac appCreator) appExport(
 	)
 
 	if height != -1 {
-		if err := gaiaApp.LoadHeight(height); err != nil {
+		if err := cohoApp.LoadHeight(height); err != nil {
 			return servertypes.ExportedApp{}, err
 		}
 	}
 
-	return gaiaApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
+	return cohoApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
 }
