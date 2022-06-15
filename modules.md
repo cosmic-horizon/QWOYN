@@ -10,8 +10,16 @@
 
 ## module accounts
 
-- `active_use` module account - game manager can use any items and funds on this module account. Everything is managed on off-chain for tokens and nfts put on `active_use` vault.
-- `paused_use` module account - items to be stored when the user paused the game - items and funds on this account can not be transferred to `active_use` without end user's signature and end user also can not withdraw this to his end wallet .
+- `active_use` module account
+    - Permanantly linked to Avatar
+    - Enabled at specific location ie. Planetary Portal, Stardock
+    - Game manager can use any items and funds on this module account. 
+    - Everything is managed off-chain for tokens and nfts put in `active_use` vault.
+    - Planets only exist in `active_use` account
+- `exit_use` module account 
+    - 
+    - Items and funds on this account can not be transferred to `active_use` without end user's signature and end user also can not withdraw this to his end wallet.
+    - Items can be transferred to opposing player
 
 ## functions
 
