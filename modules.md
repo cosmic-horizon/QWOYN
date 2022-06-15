@@ -1,7 +1,7 @@
 # nft module
 
 - Multiple types of items ownable should be managed via this module, `Ships`, `Avatars` and `Planets` etc.
-- Transferable items should be managed as an nft.
+- Transferable items should be managed as an nft parameter.
     - Cyrillium crystals (source of power for engines, shields and weapons)
     - Hardware (technological equipment)
     - Rations
@@ -16,7 +16,7 @@
     - Avatar can use any items and funds on this module account. 
     - Everything is managed off-chain for tokens and nfts put in `active_use` vault.
     - Planets only exist in `active_use` account
-    - 
+
 
 ## functions
 
