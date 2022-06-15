@@ -17,6 +17,11 @@
     - Avatar can use any items and funds on this module account. 
     - Everything is managed off-chain for tokens and nfts put in `active_use` vault.
     - Planets only exist in `active_use` account
+- `sales_use` module account
+    - items for sale will be stored in this account
+    - user cannot cancel sale
+    - creates nft(deed) tied to items for sale
+     - deed can then be transferred to end wallet
 
 ## functions
 
