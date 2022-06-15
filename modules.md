@@ -12,7 +12,7 @@
 
 - `active_use` module account
     - Permanantly linked to Avatar
-    - Enabled and Disabled at specific location ie. Planetary Portal, Stardock
+    - Enabled and Disabled at specific locations ie. Cryo chamber, Shipyard, Bank
     - Avatar can use any items and funds on this module account. 
     - Everything is managed off-chain for tokens and nfts put in `active_use` vault.
     - Planets only exist in `active_use` account
