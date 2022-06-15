@@ -2,9 +2,9 @@
 
 - Multiple types of items ownable should be managed via this module, `Ships`, `Avatars` and `Planets` etc.
 - Transferable items should be managed as an nft.
-   -- Cyrillium crystals (source of power for engines, shields and weapons)
-   -- Hardware (technological equipment)
-   -- Food Items
+    - Cyrillium crystals (source of power for engines, shields and weapons)
+    - Hardware (technological equipment)
+    - Rations
 
 # In-game items manager module
 
