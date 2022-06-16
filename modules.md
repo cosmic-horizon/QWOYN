@@ -1,14 +1,27 @@
 # nft module
 
-- Multiple types of items ownable should be managed via this module, `Ships` and `Planets` etc.
-- Transferable items should be managed as an nft.
+- Multiple types of items ownable should be managed via this module, `Ships`, `Avatars` and `Planets`.
+- Transferable items should be managed as an nft parameter. NFT parameters can be writeable
+  - Cyrillium crystals (source of power for engines, shields and weapons)
+  - Hardware (technological equipment)
+  - Rations
+- Ship parameters will be managed by this module
 
 # In-game items / funds manager module
 
 ## module accounts
 
-- `active_use` module account - game manager can use any items and funds on this module account. Everything is managed on off-chain for tokens and nfts put on `active_use` vault.
-- `paused_use` module account - items to be stored when the user paused the game - items and funds on this account can not be transferred to `active_use` without end user's signature and end user also can not withdraw this to his end wallet .
+- `active_use` module account
+  - Permanantly linked to Avatar
+  - Enabled and Disabled at specific locations ie. Cryo chamber, Shipyard, Bank
+  - Avatar can use any items and funds on this module account.
+  - Everything is managed off-chain for tokens and nfts put in `active_use` vault.
+  - Planets only exist in `active_use` account
+- `sales_use` module account
+  - items for sale will be stored in this account
+  - user cannot cancel sale
+  - creates nft(deed) tied to items for sale
+  - deed can then be transferred to end wallet
 - `starports` accounts: these accounts will get coho rewards, and it's switched to sagans
 
 ## functions
@@ -20,7 +33,7 @@
 - withdraw funds
 
 All of the withdraw functionalities should have signature from game manager account.
-There could be multiple game manager accounts for security.
+There could be multiple game manager for security.
 
 ## thoughts
 
