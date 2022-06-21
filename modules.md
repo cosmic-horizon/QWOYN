@@ -38,7 +38,7 @@ There could be multiple game manager for security.
 
 ## thoughts
 
-- In game funds can be staked for staking rewards?
+- In game funds can be staked for staking rewards? Yes.  Sagans will be put in banks and the interest from storing your sagans in the banks will provide the staking rewards/inflation.
 
 # nft marketplace
 
