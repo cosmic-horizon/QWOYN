@@ -116,7 +116,7 @@ Inflation to
 
 # airdrop module
 
-- Rather than giving full airdrop as balance it would be good to make it claimable to make sure it's given to right people who claim
+- No airdrop, instead we will perform protocol to protocol token swaps
 
 # lockup module
 
