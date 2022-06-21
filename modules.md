@@ -23,6 +23,7 @@
   - creates nft(deed) tied to items for sale
   - deed can then be transferred to end wallet
 - `starports` accounts: these accounts will get coho rewards, and it's switched to sagans
+- `retirement_account` interchain account which retires credits on behalf of the player
 
 ## functions
 
