@@ -111,7 +111,7 @@ In game trading module.  Private trading pair with liquidity provided by qwoyn s
 Inflation to
 
 - validators
-- funding in-game Starports
+- purchasing sagans in private LP
 - on-chain community pool
 
 # airdrop module
