@@ -90,7 +90,9 @@ There could be funds allocated for competition.
 
 On-chain governance with COHO token holders - would be interacting with technical subjects for chain maintenance.
 
-## Cosmos SDK Groups Module
+# Cosmos SDK Groups Module
+
+will be used for guild governance.
 
 # token swap module
 
