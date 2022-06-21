@@ -120,8 +120,7 @@ Inflation to
 
 # lockup module
 
-- Probably utilize vesting module?
-- Or build custom lockup module?
+- Probably utilize vesting module? yes
 
 # EVMOS smart contract
 
