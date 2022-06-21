@@ -93,9 +93,11 @@ On-chain governance with COHO token holders - would be interacting with technica
 # token swap module
 
 - COHO / Sagan
-- Any other tokens that can be issued on game
+- Any other tokens that can be issued on game - not currently
 
-This should be done with third parties like Osmosis?
+This should be done with third parties like Osmosis? NO
+
+In game trading module.  Private trading pair with liquidity provided by qwoyn studios. 
 
 # game fee manager module
 
