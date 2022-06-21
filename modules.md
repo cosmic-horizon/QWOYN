@@ -59,6 +59,8 @@ On-chain profile registration & ranking system for players
 
 # game state store module
 
+Game state is always stored inside NFTs
+
 Game state can be stored on-chain daily or weekly basis - could just store ipfs hash if the data is pretty big.
 
 # game governance module
