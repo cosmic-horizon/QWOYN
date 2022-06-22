@@ -7,6 +7,8 @@
   - Rations
 - Ship parameters will be managed by this module
 
+- List Of NFT Parameters - onchain/offchain.
+
 # In-game items / funds manager module
 
 ## module accounts
