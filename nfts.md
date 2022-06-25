@@ -89,34 +89,35 @@ Ship attributes are broken up into 4 different categories:
       "defenseSystemType": 1,
       "engineType": 1,
       "engineEfficiency": 0.9,
-      "escapeOdds": 0.99,
-      "upgrades": [
-        {
-        "scannerType": 1,
-        },
-        {
-        "transporter": true,
-        },
-        {
-        "refiner": true,
-        },
-        {
-        "cloaking": true,
-        },
-        {
-        "jumpDrive": true,
-        }
-      ],
-      "items": [
-        {
-          "maxMines": 10,
-          "actMines": 1,
-        },
-        {
-          "maxProbes": 10,
-          "actProbes": 1,
-        }
-      ],
+      "escapeOdds": 0.99
+    ] 
+    "upgrades": [
+      {
+      "scannerType": 1,
+      },
+      {
+      "transporter": true,
+      },
+      {
+      "refiner": true,
+      },
+      {
+      "cloaking": true,
+      },
+      {
+      "jumpDrive": true,
+      }
+    ],
+    "items": [
+      {
+        "maxMines": 10,
+        "actMines": 1,
+      },
+      {
+        "maxProbes": 10,
+        "actProbes": 1,
+      }
+    ],
     "external_url": "https://example.com/?token_id=1",
     "image": "ipfs://bafybeih3ykpa42eipgtzcrfkeo5nvazcdqhj3oh3ztju44tcoipzsdaauy/images/1.png",
     "animation_url": "ipfs://bafybeia5r3hwyou3iggzfvakjkxu2zy5pt3kjil6nyqzvrqwrrtkwe6xrm/images/Genesis.m4a"
