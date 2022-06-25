@@ -62,6 +62,7 @@ Ship attributes are broken up into 4 different categories:
       "maxFuel": 100,
       "actFuel": 50,
       "maxCargo": 100,
+      "actCargo": 5,
       "cargo": [
         {
           resourceA: 1
