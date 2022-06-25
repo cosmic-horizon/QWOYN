@@ -39,6 +39,7 @@ Some of these schema was taken from stargaze which has based their attributes on
   "name": "Shane Stargaze"
   }
 )
+```
 
 # Ships
 
@@ -51,6 +52,7 @@ Ship attributes are broken up into 4 different categories:
 
 **JSON Schema**
 
+```
 {
   "ship": {
     "type": 1,
