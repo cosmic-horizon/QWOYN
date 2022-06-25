@@ -6,6 +6,7 @@ This document contains the json schema for the Avatars, Ships and Planets.  Avat
 
 Some of these schema was taken from stargaze which has based their attributes on the opensea model.
 
+```
 {
   "nftType": {
     "attributes": [
@@ -121,8 +122,10 @@ Ship attributes are broken up into 4 different categories:
     "animation_url": "ipfs://bafybeia5r3hwyou3iggzfvakjkxu2zy5pt3kjil6nyqzvrqwrrtkwe6xrm/images/Genesis.m4a"
     "name": "Vedic Cruiser"
 }
+```
 
 # Avatars
 
+```
 {}
-    
+```    
