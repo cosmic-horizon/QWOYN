@@ -1,0 +1,8 @@
+syntax = "proto3";
+package cosmichorizon.coho.game;
+
+option go_package = "github.com/cosmic-horizon/coho/x/game/types";
+
+// Msg defines the Msg service.
+service Msg {
+}

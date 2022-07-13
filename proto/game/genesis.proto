@@ -1,0 +1,12 @@
+syntax = "proto3";
+package cosmichorizon.coho.game;
+
+import "gogoproto/gogo.proto";
+import "game/params.proto";
+
+option go_package = "github.com/cosmic-horizon/coho/x/game/types";
+
+// GenesisState defines the game module's genesis state.
+message GenesisState {
+  Params params = 1 [ (gogoproto.nullable) = false ];
+}
