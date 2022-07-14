@@ -23,6 +23,7 @@ pub fn instantiate(
         name: msg.name.clone(),
         symbol: msg.symbol.clone(),
         minter: deps.api.addr_validate(&msg.minter)?,
+        signer: deps.api.addr_validate(&msg.signer)?,
     };
     CONTRACT_INFO.save(deps.storage, &contract_info)?;
 
@@ -47,7 +48,18 @@ pub fn execute(
     msg: ExecuteMsg<TokenInfoExtension>,
 ) -> Result<Response, ContractError> {
     let tract = Cw721Contract::<TokenInfoExtension, Empty>::default();
-    tract.execute(deps, env, info, msg)
+    if let ExecuteMsg::UpdateNft(msg) = msg {
+        let contract_info = CONTRACT_INFO.load(deps.storage)?;
+
+        // ensure we have permissions
+        if info.sender != contract_info.signer {
+            return Err(ContractError::Unauthorized {});
+        }
+
+        tract.update_nft(deps, env, info, msg)
+    } else {
+        tract.execute(deps, env, info, msg)
+    }
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]

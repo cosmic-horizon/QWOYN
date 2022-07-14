@@ -124,10 +124,8 @@ where
     ) -> Result<Response<C>, ContractError> {
         // update the token
         let mut token = self.tokens.load(deps.storage, &msg.token_id)?;
-        // ensure we have permissions
-        // self.check_can_update(deps.as_ref(), &_env, &info, &token)?;
-        // set owner and remove existing approvals
-        token.extension = msg.extension;
+
+        token.extension = msg.extension.clone();
         self.tokens.save(deps.storage, &msg.token_id, &token)?;
 
         Ok(Response::new()
