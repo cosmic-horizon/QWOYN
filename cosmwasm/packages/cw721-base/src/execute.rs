@@ -68,8 +68,8 @@ where
                 token_id,
                 msg,
             } => self.send_nft(deps, env, info, contract, token_id, msg),
-            ExecuteMsg::UpdateNft(msg) => self.update_nft(deps, env, info, msg),
             ExecuteMsg::Burn { token_id } => self.burn(deps, env, info, token_id),
+            _ => Ok(Response::default()),
         }
     }
 }

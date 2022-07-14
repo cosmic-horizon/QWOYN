@@ -1,7 +1,7 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::{Binary, Uint256};
+use cosmwasm_std::{Binary};
 use cw721::Expiration;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -57,6 +57,9 @@ pub enum ExecuteMsg<T> {
 
     /// Burn an NFT the sender has access to
     Burn { token_id: String },
+
+    /// Transfer owner role
+    TransferOwnership { owner: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]

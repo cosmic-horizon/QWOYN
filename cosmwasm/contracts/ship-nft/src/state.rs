@@ -8,7 +8,7 @@ pub struct ContractInfo {
     pub name: String,
     pub symbol: String,
     pub minter: Addr,
-    pub signer: Addr
+    pub owner: Addr
 }
 
 pub const CONTRACT_INFO: Item<ContractInfo> = Item::new("ship_nft");

@@ -11,12 +11,12 @@ pub struct InstantiateMsg {
     /// This is designed for a base NFT that is controlled by an external program
     /// or contract. You will likely replace this with custom logic in custom NFTs
     pub minter: String,
-    pub signer: String,
+    pub owner: String,
 }
 
 #[derive(Serialize, Deserialize, Clone, PartialEq, JsonSchema, Debug)]
 pub struct ContractInfoResponse {
     pub name: String,
     pub symbol: String,
-    pub minter: String,
+    pub owner: String,
 }

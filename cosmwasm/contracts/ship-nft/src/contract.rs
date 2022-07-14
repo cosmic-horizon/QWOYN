@@ -23,7 +23,7 @@ pub fn instantiate(
         name: msg.name.clone(),
         symbol: msg.symbol.clone(),
         minter: deps.api.addr_validate(&msg.minter)?,
-        signer: deps.api.addr_validate(&msg.signer)?,
+        owner: deps.api.addr_validate(&msg.owner)?,
     };
     CONTRACT_INFO.save(deps.storage, &contract_info)?;
 
@@ -49,14 +49,22 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
     let tract = Cw721Contract::<TokenInfoExtension, Empty>::default();
     if let ExecuteMsg::UpdateNft(msg) = msg {
-        let contract_info = CONTRACT_INFO.load(deps.storage)?;
-
         // ensure we have permissions
-        if info.sender != contract_info.signer {
-            return Err(ContractError::Unauthorized {});
-        }
+        check_owner(deps.as_ref(), &info)?;
 
         tract.update_nft(deps, env, info, msg)
+    } else if let ExecuteMsg::TransferOwnership{ owner } = msg {
+        // ensure we have permissions
+        check_owner(deps.as_ref(), &info)?;
+
+        let mut contract_info = CONTRACT_INFO.load(deps.storage)?;
+        let old_owner = contract_info.owner.to_string();
+        contract_info.owner = deps.api.addr_validate(&owner)?;
+        CONTRACT_INFO.save(deps.storage, &contract_info)?;
+        Ok(Response::new()
+            .add_attribute("action", "transfer_ownership")
+            .add_attribute("old_owner", old_owner)
+            .add_attribute("new_owner", owner))
     } else {
         tract.execute(deps, env, info, msg)
     }
@@ -78,6 +86,21 @@ fn query_contract_info(deps: Deps) -> StdResult<ContractInfoResponse> {
     Ok(ContractInfoResponse {
         name: contract_info.name,
         symbol: contract_info.symbol,
-        minter: contract_info.minter.to_string(),
+        owner: contract_info.owner.to_string(),
     })
+}
+
+/// returns true if the sender is owner
+pub fn check_owner(
+    deps: Deps,
+    info: &MessageInfo,
+) -> Result<(), ContractError> {
+    let contract_info = CONTRACT_INFO.load(deps.storage)?;
+
+    // owner can send
+    if info.sender == contract_info.owner {
+        Ok(())
+    } else {
+        Err(ContractError::Unauthorized {})
+    }
 }
