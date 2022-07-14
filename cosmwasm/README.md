@@ -111,7 +111,7 @@ cohod query wasm contract-state smart coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcm
 ## Update NFT
 
 ```
-cohod tx wasm execute $CONTRACT_ADDRESS $EXECUTE_MSG --from $FROM --chain-id $CHAIN_ID --gas auto --gas-adjustment 1.3 -b block --keyring-backend=$KEYRING_BACKEND --home=$HOME/.cohod/
+cohod tx wasm execute $CONTRACT_ADDRESS $EXECUTE_MSG --from $FROM --chain-id $CHAIN_ID --gas auto --gas-adjustment 1.3 -b block --keyring-backend=$KEYRING_BACKEND --home=$HOME/.cohod/ -y
 
 # $CONTRACT_ADDRESS - Contract address (Example: coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc)
 # $EXECUTE_MSG - JSON encoded send args (Example: '{"update_nft":{"token_id":"1","extension":{"ship_type":20,"owner":"200"}}}')
@@ -125,4 +125,23 @@ Example command to update Ship NFT with token_id "1"
 
 ```
 cohod tx wasm execute coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc '{"update_nft":{"token_id":"1","extension":{"ship_type":20,"owner":"200"}}}' --from signer --chain-id test --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ -y
+```
+
+## Transfer Ownership
+
+```
+cohod tx wasm execute $CONTRACT_ADDRESS $EXECUTE_MSG --from $FROM --chain-id $CHAIN_ID --gas auto --gas-adjustment 1.3 -b block --keyring-backend=$KEYRING_BACKEND --home=$HOME/.cohod/ -y
+
+# $CONTRACT_ADDRESS - Contract address (Example: coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc)
+# $EXECUTE_MSG - JSON encoded send args (Example: '{"transfer_ownership":{"owner":"coho1f0yhatqxayku7y00k448n43qwch320v4da2plx"}}')
+# $FROM - Name or address of signer account (Example: signer)
+# $LABEL - Label string
+# $CHAIN_ID - Chain ID (Example: test)
+# $KEYRING_BACKEND - Can be os|file|kwallet|pass|test|memory (Example: test)
+```
+
+Example command to transfer ownership to `coho1f0yhatqxayku7y00k448n43qwch320v4da2plx`
+
+```
+cohod tx wasm execute coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc '{"transfer_ownership":{"owner":"coho1f0yhatqxayku7y00k448n43qwch320v4da2plx"}}' --from signer --chain-id test --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ -y
 ```
