@@ -37,6 +37,9 @@ message MsgDepositNft {
 }
 message MsgDepositNftResponse {}
 
+message TokenInfoExtension {
+}
+
 message MsgWithdrawUpdatedNft {
   string sender = 1;
   string contract = 2;

@@ -20,3 +20,7 @@ const (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+
+var (
+	PrefixWhitelistedContract = []byte{0x01}
+)
