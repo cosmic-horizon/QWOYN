@@ -5,4 +5,42 @@ option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 
 // Msg defines the Msg service.
 service Msg {
+  rpc TransferModuleOwnership(MsgTransferModuleOwnership) returns (MsgTransferModuleOwnershipResponse);
+  rpc WhitelistNftContracts(MsgWhitelistNftContracts) returns (MsgWhitelistNftContractsResponse);
+  rpc RemoveWhitelistedNftContracts(MsgRemoveWhitelistedNftContracts) returns (MsgRemoveWhitelistedNftContractsResponse);
+  rpc DepositNft(MsgDepositNft) returns (MsgDepositNftResponse);
+  rpc WithdrawUpdatedNft(MsgWithdrawUpdatedNft) returns (MsgWithdrawUpdatedNftResponse);
 }
+
+message MsgTransferModuleOwnership {
+    string sender = 1;
+    string newOwner = 2;
+}
+message MsgTransferModuleOwnershipResponse {}
+
+message MsgWhitelistNftContracts {
+    string sender = 1;
+    repeated string contracts = 2;
+}
+message MsgWhitelistNftContractsResponse {}
+
+message MsgRemoveWhitelistedNftContracts {
+  string sender = 1;
+  repeated string contracts = 2;
+}
+message MsgRemoveWhitelistedNftContractsResponse {}
+
+message MsgDepositNft {
+  string sender = 1;
+  string contract = 2;
+  uint64 token_id = 3;
+}
+message MsgDepositNftResponse {}
+
+message MsgWithdrawUpdatedNft {
+  string sender = 1;
+  string contract = 2;
+  uint64 token_id = 3;
+}
+message MsgWithdrawUpdatedNftResponse {}
+

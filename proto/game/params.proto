@@ -9,4 +9,5 @@ option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 message Params {
   option (gogoproto.goproto_stringer) = false;
   
+  string owner = 1;
 }
