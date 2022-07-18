@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/CosmWasm/wasmd v0.27.0
-	github.com/cosmos/cosmos-sdk v0.45.4
+	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/cosmos/ibc-go/v3 v3.0.0
 	github.com/dustin/go-humanize v1.0.1-0.20200219035652-afde56e7acac // indirect
 	github.com/gogo/protobuf v1.3.3

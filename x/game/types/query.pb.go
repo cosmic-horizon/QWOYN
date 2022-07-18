@@ -113,34 +113,218 @@ func (m *QueryParamsResponse) GetParams() Params {
 	return Params{}
 }
 
+type QueryWhitelistedContractsRequest struct {
+}
+
+func (m *QueryWhitelistedContractsRequest) Reset()         { *m = QueryWhitelistedContractsRequest{} }
+func (m *QueryWhitelistedContractsRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryWhitelistedContractsRequest) ProtoMessage()    {}
+func (*QueryWhitelistedContractsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ba210adeee9ee5e5, []int{2}
+}
+func (m *QueryWhitelistedContractsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryWhitelistedContractsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryWhitelistedContractsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryWhitelistedContractsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryWhitelistedContractsRequest.Merge(m, src)
+}
+func (m *QueryWhitelistedContractsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryWhitelistedContractsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryWhitelistedContractsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryWhitelistedContractsRequest proto.InternalMessageInfo
+
+type QueryWhitelistedContractsResponse struct {
+	Contracts []string `protobuf:"bytes,1,rep,name=contracts,proto3" json:"contracts,omitempty"`
+}
+
+func (m *QueryWhitelistedContractsResponse) Reset()         { *m = QueryWhitelistedContractsResponse{} }
+func (m *QueryWhitelistedContractsResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryWhitelistedContractsResponse) ProtoMessage()    {}
+func (*QueryWhitelistedContractsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ba210adeee9ee5e5, []int{3}
+}
+func (m *QueryWhitelistedContractsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryWhitelistedContractsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryWhitelistedContractsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryWhitelistedContractsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryWhitelistedContractsResponse.Merge(m, src)
+}
+func (m *QueryWhitelistedContractsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryWhitelistedContractsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryWhitelistedContractsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryWhitelistedContractsResponse proto.InternalMessageInfo
+
+func (m *QueryWhitelistedContractsResponse) GetContracts() []string {
+	if m != nil {
+		return m.Contracts
+	}
+	return nil
+}
+
+type QueryInGameNftsRequest struct {
+	Contract string `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
+}
+
+func (m *QueryInGameNftsRequest) Reset()         { *m = QueryInGameNftsRequest{} }
+func (m *QueryInGameNftsRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryInGameNftsRequest) ProtoMessage()    {}
+func (*QueryInGameNftsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ba210adeee9ee5e5, []int{4}
+}
+func (m *QueryInGameNftsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryInGameNftsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryInGameNftsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryInGameNftsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryInGameNftsRequest.Merge(m, src)
+}
+func (m *QueryInGameNftsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryInGameNftsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryInGameNftsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryInGameNftsRequest proto.InternalMessageInfo
+
+func (m *QueryInGameNftsRequest) GetContract() string {
+	if m != nil {
+		return m.Contract
+	}
+	return ""
+}
+
+type QueryInGameNftsResponse struct {
+	TokenIds []uint64 `protobuf:"varint,1,rep,packed,name=token_ids,json=tokenIds,proto3" json:"token_ids,omitempty"`
+}
+
+func (m *QueryInGameNftsResponse) Reset()         { *m = QueryInGameNftsResponse{} }
+func (m *QueryInGameNftsResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryInGameNftsResponse) ProtoMessage()    {}
+func (*QueryInGameNftsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ba210adeee9ee5e5, []int{5}
+}
+func (m *QueryInGameNftsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryInGameNftsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryInGameNftsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryInGameNftsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryInGameNftsResponse.Merge(m, src)
+}
+func (m *QueryInGameNftsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryInGameNftsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryInGameNftsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryInGameNftsResponse proto.InternalMessageInfo
+
+func (m *QueryInGameNftsResponse) GetTokenIds() []uint64 {
+	if m != nil {
+		return m.TokenIds
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "cosmichorizon.coho.game.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "cosmichorizon.coho.game.QueryParamsResponse")
+	proto.RegisterType((*QueryWhitelistedContractsRequest)(nil), "cosmichorizon.coho.game.QueryWhitelistedContractsRequest")
+	proto.RegisterType((*QueryWhitelistedContractsResponse)(nil), "cosmichorizon.coho.game.QueryWhitelistedContractsResponse")
+	proto.RegisterType((*QueryInGameNftsRequest)(nil), "cosmichorizon.coho.game.QueryInGameNftsRequest")
+	proto.RegisterType((*QueryInGameNftsResponse)(nil), "cosmichorizon.coho.game.QueryInGameNftsResponse")
 }
 
 func init() { proto.RegisterFile("game/query.proto", fileDescriptor_ba210adeee9ee5e5) }
 
 var fileDescriptor_ba210adeee9ee5e5 = []byte{
-	// 303 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x90, 0x31, 0x4b, 0x03, 0x31,
-	0x18, 0x86, 0x2f, 0xa2, 0x1d, 0xce, 0x45, 0x63, 0x41, 0x29, 0x92, 0x6a, 0x17, 0xc5, 0x6a, 0x42,
-	0xeb, 0xec, 0x52, 0x70, 0xd7, 0xe2, 0xe4, 0x96, 0x3b, 0x42, 0x1a, 0xf0, 0xf2, 0xa5, 0x97, 0x54,
-	0xac, 0xa3, 0xb3, 0x83, 0x20, 0xf8, 0x9b, 0x3a, 0x16, 0x5c, 0x9c, 0x44, 0x5a, 0x7f, 0x88, 0x5c,
-	0x92, 0xc1, 0x43, 0x0a, 0x6e, 0xe1, 0xcb, 0xf3, 0xbc, 0x79, 0xf3, 0xa5, 0x5b, 0x92, 0x17, 0x82,
-	0x8d, 0x27, 0xa2, 0x9c, 0x52, 0x53, 0x82, 0x03, 0xbc, 0x9b, 0x83, 0x2d, 0x54, 0x3e, 0x82, 0x52,
-	0x3d, 0x82, 0xa6, 0x39, 0x8c, 0x80, 0x56, 0x50, 0xab, 0x29, 0x41, 0x82, 0x67, 0x58, 0x75, 0x0a,
-	0x78, 0x6b, 0x5f, 0x02, 0xc8, 0x3b, 0xc1, 0xb8, 0x51, 0x8c, 0x6b, 0x0d, 0x8e, 0x3b, 0x05, 0xda,
-	0xc6, 0xdb, 0x93, 0x2a, 0x0c, 0x2c, 0xcb, 0xb8, 0x8d, 0xaf, 0xb0, 0xfb, 0x5e, 0x26, 0x1c, 0xef,
-	0x31, 0xc3, 0xa5, 0xd2, 0x1e, 0x8e, 0xec, 0xb6, 0xaf, 0x62, 0x78, 0xc9, 0x8b, 0xa8, 0x77, 0x9a,
-	0x29, 0xbe, 0xae, 0xa4, 0x2b, 0x3f, 0x1c, 0x8a, 0xf1, 0x44, 0x58, 0xd7, 0xb9, 0x49, 0x77, 0x6a,
-	0x53, 0x6b, 0x40, 0x5b, 0x81, 0x2f, 0xd2, 0x46, 0x90, 0xf7, 0xd0, 0x01, 0x3a, 0xde, 0xec, 0xb7,
-	0xe9, 0x8a, 0x9f, 0xd0, 0x20, 0x0e, 0xd6, 0x67, 0x9f, 0xed, 0x64, 0x18, 0xa5, 0xfe, 0x1b, 0x4a,
-	0x37, 0x7c, 0x2c, 0x7e, 0x46, 0x69, 0x23, 0x20, 0xb8, 0xbb, 0x32, 0xe3, 0x6f, 0xaf, 0xd6, 0xe9,
-	0xff, 0xe0, 0x50, 0xb7, 0x73, 0xf4, 0xf4, 0xfe, 0xfd, 0xba, 0x76, 0x88, 0xdb, 0xac, 0x66, 0xb1,
-	0xca, 0x62, 0xbf, 0x56, 0x31, 0xb8, 0x9c, 0x2d, 0x08, 0x9a, 0x2f, 0x08, 0xfa, 0x5a, 0x10, 0xf4,
-	0xb2, 0x24, 0xc9, 0x7c, 0x49, 0x92, 0x8f, 0x25, 0x49, 0x6e, 0xbb, 0x52, 0xb9, 0xd1, 0x24, 0xa3,
-	0x39, 0x14, 0x31, 0xe4, 0xac, 0x96, 0xf2, 0x10, 0x72, 0xdc, 0xd4, 0x08, 0x9b, 0x35, 0xfc, 0x4a,
-	0xcf, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x6b, 0x6a, 0x63, 0xd1, 0xf2, 0x01, 0x00, 0x00,
+	// 487 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x93, 0x41, 0x6b, 0x13, 0x41,
+	0x14, 0xc7, 0x33, 0x1a, 0x43, 0x33, 0x5e, 0x74, 0x0c, 0xb6, 0xac, 0x65, 0x93, 0xee, 0xc5, 0x62,
+	0x75, 0x27, 0x8d, 0x52, 0x54, 0xf0, 0x60, 0x45, 0xa4, 0x17, 0xd1, 0x45, 0x10, 0xbc, 0x84, 0xc9,
+	0x66, 0xba, 0x19, 0xec, 0xce, 0xdb, 0xee, 0x4c, 0xd4, 0x2a, 0x5e, 0x3c, 0x8a, 0x07, 0xc1, 0x4f,
+	0xe1, 0x07, 0x11, 0x7a, 0x2c, 0x78, 0xf1, 0x24, 0x92, 0xf8, 0x41, 0x64, 0x67, 0x27, 0x1b, 0x43,
+	0xdc, 0xa5, 0x78, 0x4a, 0xf6, 0xed, 0xff, 0xf7, 0x7f, 0xff, 0xf7, 0x1e, 0x8b, 0x2f, 0x44, 0x2c,
+	0xe6, 0xf4, 0x70, 0xcc, 0xd3, 0x23, 0x3f, 0x49, 0x41, 0x03, 0x59, 0x0d, 0x41, 0xc5, 0x22, 0x1c,
+	0x41, 0x2a, 0xde, 0x82, 0xf4, 0x43, 0x18, 0x81, 0x9f, 0x89, 0x9c, 0x56, 0x04, 0x11, 0x18, 0x0d,
+	0xcd, 0xfe, 0xe5, 0x72, 0x67, 0x3d, 0x02, 0x88, 0x0e, 0x38, 0x65, 0x89, 0xa0, 0x4c, 0x4a, 0xd0,
+	0x4c, 0x0b, 0x90, 0xca, 0xbe, 0xbd, 0x96, 0x99, 0x81, 0xa2, 0x03, 0xa6, 0x6c, 0x17, 0xfa, 0x6a,
+	0x7b, 0xc0, 0x35, 0xdb, 0xa6, 0x09, 0x8b, 0x84, 0x34, 0x62, 0xab, 0xbd, 0x68, 0xa2, 0x24, 0x2c,
+	0x65, 0xb1, 0xc5, 0xbd, 0x16, 0x26, 0x4f, 0x33, 0xe8, 0x89, 0x29, 0x06, 0xfc, 0x70, 0xcc, 0x95,
+	0xf6, 0x9e, 0xe1, 0x4b, 0x0b, 0x55, 0x95, 0x80, 0x54, 0x9c, 0xdc, 0xc3, 0x8d, 0x1c, 0x5e, 0x43,
+	0x1d, 0xb4, 0x79, 0xbe, 0xd7, 0xf6, 0x4b, 0x26, 0xf1, 0x73, 0x70, 0xb7, 0x7e, 0xfc, 0xb3, 0x5d,
+	0x0b, 0x2c, 0xe4, 0x79, 0xb8, 0x63, 0x5c, 0x9f, 0x8f, 0x84, 0xe6, 0x07, 0x42, 0x69, 0x3e, 0x7c,
+	0x00, 0x52, 0xa7, 0x2c, 0xd4, 0x45, 0xe7, 0xfb, 0x78, 0xa3, 0x42, 0x63, 0x73, 0xac, 0xe3, 0x66,
+	0x38, 0x2b, 0xae, 0xa1, 0xce, 0xd9, 0xcd, 0x66, 0x30, 0x2f, 0x78, 0xb7, 0xf0, 0x65, 0x63, 0xb1,
+	0x27, 0x1f, 0xb1, 0x98, 0x3f, 0xde, 0x2f, 0xcc, 0x89, 0x83, 0x57, 0x66, 0x32, 0x33, 0x41, 0x33,
+	0x28, 0x9e, 0xbd, 0x1d, 0xbc, 0xba, 0x44, 0xd9, 0x76, 0x57, 0x70, 0x53, 0xc3, 0x4b, 0x2e, 0xfb,
+	0x62, 0x98, 0xb7, 0xab, 0x07, 0x2b, 0xa6, 0xb0, 0x37, 0x54, 0xbd, 0x8f, 0x75, 0x7c, 0xce, 0x80,
+	0xe4, 0x13, 0xc2, 0x8d, 0x7c, 0x6e, 0xb2, 0x55, 0xba, 0x98, 0xe5, 0x65, 0x3b, 0xd7, 0x4f, 0x27,
+	0xce, 0xc3, 0x78, 0x57, 0x3f, 0x7c, 0xff, 0xfd, 0xe5, 0xcc, 0x06, 0x69, 0xd3, 0x05, 0x8a, 0x66,
+	0x14, 0xfd, 0xeb, 0xbe, 0xe4, 0x1b, 0xc2, 0xad, 0x7f, 0x6d, 0x91, 0xdc, 0xa9, 0xee, 0x57, 0x71,
+	0x1d, 0xe7, 0xee, 0xff, 0xa0, 0x36, 0xf8, 0x8e, 0x09, 0xde, 0x25, 0x7e, 0x69, 0xf0, 0xd7, 0x73,
+	0xbc, 0x5f, 0x9c, 0x93, 0x7c, 0x45, 0x18, 0xcf, 0x8f, 0x42, 0x68, 0x75, 0x84, 0xa5, 0xa3, 0x3b,
+	0xdd, 0xd3, 0x03, 0x36, 0xe9, 0x6d, 0x93, 0xb4, 0x47, 0xba, 0xa5, 0x49, 0x85, 0xec, 0x67, 0xbf,
+	0x7d, 0xb9, 0xaf, 0x15, 0x7d, 0x37, 0xcb, 0xfa, 0x7e, 0xf7, 0xe1, 0xf1, 0xc4, 0x45, 0x27, 0x13,
+	0x17, 0xfd, 0x9a, 0xb8, 0xe8, 0xf3, 0xd4, 0xad, 0x9d, 0x4c, 0xdd, 0xda, 0x8f, 0xa9, 0x5b, 0x7b,
+	0xb1, 0x15, 0x09, 0x3d, 0x1a, 0x0f, 0xfc, 0x10, 0x62, 0xeb, 0x7a, 0x63, 0xc1, 0xf6, 0x4d, 0x6e,
+	0xac, 0x8f, 0x12, 0xae, 0x06, 0x0d, 0xf3, 0x6d, 0xde, 0xfc, 0x13, 0x00, 0x00, 0xff, 0xff, 0x29,
+	0x19, 0x72, 0xe9, 0x3b, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -157,6 +341,8 @@ const _ = grpc.SupportPackageIsVersion4
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
+	WhitelistedContracts(ctx context.Context, in *QueryWhitelistedContractsRequest, opts ...grpc.CallOption) (*QueryWhitelistedContractsResponse, error)
+	InGameNfts(ctx context.Context, in *QueryInGameNftsRequest, opts ...grpc.CallOption) (*QueryInGameNftsResponse, error)
 }
 
 type queryClient struct {
@@ -176,10 +362,30 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 	return out, nil
 }
 
+func (c *queryClient) WhitelistedContracts(ctx context.Context, in *QueryWhitelistedContractsRequest, opts ...grpc.CallOption) (*QueryWhitelistedContractsResponse, error) {
+	out := new(QueryWhitelistedContractsResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Query/WhitelistedContracts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) InGameNfts(ctx context.Context, in *QueryInGameNftsRequest, opts ...grpc.CallOption) (*QueryInGameNftsResponse, error) {
+	out := new(QueryInGameNftsResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Query/InGameNfts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
+	WhitelistedContracts(context.Context, *QueryWhitelistedContractsRequest) (*QueryWhitelistedContractsResponse, error)
+	InGameNfts(context.Context, *QueryInGameNftsRequest) (*QueryInGameNftsResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -188,6 +394,12 @@ type UnimplementedQueryServer struct {
 
 func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
+}
+func (*UnimplementedQueryServer) WhitelistedContracts(ctx context.Context, req *QueryWhitelistedContractsRequest) (*QueryWhitelistedContractsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WhitelistedContracts not implemented")
+}
+func (*UnimplementedQueryServer) InGameNfts(ctx context.Context, req *QueryInGameNftsRequest) (*QueryInGameNftsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InGameNfts not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -212,6 +424,42 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_WhitelistedContracts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryWhitelistedContractsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).WhitelistedContracts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Query/WhitelistedContracts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).WhitelistedContracts(ctx, req.(*QueryWhitelistedContractsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_InGameNfts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryInGameNftsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).InGameNfts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Query/InGameNfts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).InGameNfts(ctx, req.(*QueryInGameNftsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "cosmichorizon.coho.game.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -219,6 +467,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
+		},
+		{
+			MethodName: "WhitelistedContracts",
+			Handler:    _Query_WhitelistedContracts_Handler,
+		},
+		{
+			MethodName: "InGameNfts",
+			Handler:    _Query_InGameNfts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -281,6 +537,132 @@ func (m *QueryParamsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryWhitelistedContractsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryWhitelistedContractsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryWhitelistedContractsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryWhitelistedContractsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryWhitelistedContractsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryWhitelistedContractsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Contracts) > 0 {
+		for iNdEx := len(m.Contracts) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Contracts[iNdEx])
+			copy(dAtA[i:], m.Contracts[iNdEx])
+			i = encodeVarintQuery(dAtA, i, uint64(len(m.Contracts[iNdEx])))
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryInGameNftsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryInGameNftsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryInGameNftsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Contract) > 0 {
+		i -= len(m.Contract)
+		copy(dAtA[i:], m.Contract)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Contract)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryInGameNftsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryInGameNftsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryInGameNftsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.TokenIds) > 0 {
+		dAtA3 := make([]byte, len(m.TokenIds)*10)
+		var j2 int
+		for _, num := range m.TokenIds {
+			for num >= 1<<7 {
+				dAtA3[j2] = uint8(uint64(num)&0x7f | 0x80)
+				num >>= 7
+				j2++
+			}
+			dAtA3[j2] = uint8(num)
+			j2++
+		}
+		i -= j2
+		copy(dAtA[i:], dAtA3[:j2])
+		i = encodeVarintQuery(dAtA, i, uint64(j2))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -309,6 +691,59 @@ func (m *QueryParamsResponse) Size() (n int) {
 	_ = l
 	l = m.Params.Size()
 	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryWhitelistedContractsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryWhitelistedContractsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Contracts) > 0 {
+		for _, s := range m.Contracts {
+			l = len(s)
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *QueryInGameNftsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Contract)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryInGameNftsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.TokenIds) > 0 {
+		l = 0
+		for _, e := range m.TokenIds {
+			l += sovQuery(uint64(e))
+		}
+		n += 1 + sovQuery(uint64(l)) + l
+	}
 	return n
 }
 
@@ -430,6 +865,346 @@ func (m *QueryParamsResponse) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryWhitelistedContractsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryWhitelistedContractsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryWhitelistedContractsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryWhitelistedContractsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryWhitelistedContractsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryWhitelistedContractsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Contracts", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Contracts = append(m.Contracts, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryInGameNftsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryInGameNftsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryInGameNftsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Contract", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Contract = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryInGameNftsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryInGameNftsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryInGameNftsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType == 0 {
+				var v uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowQuery
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				m.TokenIds = append(m.TokenIds, v)
+			} else if wireType == 2 {
+				var packedLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowQuery
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					packedLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if packedLen < 0 {
+					return ErrInvalidLengthQuery
+				}
+				postIndex := iNdEx + packedLen
+				if postIndex < 0 {
+					return ErrInvalidLengthQuery
+				}
+				if postIndex > l {
+					return io.ErrUnexpectedEOF
+				}
+				var elementCount int
+				var count int
+				for _, integer := range dAtA[iNdEx:postIndex] {
+					if integer < 128 {
+						count++
+					}
+				}
+				elementCount = count
+				if elementCount != 0 && len(m.TokenIds) == 0 {
+					m.TokenIds = make([]uint64, 0, elementCount)
+				}
+				for iNdEx < postIndex {
+					var v uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowQuery
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						v |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					m.TokenIds = append(m.TokenIds, v)
+				}
+			} else {
+				return fmt.Errorf("proto: wrong wireType = %d for field TokenIds", wireType)
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])
