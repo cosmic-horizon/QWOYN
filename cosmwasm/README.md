@@ -102,6 +102,12 @@ cohod query wasm contract-state smart $CONTRACT_ADDRESS $QUERY_MSG
 # QUERY_MSG - JSON encoded read args (Example: '{"nft_info":{"token_id":"1"}}')
 ```
 
+Example command to get Ship NFT contract info
+
+```
+cohod query wasm contract-state smart coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc '{"contract_info":{}}'
+```
+
 Example command to get Ship NFT info with token_id "1"
 
 ```
