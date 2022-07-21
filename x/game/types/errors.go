@@ -8,5 +8,6 @@ import (
 
 // x/game module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrNotModuleOwner         = sdkerrors.Register(ModuleName, 1, "not module owner")
+	ErrNotWhitelistedContract = sdkerrors.Register(ModuleName, 2, "not whitelisted contract")
 )
