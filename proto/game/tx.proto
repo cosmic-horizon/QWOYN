@@ -44,6 +44,7 @@ message MsgWithdrawUpdatedNft {
   string sender = 1;
   string contract = 2;
   uint64 token_id = 3;
+  string exec_msg = 4;
 }
 message MsgWithdrawUpdatedNftResponse {}
 

@@ -21,3 +21,9 @@ func GetTxCmd() *cobra.Command {
 
 	return cmd
 }
+
+//   rpc TransferModuleOwnership(MsgTransferModuleOwnership) returns (MsgTransferModuleOwnershipResponse);
+//   rpc WhitelistNftContracts(MsgWhitelistNftContracts) returns (MsgWhitelistNftContractsResponse);
+//   rpc RemoveWhitelistedNftContracts(MsgRemoveWhitelistedNftContracts) returns (MsgRemoveWhitelistedNftContractsResponse);
+//   rpc DepositNft(MsgDepositNft) returns (MsgDepositNftResponse);
+//   rpc WithdrawUpdatedNft(MsgWithdrawUpdatedNft) returns (MsgWithdrawUpdatedNftResponse);

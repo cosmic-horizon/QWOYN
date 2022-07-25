@@ -75,9 +75,7 @@ func (m msgServer) DepositNft(goCtx context.Context, msg *types.MsgDepositNft) (
 	}
 
 	moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
-
-	// TODO: to be replaced with transfer
-	execMsg := fmt.Sprintf(`{"mint":{"token_id":"1","owner":"%s","extension":{"ship_type":10,"owner":"100"}}}`, moduleAddr.String())
+	execMsg := fmt.Sprintf(`{"transfer_nft":{"token_id":"1","recipient":"%s"}}`, moduleAddr.String())
 	_, err = m.WasmKeeper.Execute(ctx, contractAddr, sender, []byte(execMsg), sdk.Coins{})
 	if err != nil {
 		return nil, err
@@ -93,6 +91,20 @@ func (m msgServer) WithdrawUpdatedNft(goCtx context.Context, msg *types.MsgWithd
 	// TODO: verify signature of mint / update
 	// if mint, mint an nft and send it to the sender
 	// if update, update nft and transfer it to the sender
+
+	// execMsg := fmt.Sprintf(`{"mint":{"token_id":"1","owner":"%s","extension":{"ship_type":10,"owner":"100"}}}`, moduleAddr.String())
+	contractAddr, err := sdk.AccAddressFromBech32(msg.Contract)
+	if err != nil {
+		return nil, err
+	}
+
+	moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
+	_, err = m.WasmKeeper.Execute(ctx, contractAddr, moduleAddr, []byte(msg.ExecMsg), sdk.Coins{})
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("events", ctx.EventManager().Events())
 
 	return &types.MsgWithdrawUpdatedNftResponse{}, nil
 }
