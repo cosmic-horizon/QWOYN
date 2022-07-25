@@ -1,24 +1,123 @@
 package cli
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/cosmic-horizon/coho/x/coho/types"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/spf13/cobra"
+
+	"github.com/cosmic-horizon/coho/x/game/types"
 )
 
-// GetQueryCmd returns the cli query commands for this module
-func GetQueryCmd(queryRoute string) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:                        types.ModuleName,
-		Short:                      fmt.Sprintf("Querying commands for the %s module", types.ModuleName),
-		DisableFlagParsing:         true,
-		SuggestionsMinimumDistance: 2,
-		RunE:                       client.ValidateCmd,
+// GetQueryCmd returns the query commands for the game module.
+func GetQueryCmd() *cobra.Command {
+	queryCmd := &cobra.Command{
+		Use:                types.ModuleName,
+		Short:              "Querying commands for the game module",
+		DisableFlagParsing: true,
 	}
 
-	cmd.AddCommand()
+	queryCmd.AddCommand(
+		GetCmdQueryParams(),
+		GetCmdWhitelistedContracts(),
+		GetCmdInGameNfts(),
+	)
+
+	return queryCmd
+}
+
+func GetCmdQueryParams() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "params [flags]",
+		Long: "Query params.",
+		Example: fmt.Sprintf(
+			`$ %s query game params`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.Params(context.Background(), &types.QueryParamsRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdWhitelistedContracts() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "whitelisted-contracts [flags]",
+		Long: "Query whitelisted contracts.",
+		Example: fmt.Sprintf(
+			`$ %s query game whitelisted-contracts`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.WhitelistedContracts(context.Background(), &types.QueryWhitelistedContractsRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdInGameNfts() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "ingame-nfts [flags]",
+		Long: "Query in-game nfts.",
+		Example: fmt.Sprintf(
+			`$ %s query game ingame-nfts`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.InGameNfts(context.Background(), &types.QueryInGameNftsRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }

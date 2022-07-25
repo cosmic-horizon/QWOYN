@@ -470,6 +470,8 @@ func New(
 		keys[gametypes.StoreKey],
 		keys[gametypes.MemStoreKey],
 		app.GetSubspace(gametypes.ModuleName),
+		app.GameKeeper.WasmKeeper,
+		app.AccountKeeper,
 	)
 
 	/****  Module Options ****/

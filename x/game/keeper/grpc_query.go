@@ -19,8 +19,9 @@ func (k Keeper) Params(c context.Context, req *types.QueryParamsRequest) (*types
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
-	_ = ctx
-	return &types.QueryParamsResponse{}, nil
+	return &types.QueryParamsResponse{
+		Params: k.GetParamSet(ctx),
+	}, nil
 }
 
 func (k Keeper) WhitelistedContracts(c context.Context, req *types.QueryWhitelistedContractsRequest) (*types.QueryWhitelistedContractsResponse, error) {
@@ -29,8 +30,9 @@ func (k Keeper) WhitelistedContracts(c context.Context, req *types.QueryWhitelis
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
-	_ = ctx
-	return &types.QueryWhitelistedContractsResponse{}, nil
+	return &types.QueryWhitelistedContractsResponse{
+		Contracts: k.GetAllWhitelistedContracts(ctx),
+	}, nil
 }
 
 func (k Keeper) InGameNfts(c context.Context, req *types.QueryInGameNftsRequest) (*types.QueryInGameNftsResponse, error) {

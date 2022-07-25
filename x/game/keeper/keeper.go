@@ -3,6 +3,7 @@ package keeper
 import (
 	"fmt"
 
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/tendermint/tendermint/libs/log"
 
 	"github.com/cosmic-horizon/coho/x/game/types"
@@ -12,10 +13,12 @@ import (
 )
 
 type Keeper struct {
-	cdc        codec.BinaryCodec
-	storeKey   sdk.StoreKey
-	memKey     sdk.StoreKey
-	paramstore paramtypes.Subspace
+	cdc           codec.BinaryCodec
+	storeKey      sdk.StoreKey
+	memKey        sdk.StoreKey
+	paramstore    paramtypes.Subspace
+	WasmKeeper    wasmtypes.ContractOpsKeeper
+	AccountKeeper types.AccountKeeper
 }
 
 func NewKeeper(
@@ -23,7 +26,8 @@ func NewKeeper(
 	storeKey,
 	memKey sdk.StoreKey,
 	ps paramtypes.Subspace,
-
+	wasmKeeper wasmtypes.ContractOpsKeeper,
+	accountKeeper types.AccountKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -31,11 +35,12 @@ func NewKeeper(
 	}
 
 	return &Keeper{
-
-		cdc:        cdc,
-		storeKey:   storeKey,
-		memKey:     memKey,
-		paramstore: ps,
+		cdc:           cdc,
+		storeKey:      storeKey,
+		memKey:        memKey,
+		paramstore:    ps,
+		WasmKeeper:    wasmKeeper,
+		AccountKeeper: accountKeeper,
 	}
 }
 

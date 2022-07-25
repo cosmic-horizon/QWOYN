@@ -2,17 +2,13 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 
-	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/cosmic-horizon/coho/x/game/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 type msgServer struct {
 	Keeper
-	WasmKeeper    wasmtypes.ContractOpsKeeper
-	AccountKeeper types.AccountKeeper
 }
 
 // NewMsgServerImpl returns an implementation of the MsgServer interface
@@ -60,23 +56,7 @@ func (m msgServer) RemoveWhitelistedNftContracts(goCtx context.Context, msg *typ
 
 func (m msgServer) DepositNft(goCtx context.Context, msg *types.MsgDepositNft) (*types.MsgDepositNftResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	if !m.IsWhitelistedContract(ctx, msg.Contract) {
-		return nil, types.ErrNotWhitelistedContract
-	}
-
-	contractAddr, err := sdk.AccAddressFromBech32(msg.Contract)
-	if err != nil {
-		return nil, err
-	}
-
-	sender, err := sdk.AccAddressFromBech32(msg.Sender)
-	if err != nil {
-		return nil, err
-	}
-
-	moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
-	execMsg := fmt.Sprintf(`{"transfer_nft":{"token_id":"1","recipient":"%s"}}`, moduleAddr.String())
-	_, err = m.WasmKeeper.Execute(ctx, contractAddr, sender, []byte(execMsg), sdk.Coins{})
+	err := m.Keeper.DepositNft(ctx, msg)
 	if err != nil {
 		return nil, err
 	}
@@ -86,25 +66,9 @@ func (m msgServer) DepositNft(goCtx context.Context, msg *types.MsgDepositNft) (
 
 func (m msgServer) WithdrawUpdatedNft(goCtx context.Context, msg *types.MsgWithdrawUpdatedNft) (*types.MsgWithdrawUpdatedNftResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	_ = ctx
-	// moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
-	// TODO: verify signature of mint / update
-	// if mint, mint an nft and send it to the sender
-	// if update, update nft and transfer it to the sender
-
-	// execMsg := fmt.Sprintf(`{"mint":{"token_id":"1","owner":"%s","extension":{"ship_type":10,"owner":"100"}}}`, moduleAddr.String())
-	contractAddr, err := sdk.AccAddressFromBech32(msg.Contract)
+	err := m.Keeper.WithdrawUpdatedNft(ctx, msg)
 	if err != nil {
 		return nil, err
 	}
-
-	moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
-	_, err = m.WasmKeeper.Execute(ctx, contractAddr, moduleAddr, []byte(msg.ExecMsg), sdk.Coins{})
-	if err != nil {
-		return nil, err
-	}
-
-	fmt.Println("events", ctx.EventManager().Events())
-
 	return &types.MsgWithdrawUpdatedNftResponse{}, nil
 }
