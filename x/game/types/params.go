@@ -21,13 +21,15 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams() Params {
-	return Params{}
+func NewParams(owner string) Params {
+	return Params{
+		Owner: owner,
+	}
 }
 
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
-	return NewParams()
+	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v")
 }
 
 // ParamSetPairs get the params.ParamSet

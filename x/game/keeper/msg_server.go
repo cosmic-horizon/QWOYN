@@ -36,6 +36,9 @@ func (m msgServer) WhitelistNftContracts(goCtx context.Context, msg *types.MsgWh
 	if msg.Sender != params.Owner {
 		return nil, types.ErrNotModuleOwner
 	}
+	// TODO: check contract owner is module account via wasm call
+	// - Update permission
+	// - Minter permission as well
 	for _, contract := range msg.Contracts {
 		m.SetWhitelistedContract(ctx, contract)
 	}

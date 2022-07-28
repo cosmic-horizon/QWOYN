@@ -207,6 +207,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		wasm.ModuleName:                {authtypes.Burner},
+		gametypes.ModuleName:           {},
 	}
 )
 
@@ -470,7 +471,7 @@ func New(
 		keys[gametypes.StoreKey],
 		keys[gametypes.MemStoreKey],
 		app.GetSubspace(gametypes.ModuleName),
-		app.GameKeeper.WasmKeeper,
+		wasmkeeper.NewDefaultPermissionKeeper(app.wasmKeeper),
 		app.AccountKeeper,
 	)
 
