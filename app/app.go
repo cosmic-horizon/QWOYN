@@ -472,6 +472,7 @@ func New(
 		keys[gametypes.MemStoreKey],
 		app.GetSubspace(gametypes.ModuleName),
 		wasmkeeper.NewDefaultPermissionKeeper(app.wasmKeeper),
+		app.wasmKeeper,
 		app.AccountKeeper,
 	)
 

@@ -8,6 +8,8 @@ import (
 
 // x/game module sentinel errors
 var (
-	ErrNotModuleOwner         = sdkerrors.Register(ModuleName, 1, "not module owner")
-	ErrNotWhitelistedContract = sdkerrors.Register(ModuleName, 2, "not whitelisted contract")
+	ErrNotModuleOwner           = sdkerrors.Register(ModuleName, 1, "not module owner")
+	ErrNotWhitelistedContract   = sdkerrors.Register(ModuleName, 2, "not whitelisted contract")
+	ErrMinterIsNotModuleAddress = sdkerrors.Register(ModuleName, 3, "not the minter of the nft contract")
+	ErrOwnerIsNotModuleAddress  = sdkerrors.Register(ModuleName, 4, "not the owner of the nft contract")
 )

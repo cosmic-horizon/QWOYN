@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 
 	"github.com/cosmic-horizon/coho/x/game/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -36,10 +38,36 @@ func (m msgServer) WhitelistNftContracts(goCtx context.Context, msg *types.MsgWh
 	if msg.Sender != params.Owner {
 		return nil, types.ErrNotModuleOwner
 	}
-	// TODO: check contract owner is module account via wasm call
-	// - Update permission
-	// - Minter permission as well
+
+	moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
 	for _, contract := range msg.Contracts {
+		contractAddr, err := sdk.AccAddressFromBech32(contract)
+		if err != nil {
+			return nil, err
+		}
+
+		minterJSON, err := m.WasmViewer.QuerySmart(ctx, contractAddr, []byte(`{"minter": {}}`))
+
+		var parsed map[string]string
+		err = json.Unmarshal(minterJSON, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		if parsed["minter"] != moduleAddr.String() {
+			fmt.Println("minter", parsed["minter"])
+			return nil, types.ErrMinterIsNotModuleAddress
+		}
+
+		contractInfoJSON, err := m.WasmViewer.QuerySmart(ctx, contractAddr, []byte(`{"contract_info": {}}`))
+		err = json.Unmarshal(contractInfoJSON, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		if parsed["owner"] != moduleAddr.String() {
+			fmt.Println("owner", parsed["owner"])
+			return nil, types.ErrOwnerIsNotModuleAddress
+		}
+
 		m.SetWhitelistedContract(ctx, contract)
 	}
 	return &types.MsgWhitelistNftContractsResponse{}, nil

@@ -13,6 +13,11 @@ cohod query wasm contract-state smart coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcm
 
 # game module address
 # coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk
+
+# instantiate ship nft with module account owned
+cohod tx wasm instantiate 1 '{"name":"Ship NFT","symbol":"SHIP","minter":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk","owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk"}' --from validator --label "Ship-NFT" --chain-id test --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ --no-admin -y
+
+# transfer nft update ownership to module account - when owner is set to different account
 cohod tx wasm execute coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc '{"transfer_ownership":{"owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk"}}' --from signer --chain-id test --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ -y
 
 

@@ -18,6 +18,7 @@ type Keeper struct {
 	memKey        sdk.StoreKey
 	paramstore    paramtypes.Subspace
 	WasmKeeper    wasmtypes.ContractOpsKeeper
+	WasmViewer    wasmtypes.ViewKeeper
 	AccountKeeper types.AccountKeeper
 }
 
@@ -27,6 +28,7 @@ func NewKeeper(
 	memKey sdk.StoreKey,
 	ps paramtypes.Subspace,
 	wasmKeeper wasmtypes.ContractOpsKeeper,
+	wasmViewer wasmtypes.ViewKeeper,
 	accountKeeper types.AccountKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
@@ -40,6 +42,7 @@ func NewKeeper(
 		memKey:        memKey,
 		paramstore:    ps,
 		WasmKeeper:    wasmKeeper,
+		WasmViewer:    wasmViewer,
 		AccountKeeper: accountKeeper,
 	}
 }
