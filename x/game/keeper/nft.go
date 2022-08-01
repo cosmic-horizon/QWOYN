@@ -33,13 +33,34 @@ func (k Keeper) DepositNft(ctx sdk.Context, msg *types.MsgDepositNft) error {
 }
 
 func (k Keeper) WithdrawUpdatedNft(ctx sdk.Context, msg *types.MsgWithdrawUpdatedNft) error {
-	// moduleAddr := m.AccountKeeper.GetModuleAddress(types.ModuleName)
-	// TODO: verify signature of mint / update
-	// if mint, mint an nft and send it to the sender
-	// if update, update nft and transfer it to the sender
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return err
+	}
 
-	// execMsg := fmt.Sprintf(`{"mint":{"token_id":"1","owner":"%s","extension":{"ship_type":10,"owner":"100"}}}`, moduleAddr.String())
-	// execMsg := fmt.Sprintf(`{"update_nft":{"token_id":"1","extension":{"ship_type":20,"owner":"200"}}}`)
+	signerMsg := types.NewMsgSignerWithdrawUpdatedNft(sender, msg.Contract, msg.TokenId, msg.ExecMsg)
+	signBytes := signerMsg.GetSignBytes()
+
+	signer := k.GetParamSet(ctx).Owner
+	signerAcc, err := sdk.AccAddressFromBech32(signer)
+	if err != nil {
+		return err
+	}
+	acc := k.AccountKeeper.GetAccount(ctx, signerAcc)
+	if acc == nil {
+		return types.ErrSignerAccountNotRegistered
+	}
+
+	// retrieve pubkey
+	pubKey := acc.GetPubKey()
+	if pubKey == nil {
+		return types.ErrSignerAccountPubKeyNotRegistered
+	}
+
+	if !pubKey.VerifySignature(signBytes, msg.Signature) {
+		return fmt.Errorf("unable to verify signer signature")
+	}
+
 	contractAddr, err := sdk.AccAddressFromBech32(msg.Contract)
 	if err != nil {
 		return err
@@ -51,8 +72,6 @@ func (k Keeper) WithdrawUpdatedNft(ctx sdk.Context, msg *types.MsgWithdrawUpdate
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("events", ctx.EventManager().Events())
 
 	// send nft to msg.Sender
 	execMsg := fmt.Sprintf(`{"transfer_nft":{"token_id":"%d","recipient":"%s"}}`, msg.TokenId, msg.Sender)

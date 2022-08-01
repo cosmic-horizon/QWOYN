@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"encoding/hex"
 	"fmt"
 	"strconv"
 	"strings"
@@ -29,6 +30,7 @@ func GetTxCmd() *cobra.Command {
 		GetCmdWhitelistNftContracts(),
 		GetCmdRemoveWhitelistedNftContracts(),
 		GetCmdDepositNft(),
+		GetCmdSignWithdrawUpdatedNft(),
 		GetCmdWithdrawUpdatedNft(),
 	)
 
@@ -175,10 +177,11 @@ func GetCmdDepositNft() *cobra.Command {
 	return cmd
 }
 
-func GetCmdWithdrawUpdatedNft() *cobra.Command {
+// GetCmdSignWithdrawUpdatedNft returns signature from signer
+func GetCmdSignWithdrawUpdatedNft() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "withdraw-updated-nft [contract] [tokenId] [execMsg] [flags]",
-		Long: "Withdraw updated nft",
+		Use:  "sign-withdraw-updated-nft [contract] [tokenId] [execMsg] [flags]",
+		Long: "Sign withdraw updated nft",
 		Args: cobra.ExactArgs(3),
 		Example: fmt.Sprintf(
 			`$ %s tx withdraw-updated-nft [contract] [tokenId] [execMsg]`,
@@ -195,11 +198,66 @@ func GetCmdWithdrawUpdatedNft() *cobra.Command {
 				return err
 			}
 
+			msg := types.NewMsgSignerWithdrawUpdatedNft(
+				clientCtx.GetFromAddress(),
+				args[0],
+				uint64(tokenId),
+				args[2],
+			)
+
+			bytesToSign := msg.GetSignBytes()
+			if err != nil {
+				return err
+			}
+
+			from, _ := cmd.Flags().GetString(flags.FlagFrom)
+			txFactory := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+			sigBytes, _, err := txFactory.Keybase().Sign(from, bytesToSign)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println(hex.EncodeToString(sigBytes))
+			return nil
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdWithdrawUpdatedNft() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "withdraw-updated-nft [contract] [tokenId] [execMsg] [flags]",
+		Long: "Withdraw updated nft",
+		Args: cobra.ExactArgs(4),
+		Example: fmt.Sprintf(
+			`$ %s tx withdraw-updated-nft [contract] [tokenId] [execMsg] [signature]`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			tokenId, err := strconv.Atoi(args[1])
+			if err != nil {
+				return err
+			}
+
+			signature, err := hex.DecodeString(args[3])
+			if err != nil {
+				return err
+			}
+
 			msg := types.NewMsgWithdrawUpdatedNft(
 				clientCtx.GetFromAddress(),
 				args[0],
 				uint64(tokenId),
 				args[2],
+				signature,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {

@@ -40,11 +40,19 @@ message MsgDepositNftResponse {}
 message TokenInfoExtension {
 }
 
+message MsgSignerWithdrawUpdatedNft {
+  string sender = 1;
+  string contract = 2;
+  uint64 token_id = 3;
+  string exec_msg = 4;
+}
+
 message MsgWithdrawUpdatedNft {
   string sender = 1;
   string contract = 2;
   uint64 token_id = 3;
   string exec_msg = 4;
+  bytes signature = 5;
 }
 message MsgWithdrawUpdatedNftResponse {}
 
