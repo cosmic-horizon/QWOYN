@@ -122,10 +122,11 @@ var _ sdk.Msg = &MsgWithdrawUpdatedNft{}
 func NewMsgWithdrawUpdatedNft(sender sdk.AccAddress, contract string, tokenId uint64, execMsg string, signature []byte,
 ) *MsgWithdrawUpdatedNft {
 	return &MsgWithdrawUpdatedNft{
-		Sender:   sender.String(),
-		Contract: contract,
-		TokenId:  tokenId,
-		ExecMsg:  execMsg,
+		Sender:    sender.String(),
+		Contract:  contract,
+		TokenId:   tokenId,
+		ExecMsg:   execMsg,
+		Signature: signature,
 	}
 }
 
