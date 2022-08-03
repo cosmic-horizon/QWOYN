@@ -1,6 +1,9 @@
 syntax = "proto3";
 package cosmichorizon.coho.game;
 
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+
 option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 
 // Msg defines the Msg service.
@@ -10,6 +13,8 @@ service Msg {
   rpc RemoveWhitelistedNftContracts(MsgRemoveWhitelistedNftContracts) returns (MsgRemoveWhitelistedNftContractsResponse);
   rpc DepositNft(MsgDepositNft) returns (MsgDepositNftResponse);
   rpc WithdrawUpdatedNft(MsgWithdrawUpdatedNft) returns (MsgWithdrawUpdatedNftResponse);
+  rpc DepositToken(MsgDepositToken) returns (MsgDepositTokenResponse);
+  rpc WithdrawToken(MsgWithdrawToken) returns (MsgWithdrawTokenResponse);
 }
 
 message MsgTransferModuleOwnership {
@@ -56,3 +61,14 @@ message MsgWithdrawUpdatedNft {
 }
 message MsgWithdrawUpdatedNftResponse {}
 
+message MsgDepositToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgDepositTokenResponse {}
+
+message MsgWithdrawToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [(gogoproto.nullable) = false];
+}
+message MsgWithdrawTokenResponse {}

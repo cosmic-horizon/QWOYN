@@ -103,3 +103,47 @@ func (m msgServer) WithdrawUpdatedNft(goCtx context.Context, msg *types.MsgWithd
 	}
 	return &types.MsgWithdrawUpdatedNftResponse{}, nil
 }
+
+func (m msgServer) DepositToken(goCtx context.Context, msg *types.MsgDepositToken) (*types.MsgDepositTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidDepositDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	m.IncreaseDeposit(ctx, sender, msg.Amount)
+
+	return &types.MsgDepositTokenResponse{}, nil
+}
+
+func (m msgServer) WithdrawToken(goCtx context.Context, msg *types.MsgWithdrawToken) (*types.MsgWithdrawTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidWithdrawDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	m.DecreaseDeposit(ctx, sender, msg.Amount)
+
+	return &types.MsgWithdrawTokenResponse{}, nil
+}

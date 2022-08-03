@@ -1,5 +1,7 @@
 package types
 
+import sdk "github.com/cosmos/cosmos-sdk/types"
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "game"
@@ -23,4 +25,9 @@ func KeyPrefix(p string) []byte {
 
 var (
 	PrefixWhitelistedContract = []byte{0x01}
+	PrefixAccountDeposit      = []byte{0x02}
 )
+
+func AccountDepositKey(addr sdk.AccAddress) []byte {
+	return append(PrefixAccountDeposit, addr...)
+}

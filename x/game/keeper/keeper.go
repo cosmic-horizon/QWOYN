@@ -20,6 +20,7 @@ type Keeper struct {
 	WasmKeeper    wasmtypes.ContractOpsKeeper
 	WasmViewer    wasmtypes.ViewKeeper
 	AccountKeeper types.AccountKeeper
+	BankKeeper    types.BankKeeper
 }
 
 func NewKeeper(
@@ -30,6 +31,7 @@ func NewKeeper(
 	wasmKeeper wasmtypes.ContractOpsKeeper,
 	wasmViewer wasmtypes.ViewKeeper,
 	accountKeeper types.AccountKeeper,
+	bankKeeper types.BankKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -44,6 +46,7 @@ func NewKeeper(
 		WasmKeeper:    wasmKeeper,
 		WasmViewer:    wasmViewer,
 		AccountKeeper: accountKeeper,
+		BankKeeper:    bankKeeper,
 	}
 }
 

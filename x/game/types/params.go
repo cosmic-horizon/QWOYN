@@ -12,7 +12,8 @@ var _ paramtypes.ParamSet = (*Params)(nil)
 
 // parameter keys
 var (
-	KeyOwner = []byte("Owner")
+	KeyOwner        = []byte("Owner")
+	KeyDepositDenom = []byte("DepositDenom")
 )
 
 // ParamKeyTable the param key table for launch module
@@ -21,21 +22,23 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams(owner string) Params {
+func NewParams(owner, depositDenom string) Params {
 	return Params{
-		Owner: owner,
+		Owner:        owner,
+		DepositDenom: depositDenom,
 	}
 }
 
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
-	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v")
+	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v", "stake")
 }
 
 // ParamSetPairs get the params.ParamSet
 func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(KeyOwner, &p.Owner, validateOwner),
+		paramtypes.NewParamSetPair(KeyOwner, &p.DepositDenom, validateDenom),
 	}
 }
 
@@ -59,5 +62,18 @@ func validateOwner(i interface{}) error {
 	if _, err := sdk.AccAddressFromBech32(v); err != nil {
 		return fmt.Errorf("invalid owner address")
 	}
+	return nil
+}
+
+func validateDenom(i interface{}) error {
+	v, ok := i.(string)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if err := sdk.ValidateDenom(v); err != nil {
+		return err
+	}
+
 	return nil
 }

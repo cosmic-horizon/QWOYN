@@ -8,6 +8,7 @@ option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 // Params defines the parameters for the module.
 message Params {
   option (gogoproto.goproto_stringer) = false;
-  
+
   string owner = 1;
+  string deposit_denom = 2;
 }

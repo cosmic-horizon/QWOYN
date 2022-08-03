@@ -14,4 +14,6 @@ var (
 	ErrOwnerIsNotModuleAddress          = sdkerrors.Register(ModuleName, 4, "not the owner of the nft contract")
 	ErrSignerAccountNotRegistered       = sdkerrors.Register(ModuleName, 5, "signer account is not registered")
 	ErrSignerAccountPubKeyNotRegistered = sdkerrors.Register(ModuleName, 6, "signer account public key is not registered")
+	ErrInvalidDepositDenom              = sdkerrors.Register(ModuleName, 7, "invalid deposit denom")
+	ErrInvalidWithdrawDenom             = sdkerrors.Register(ModuleName, 8, "invalid withdraw denom")
 )
