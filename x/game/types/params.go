@@ -38,7 +38,7 @@ func DefaultParams() Params {
 func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(KeyOwner, &p.Owner, validateOwner),
-		paramtypes.NewParamSetPair(KeyOwner, &p.DepositDenom, validateDenom),
+		paramtypes.NewParamSetPair(KeyDepositDenom, &p.DepositDenom, validateDenom),
 	}
 }
 

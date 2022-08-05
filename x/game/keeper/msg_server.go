@@ -116,7 +116,7 @@ func (m msgServer) DepositToken(goCtx context.Context, msg *types.MsgDepositToke
 		return nil, err
 	}
 
-	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, sdk.Coins{msg.Amount})
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (m msgServer) WithdrawToken(goCtx context.Context, msg *types.MsgWithdrawTo
 		return nil, err
 	}
 
-	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, sdk.Coins{msg.Amount})
 	if err != nil {
 		return nil, err
 	}

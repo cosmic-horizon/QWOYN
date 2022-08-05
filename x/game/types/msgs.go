@@ -174,3 +174,59 @@ func (msg MsgSignerWithdrawUpdatedNft) GetSignBytes() []byte {
 	}
 	return sdk.MustSortJSON(b)
 }
+
+var _ sdk.Msg = &MsgDepositToken{}
+
+func NewMsgDepositToken(sender sdk.AccAddress, coin sdk.Coin,
+) *MsgDepositToken {
+	return &MsgDepositToken{
+		Sender: sender.String(),
+		Amount: coin,
+	}
+}
+
+func (msg MsgDepositToken) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgDepositToken) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}
+
+var _ sdk.Msg = &MsgWithdrawToken{}
+
+func NewMsgWithdrawToken(sender sdk.AccAddress, coin sdk.Coin,
+) *MsgWithdrawToken {
+	return &MsgWithdrawToken{
+		Sender: sender.String(),
+		Amount: coin,
+	}
+}
+
+func (msg MsgWithdrawToken) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgWithdrawToken) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}

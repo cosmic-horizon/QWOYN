@@ -6,13 +6,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/spf13/cobra"
-
 	"github.com/cosmic-horizon/coho/x/game/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
+	"github.com/spf13/cobra"
 )
 
 // GetTxCmd returns the transaction commands for the game module.
@@ -32,6 +32,8 @@ func GetTxCmd() *cobra.Command {
 		GetCmdDepositNft(),
 		GetCmdSignWithdrawUpdatedNft(),
 		GetCmdWithdrawUpdatedNft(),
+		GetCmdDepositToken(),
+		GetCmdWithdrawToken(),
 	)
 
 	return txCmd
@@ -258,6 +260,82 @@ func GetCmdWithdrawUpdatedNft() *cobra.Command {
 				uint64(tokenId),
 				args[2],
 				signature,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdDepositToken() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "deposit-token [coin] [flags]",
+		Long: "Deposit token into the game",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx deposit-token [coin]`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			coin, err := sdk.ParseCoinNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgDepositToken(
+				clientCtx.GetFromAddress(),
+				coin,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdWithdrawToken() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "withdraw-token [coin] [flags]",
+		Long: "Withdraw token into the game",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx withdraw-token [coin]`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			coin, err := sdk.ParseCoinNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgWithdrawToken(
+				clientCtx.GetFromAddress(),
+				coin,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {

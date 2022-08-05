@@ -48,12 +48,17 @@ func (k Keeper) GetDeposit(ctx sdk.Context, addr sdk.AccAddress) sdk.Coin {
 
 func (k Keeper) IncreaseDeposit(ctx sdk.Context, addr sdk.AccAddress, amount sdk.Coin) {
 	deposit := k.GetDeposit(ctx, addr)
-	deposit = deposit.Add(amount)
+	if deposit.Denom == "" {
+		deposit = amount
+	} else {
+		deposit = deposit.Add(amount)
+	}
 	k.SetDeposit(ctx, addr, deposit)
 }
 
 func (k Keeper) DecreaseDeposit(ctx sdk.Context, addr sdk.AccAddress, amount sdk.Coin) {
 	deposit := k.GetDeposit(ctx, addr)
+	deposit.Denom = amount.Denom
 	deposit = deposit.Sub(amount)
 	k.SetDeposit(ctx, addr, deposit)
 }
