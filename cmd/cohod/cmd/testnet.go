@@ -37,6 +37,10 @@ import (
 	ibcchanneltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 
 	"github.com/cosmic-horizon/coho/app/params"
+	gametypes "github.com/cosmic-horizon/coho/x/game/types"
+	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 )
 
 var (
@@ -89,7 +93,7 @@ Example:
 	cmd.Flags().String(flagNodeDaemonHome, "cohod", "Home directory of the node's daemon configuration")
 	cmd.Flags().String(flagStartingIPAddress, "192.168.0.1", "Starting IP address (192.168.0.1 results in persistent peers list ID0@192.168.0.1:46656, ID1@192.168.0.2:46656, ...)")
 	cmd.Flags().String(flags.FlagChainID, "", "genesis file chain-id, if left blank will be randomly created")
-	cmd.Flags().String(server.FlagMinGasPrices, fmt.Sprintf("0.000006%s", sdk.DefaultBondDenom), "Minimum gas prices to accept for transactions; All fees in a tx must meet this minimum (e.g. 0.01photino,0.001stake)")
+	cmd.Flags().String(server.FlagMinGasPrices, fmt.Sprintf("0.000006%s", params.BondDenom), "Minimum gas prices to accept for transactions; All fees in a tx must meet this minimum (e.g. 0.01photino,0.001stake)")
 	cmd.Flags().String(flags.FlagKeyringBackend, flags.DefaultKeyringBackend, "Select keyring's backend (os|file|test)")
 	cmd.Flags().String(flags.FlagKeyAlgorithm, string(hd.Secp256k1Type), "Key signing algorithm to generate keys for")
 
@@ -205,11 +209,10 @@ func InitTestnet(
 			return err
 		}
 
-		accTokens := sdk.TokensFromConsensusPower(1000, sdk.DefaultPowerReduction)
-		accStakingTokens := sdk.TokensFromConsensusPower(500, sdk.DefaultPowerReduction)
+		accStakingTokens := sdk.TokensFromConsensusPower(500000, sdk.DefaultPowerReduction)
 		coins := sdk.Coins{
-			sdk.NewCoin(fmt.Sprintf("%stoken", nodeDirName), accTokens),
-			sdk.NewCoin(sdk.DefaultBondDenom, accStakingTokens),
+			sdk.NewCoin(params.BondDenom, accStakingTokens),
+			sdk.NewCoin(params.GameCoinUnit, accStakingTokens),
 		}
 
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: coins.Sort()})
@@ -219,7 +222,7 @@ func InitTestnet(
 		createValMsg, err := stakingtypes.NewMsgCreateValidator(
 			sdk.ValAddress(addr),
 			valPubKeys[i],
-			sdk.NewCoin(sdk.DefaultBondDenom, valTokens),
+			sdk.NewCoin(params.BondDenom, valTokens),
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
 			stakingtypes.NewCommissionRates(sdk.OneDec(), sdk.OneDec(), sdk.OneDec()),
 			sdk.OneInt(),
@@ -302,6 +305,36 @@ func initGenFiles(
 		bankGenState.Supply = bankGenState.Supply.Add(bal.Coins...)
 	}
 	appGenState[banktypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&bankGenState)
+
+	// set staking module bond denom
+	var stakingGenState stakingtypes.GenesisState
+	clientCtx.Codec.MustUnmarshalJSON(appGenState[stakingtypes.ModuleName], &stakingGenState)
+	stakingGenState.Params.BondDenom = params.BondDenom
+	appGenState[stakingtypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&stakingGenState)
+
+	// set gov module deposit denom
+	var govGenState govtypes.GenesisState
+	clientCtx.Codec.MustUnmarshalJSON(appGenState[govtypes.ModuleName], &govGenState)
+	govGenState.DepositParams.MinDeposit = sdk.NewCoins(sdk.NewInt64Coin(params.BondDenom, 10000000))
+	appGenState[govtypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&govGenState)
+
+	// crisis module fee denom
+	var crisisGenState crisistypes.GenesisState
+	clientCtx.Codec.MustUnmarshalJSON(appGenState[crisistypes.ModuleName], &crisisGenState)
+	crisisGenState.ConstantFee.Denom = params.BondDenom
+	appGenState[crisistypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&crisisGenState)
+
+	// game module deposit denom
+	var gameGenState gametypes.GenesisState
+	clientCtx.Codec.MustUnmarshalJSON(appGenState[gametypes.ModuleName], &gameGenState)
+	gameGenState.Params.DepositDenom = params.GameCoinUnit
+	appGenState[gametypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&gameGenState)
+
+	// mint module mint denom
+	var mintGenState minttypes.GenesisState
+	clientCtx.Codec.MustUnmarshalJSON(appGenState[minttypes.ModuleName], &mintGenState)
+	mintGenState.Params.MintDenom = params.BondDenom
+	appGenState[minttypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&mintGenState)
 
 	appGenStateJSON, err := json.MarshalIndent(appGenState, "", "  ")
 	if err != nil {
