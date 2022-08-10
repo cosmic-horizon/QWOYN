@@ -12,8 +12,9 @@ var _ paramtypes.ParamSet = (*Params)(nil)
 
 // parameter keys
 var (
-	KeyOwner        = []byte("Owner")
-	KeyDepositDenom = []byte("DepositDenom")
+	KeyOwner            = []byte("Owner")
+	KeyDepositDenom     = []byte("DepositDenom")
+	KeyStakingInflation = []byte("StakingInflation")
 )
 
 // ParamKeyTable the param key table for launch module
@@ -22,16 +23,17 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams(owner, depositDenom string) Params {
+func NewParams(owner, depositDenom string, stakingInflation uint64) Params {
 	return Params{
-		Owner:        owner,
-		DepositDenom: depositDenom,
+		Owner:            owner,
+		DepositDenom:     depositDenom,
+		StakingInflation: stakingInflation,
 	}
 }
 
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
-	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v", "stake")
+	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v", "stake", 1)
 }
 
 // ParamSetPairs get the params.ParamSet
@@ -39,6 +41,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(KeyOwner, &p.Owner, validateOwner),
 		paramtypes.NewParamSetPair(KeyDepositDenom, &p.DepositDenom, validateDenom),
+		paramtypes.NewParamSetPair(KeyStakingInflation, &p.StakingInflation, validateStakingInflation),
 	}
 }
 
@@ -73,6 +76,15 @@ func validateDenom(i interface{}) error {
 
 	if err := sdk.ValidateDenom(v); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func validateStakingInflation(i interface{}) error {
+	_, ok := i.(uint64)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
 	}
 
 	return nil

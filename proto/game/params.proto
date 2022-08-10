@@ -11,4 +11,5 @@ message Params {
 
   string owner = 1;
   string deposit_denom = 2;
+  uint64 staking_inflation = 3; // percentage
 }
