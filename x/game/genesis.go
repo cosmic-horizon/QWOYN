@@ -22,6 +22,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, contract := range genState.WhitelistedContracts {
 		k.SetWhitelistedContract(ctx, contract)
 	}
+
+	for _, unbonding := range genState.Unbondings {
+		k.SetUnbonding(ctx, unbonding)
+	}
 }
 
 // ExportGenesis returns the capability module's exported genesis.
@@ -30,6 +34,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParamSet(ctx)
 	genesis.Deposits = k.GetAllDeposits(ctx)
 	genesis.WhitelistedContracts = k.GetAllWhitelistedContracts(ctx)
+	genesis.Unbondings = k.GetAllUnbondings(ctx)
 
 	return genesis
 }

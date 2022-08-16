@@ -5,18 +5,24 @@ package types
 
 import (
 	fmt "fmt"
+	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
 	types "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	_ "google.golang.org/protobuf/types/known/durationpb"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -25,8 +31,10 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Deposit struct {
-	Address string     `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Amount  types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+	Address   string     `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Amount    types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+	Staking   types.Coin `protobuf:"bytes,3,opt,name=staking,proto3" json:"staking"`
+	Unbonding types.Coin `protobuf:"bytes,4,opt,name=unbonding,proto3" json:"unbonding"`
 }
 
 func (m *Deposit) Reset()         { *m = Deposit{} }
@@ -76,29 +84,96 @@ func (m *Deposit) GetAmount() types.Coin {
 	return types.Coin{}
 }
 
+func (m *Deposit) GetStaking() types.Coin {
+	if m != nil {
+		return m.Staking
+	}
+	return types.Coin{}
+}
+
+func (m *Deposit) GetUnbonding() types.Coin {
+	if m != nil {
+		return m.Unbonding
+	}
+	return types.Coin{}
+}
+
+type Unbonding struct {
+	StakerAddress  string                                 `protobuf:"bytes,1,opt,name=staker_address,json=stakerAddress,proto3" json:"staker_address,omitempty"`
+	CreationHeight int64                                  `protobuf:"varint,2,opt,name=creation_height,json=creationHeight,proto3" json:"creation_height,omitempty"`
+	CompletionTime time.Time                              `protobuf:"bytes,3,opt,name=completion_time,json=completionTime,proto3,stdtime" json:"completion_time"`
+	Amount         github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,4,opt,name=amount,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Int" json:"amount"`
+}
+
+func (m *Unbonding) Reset()      { *m = Unbonding{} }
+func (*Unbonding) ProtoMessage() {}
+func (*Unbonding) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2a9278d664c0c01e, []int{1}
+}
+func (m *Unbonding) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Unbonding) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Unbonding.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Unbonding) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Unbonding.Merge(m, src)
+}
+func (m *Unbonding) XXX_Size() int {
+	return m.Size()
+}
+func (m *Unbonding) XXX_DiscardUnknown() {
+	xxx_messageInfo_Unbonding.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Unbonding proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*Deposit)(nil), "cosmichorizon.coho.game.Deposit")
+	proto.RegisterType((*Unbonding)(nil), "cosmichorizon.coho.game.Unbonding")
 }
 
 func init() { proto.RegisterFile("game/game.proto", fileDescriptor_2a9278d664c0c01e) }
 
 var fileDescriptor_2a9278d664c0c01e = []byte{
-	// 237 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4f, 0x4f, 0xcc, 0x4d,
-	0xd5, 0x07, 0x11, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x42, 0xe2, 0xc9, 0xf9, 0xc5, 0xb9, 0x99,
-	0xc9, 0x19, 0xf9, 0x45, 0x99, 0x55, 0xf9, 0x79, 0x7a, 0xc9, 0xf9, 0x19, 0xf9, 0x7a, 0x20, 0x69,
-	0x29, 0x39, 0x90, 0x44, 0x7e, 0xb1, 0x7e, 0x52, 0x62, 0x71, 0xaa, 0x7e, 0x99, 0x61, 0x52, 0x6a,
-	0x49, 0xa2, 0xa1, 0x7e, 0x72, 0x7e, 0x66, 0x1e, 0x44, 0xa3, 0x94, 0x48, 0x7a, 0x7e, 0x7a, 0x3e,
-	0x98, 0xa9, 0x0f, 0x62, 0x41, 0x44, 0x95, 0x62, 0xb8, 0xd8, 0x5d, 0x52, 0x0b, 0xf2, 0x8b, 0x33,
-	0x4b, 0x84, 0x24, 0xb8, 0xd8, 0x13, 0x53, 0x52, 0x8a, 0x52, 0x8b, 0x8b, 0x25, 0x18, 0x15, 0x18,
-	0x35, 0x38, 0x83, 0x60, 0x5c, 0x21, 0x73, 0x2e, 0xb6, 0xc4, 0xdc, 0xfc, 0xd2, 0xbc, 0x12, 0x09,
-	0x26, 0x05, 0x46, 0x0d, 0x6e, 0x23, 0x49, 0x3d, 0x88, 0x5d, 0x7a, 0x20, 0xbb, 0xf4, 0xa0, 0x76,
-	0xe9, 0x39, 0xe7, 0x67, 0xe6, 0x39, 0xb1, 0x9c, 0xb8, 0x27, 0xcf, 0x10, 0x04, 0x55, 0xee, 0xe4,
-	0x7a, 0xe2, 0x91, 0x1c, 0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c,
-	0xc7, 0x70, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x51, 0xda, 0xe9, 0x99, 0x25, 0x19,
-	0xa5, 0x49, 0x7a, 0xc9, 0xf9, 0xb9, 0xfa, 0x10, 0x1f, 0xe9, 0x42, 0xbd, 0xa4, 0x0f, 0xf2, 0x92,
-	0x7e, 0x05, 0xd8, 0xcf, 0xfa, 0x25, 0x95, 0x05, 0xa9, 0xc5, 0x49, 0x6c, 0x60, 0xb7, 0x1a, 0x03,
-	0x02, 0x00, 0x00, 0xff, 0xff, 0x38, 0x38, 0x03, 0xa6, 0x0d, 0x01, 0x00, 0x00,
+	// 440 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x52, 0xbf, 0x6f, 0xd4, 0x30,
+	0x14, 0x4e, 0xda, 0xaa, 0xc7, 0x19, 0xb8, 0x93, 0x2c, 0x24, 0x8e, 0x1b, 0x9c, 0xaa, 0x12, 0x50,
+	0x09, 0xd5, 0x56, 0x61, 0x40, 0x20, 0x31, 0x70, 0xfc, 0x10, 0x0c, 0x2c, 0x27, 0x58, 0x58, 0x2a,
+	0xc7, 0x31, 0x8e, 0xd5, 0xc6, 0x2f, 0x8a, 0x1d, 0x04, 0x4c, 0x8c, 0x8c, 0x1d, 0x19, 0xef, 0xcf,
+	0xe9, 0xd8, 0x09, 0x21, 0x86, 0x82, 0xee, 0x16, 0xfe, 0x0c, 0xe4, 0x38, 0xa6, 0x6a, 0xa7, 0x2e,
+	0x89, 0xdf, 0xfb, 0xbe, 0xcf, 0x7e, 0xdf, 0x7b, 0x0f, 0x8d, 0x15, 0xaf, 0x24, 0xf3, 0x1f, 0x5a,
+	0x37, 0xe0, 0x00, 0xdf, 0x14, 0x60, 0x2b, 0x2d, 0x4a, 0x68, 0xf4, 0x17, 0x30, 0x54, 0x40, 0x09,
+	0xd4, 0xc3, 0x53, 0xe2, 0x01, 0xb0, 0x2c, 0xe7, 0x56, 0xb2, 0x8f, 0x7b, 0xb9, 0x74, 0x7c, 0x8f,
+	0x09, 0xd0, 0x26, 0x08, 0xa7, 0x44, 0x01, 0xa8, 0x43, 0xc9, 0xba, 0x28, 0x6f, 0x3f, 0xb0, 0xa2,
+	0x6d, 0xb8, 0xd3, 0x10, 0xf1, 0xec, 0x22, 0xee, 0x74, 0x25, 0xad, 0xe3, 0x55, 0xdd, 0x13, 0x6e,
+	0x28, 0x50, 0xd0, 0x1d, 0x99, 0x3f, 0x85, 0xec, 0xf6, 0x8f, 0x14, 0x0d, 0x9e, 0xcb, 0x1a, 0xac,
+	0x76, 0x78, 0x82, 0x06, 0xbc, 0x28, 0x1a, 0x69, 0xed, 0x24, 0xdd, 0x4a, 0x77, 0x86, 0xf3, 0x18,
+	0xe2, 0x87, 0x68, 0x93, 0x57, 0xd0, 0x1a, 0x37, 0x59, 0xdb, 0x4a, 0x77, 0xae, 0xde, 0xbf, 0x45,
+	0x43, 0xb5, 0xd4, 0x57, 0x4b, 0xfb, 0x6a, 0xe9, 0x33, 0xd0, 0x66, 0xb6, 0x71, 0x7c, 0x9a, 0x25,
+	0xf3, 0x9e, 0x8e, 0x1f, 0xa1, 0x81, 0x75, 0xfc, 0x40, 0x1b, 0x35, 0x59, 0xbf, 0x9c, 0x32, 0xf2,
+	0xf1, 0x13, 0x34, 0x6c, 0x4d, 0x0e, 0xa6, 0xf0, 0xe2, 0x8d, 0xcb, 0x89, 0xcf, 0x14, 0xdb, 0x5f,
+	0xd7, 0xd0, 0xf0, 0x5d, 0x8c, 0xf0, 0x6d, 0x34, 0xf2, 0xf7, 0xca, 0x66, 0xff, 0xbc, 0xc3, 0xeb,
+	0x21, 0xfb, 0xb4, 0xf7, 0x79, 0x17, 0x8d, 0x45, 0x23, 0xbb, 0xb6, 0xee, 0x97, 0x52, 0xab, 0x32,
+	0x18, 0x5e, 0x9f, 0x8f, 0x62, 0xfa, 0x55, 0x97, 0xc5, 0x6f, 0xd0, 0x58, 0x40, 0x55, 0x1f, 0xca,
+	0x8e, 0xea, 0x5b, 0xdd, 0xfb, 0x9b, 0xd2, 0x30, 0x07, 0x1a, 0xe7, 0x40, 0xdf, 0xc6, 0x39, 0xcc,
+	0xae, 0xf8, 0x1a, 0x8f, 0x7e, 0x67, 0xe9, 0x7c, 0x74, 0x26, 0xf6, 0x30, 0x7e, 0xf9, 0xbf, 0xbf,
+	0xde, 0xe8, 0x70, 0x46, 0x3d, 0xf3, 0xd7, 0x69, 0x76, 0x47, 0x69, 0x57, 0xb6, 0x39, 0x15, 0x50,
+	0xb1, 0x7e, 0x3f, 0xc2, 0x6f, 0xd7, 0x16, 0x07, 0xcc, 0x7d, 0xae, 0xa5, 0xa5, 0xaf, 0x8d, 0x8b,
+	0xed, 0x7e, 0x7c, 0xed, 0xdb, 0x22, 0x4b, 0xbe, 0x2f, 0xb2, 0xe4, 0xef, 0x22, 0x4b, 0x66, 0x2f,
+	0x8e, 0x97, 0x24, 0x3d, 0x59, 0x92, 0xf4, 0xcf, 0x92, 0xa4, 0x47, 0x2b, 0x92, 0x9c, 0xac, 0x48,
+	0xf2, 0x73, 0x45, 0x92, 0xf7, 0xf7, 0x2e, 0xdc, 0xab, 0xc5, 0x6e, 0xbf, 0x91, 0xcc, 0x6f, 0x24,
+	0xfb, 0xd4, 0xad, 0x6c, 0x78, 0x20, 0xdf, 0xec, 0xac, 0x3c, 0xf8, 0x17, 0x00, 0x00, 0xff, 0xff,
+	0xb1, 0xfb, 0xf6, 0x1d, 0xcc, 0x02, 0x00, 0x00,
 }
 
 func (m *Deposit) Marshal() (dAtA []byte, err error) {
@@ -122,6 +197,26 @@ func (m *Deposit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	{
+		size, err := m.Unbonding.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintGame(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x22
+	{
+		size, err := m.Staking.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintGame(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	{
 		size, err := m.Amount.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
@@ -135,6 +230,59 @@ func (m *Deposit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.Address)
 		copy(dAtA[i:], m.Address)
 		i = encodeVarintGame(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Unbonding) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Unbonding) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Unbonding) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size := m.Amount.Size()
+		i -= size
+		if _, err := m.Amount.MarshalTo(dAtA[i:]); err != nil {
+			return 0, err
+		}
+		i = encodeVarintGame(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x22
+	n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.CompletionTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.CompletionTime):])
+	if err4 != nil {
+		return 0, err4
+	}
+	i -= n4
+	i = encodeVarintGame(dAtA, i, uint64(n4))
+	i--
+	dAtA[i] = 0x1a
+	if m.CreationHeight != 0 {
+		i = encodeVarintGame(dAtA, i, uint64(m.CreationHeight))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.StakerAddress) > 0 {
+		i -= len(m.StakerAddress)
+		copy(dAtA[i:], m.StakerAddress)
+		i = encodeVarintGame(dAtA, i, uint64(len(m.StakerAddress)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -162,6 +310,30 @@ func (m *Deposit) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovGame(uint64(l))
 	}
+	l = m.Amount.Size()
+	n += 1 + l + sovGame(uint64(l))
+	l = m.Staking.Size()
+	n += 1 + l + sovGame(uint64(l))
+	l = m.Unbonding.Size()
+	n += 1 + l + sovGame(uint64(l))
+	return n
+}
+
+func (m *Unbonding) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.StakerAddress)
+	if l > 0 {
+		n += 1 + l + sovGame(uint64(l))
+	}
+	if m.CreationHeight != 0 {
+		n += 1 + sovGame(uint64(m.CreationHeight))
+	}
+	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.CompletionTime)
+	n += 1 + l + sovGame(uint64(l))
 	l = m.Amount.Size()
 	n += 1 + l + sovGame(uint64(l))
 	return n
@@ -257,6 +429,240 @@ func (m *Deposit) Unmarshal(dAtA []byte) error {
 				return ErrInvalidLengthGame
 			}
 			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGame
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Amount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Staking", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGame
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGame
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGame
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Staking.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Unbonding", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGame
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGame
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGame
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Unbonding.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipGame(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthGame
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Unbonding) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowGame
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Unbonding: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Unbonding: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StakerAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGame
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthGame
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthGame
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.StakerAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CreationHeight", wireType)
+			}
+			m.CreationHeight = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGame
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CreationHeight |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CompletionTime", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGame
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGame
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGame
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.CompletionTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGame
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthGame
+			}
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthGame
 			}

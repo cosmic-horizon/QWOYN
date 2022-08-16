@@ -28,6 +28,12 @@ service Query {
   rpc AllDepositBalance(QueryAllDepositBalancesRequest) returns (QueryAllDepositBalanceResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/all_deposit_balances";
   }
+  rpc AllUnbondings(QueryAllUnbondingsRequest) returns (QueryAllUnbondingsResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/all_unbondings";
+  }
+  rpc UserUnbondings(QueryUserUnbondingsRequest) returns (QueryUserUnbondingsResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/user_unbondings/{address}";
+  }
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -60,4 +66,16 @@ message QueryAllDepositBalancesRequest {}
 message QueryAllDepositBalanceResponse {
   repeated Deposit deposits = 1 [ (gogoproto.nullable) = false ];
   cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllUnbondingsRequest {}
+message QueryAllUnbondingsResponse {
+  repeated Unbonding unbondings = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryUserUnbondingsRequest {
+  string address = 1; 
+}
+message QueryUserUnbondingsResponse {
+  repeated Unbonding unbondings = 1 [ (gogoproto.nullable) = false ];
 }

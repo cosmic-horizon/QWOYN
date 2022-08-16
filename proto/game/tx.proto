@@ -15,6 +15,9 @@ service Msg {
   rpc WithdrawUpdatedNft(MsgWithdrawUpdatedNft) returns (MsgWithdrawUpdatedNftResponse);
   rpc DepositToken(MsgDepositToken) returns (MsgDepositTokenResponse);
   rpc WithdrawToken(MsgWithdrawToken) returns (MsgWithdrawTokenResponse);
+  rpc StakeInGameToken(MsgStakeInGameToken) returns (MsgStakeInGameTokenResponse);
+  rpc BeginUnstakeInGameToken(MsgBeginUnstakeInGameToken) returns (MsgBeginUnstakeInGameTokenResponse);
+  rpc ClaimInGameStakingReward(MsgClaimInGameStakingReward) returns (MsgClaimInGameStakingRewardResponse);
 }
 
 message MsgTransferModuleOwnership {
@@ -72,3 +75,20 @@ message MsgWithdrawToken {
   cosmos.base.v1beta1.Coin amount = 2 [(gogoproto.nullable) = false];
 }
 message MsgWithdrawTokenResponse {}
+
+message MsgStakeInGameToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgStakeInGameTokenResponse {}
+
+message MsgBeginUnstakeInGameToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgBeginUnstakeInGameTokenResponse {}
+
+message MsgClaimInGameStakingReward {
+  string sender = 1;
+}
+message MsgClaimInGameStakingRewardResponse {}
