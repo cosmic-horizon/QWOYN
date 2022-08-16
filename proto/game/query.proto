@@ -5,6 +5,8 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "game/params.proto";
+import "game/game.proto";
+import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 
@@ -19,6 +21,18 @@ service Query {
   }
   rpc InGameNfts(QueryInGameNftsRequest) returns (QueryInGameNftsResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/in_game_nfts/{contract}";
+  }
+  rpc DepositBalance(QueryDepositBalanceRequest) returns (QueryDepositBalanceResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/deposit_balance/{address}";
+  }
+  rpc AllDepositBalance(QueryAllDepositBalancesRequest) returns (QueryAllDepositBalanceResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/all_deposit_balances";
+  }
+  rpc AllUnbondings(QueryAllUnbondingsRequest) returns (QueryAllUnbondingsResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/all_unbondings";
+  }
+  rpc UserUnbondings(QueryUserUnbondingsRequest) returns (QueryUserUnbondingsResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/user_unbondings/{address}";
   }
 }
 
@@ -41,4 +55,27 @@ message QueryInGameNftsRequest {
 }
 message QueryInGameNftsResponse {
   repeated uint64 token_ids = 1;
+}
+
+message QueryDepositBalanceRequest { string address = 1; }
+message QueryDepositBalanceResponse {
+  Deposit deposit = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllDepositBalancesRequest {}
+message QueryAllDepositBalanceResponse {
+  repeated Deposit deposits = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllUnbondingsRequest {}
+message QueryAllUnbondingsResponse {
+  repeated Unbonding unbondings = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryUserUnbondingsRequest {
+  string address = 1; 
+}
+message QueryUserUnbondingsResponse {
+  repeated Unbonding unbondings = 1 [ (gogoproto.nullable) = false ];
 }

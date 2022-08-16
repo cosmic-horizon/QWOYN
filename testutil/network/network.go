@@ -18,6 +18,7 @@ import (
 	tmdb "github.com/tendermint/tm-db"
 
 	"github.com/cosmic-horizon/coho/app"
+	"github.com/cosmic-horizon/coho/app/params"
 )
 
 type (
@@ -65,8 +66,8 @@ func DefaultConfig() network.Config {
 		TimeoutCommit:   2 * time.Second,
 		ChainID:         "chain-" + tmrand.NewRand().Str(6),
 		NumValidators:   1,
-		BondDenom:       sdk.DefaultBondDenom,
-		MinGasPrices:    fmt.Sprintf("0.000006%s", sdk.DefaultBondDenom),
+		BondDenom:       params.BondDenom,
+		MinGasPrices:    fmt.Sprintf("0.000006%s", params.BondDenom),
 		AccountTokens:   sdk.TokensFromConsensusPower(1000, sdk.DefaultPowerReduction),
 		StakingTokens:   sdk.TokensFromConsensusPower(500, sdk.DefaultPowerReduction),
 		BondedTokens:    sdk.TokensFromConsensusPower(100, sdk.DefaultPowerReduction),

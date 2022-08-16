@@ -474,6 +474,7 @@ func New(
 		wasmkeeper.NewDefaultPermissionKeeper(app.wasmKeeper),
 		app.wasmKeeper,
 		app.AccountKeeper,
+		app.BankKeeper,
 	)
 
 	/****  Module Options ****/

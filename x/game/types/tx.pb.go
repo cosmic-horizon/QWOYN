@@ -6,6 +6,8 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	types "github.com/cosmos/cosmos-sdk/types"
+	_ "github.com/gogo/protobuf/gogoproto"
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
@@ -425,18 +427,87 @@ func (m *TokenInfoExtension) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TokenInfoExtension proto.InternalMessageInfo
 
-type MsgWithdrawUpdatedNft struct {
+type MsgSignerWithdrawUpdatedNft struct {
 	Sender   string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	Contract string `protobuf:"bytes,2,opt,name=contract,proto3" json:"contract,omitempty"`
 	TokenId  uint64 `protobuf:"varint,3,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
 	ExecMsg  string `protobuf:"bytes,4,opt,name=exec_msg,json=execMsg,proto3" json:"exec_msg,omitempty"`
 }
 
+func (m *MsgSignerWithdrawUpdatedNft) Reset()         { *m = MsgSignerWithdrawUpdatedNft{} }
+func (m *MsgSignerWithdrawUpdatedNft) String() string { return proto.CompactTextString(m) }
+func (*MsgSignerWithdrawUpdatedNft) ProtoMessage()    {}
+func (*MsgSignerWithdrawUpdatedNft) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{9}
+}
+func (m *MsgSignerWithdrawUpdatedNft) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgSignerWithdrawUpdatedNft) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgSignerWithdrawUpdatedNft.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgSignerWithdrawUpdatedNft) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSignerWithdrawUpdatedNft.Merge(m, src)
+}
+func (m *MsgSignerWithdrawUpdatedNft) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgSignerWithdrawUpdatedNft) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSignerWithdrawUpdatedNft.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgSignerWithdrawUpdatedNft proto.InternalMessageInfo
+
+func (m *MsgSignerWithdrawUpdatedNft) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgSignerWithdrawUpdatedNft) GetContract() string {
+	if m != nil {
+		return m.Contract
+	}
+	return ""
+}
+
+func (m *MsgSignerWithdrawUpdatedNft) GetTokenId() uint64 {
+	if m != nil {
+		return m.TokenId
+	}
+	return 0
+}
+
+func (m *MsgSignerWithdrawUpdatedNft) GetExecMsg() string {
+	if m != nil {
+		return m.ExecMsg
+	}
+	return ""
+}
+
+type MsgWithdrawUpdatedNft struct {
+	Sender    string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Contract  string `protobuf:"bytes,2,opt,name=contract,proto3" json:"contract,omitempty"`
+	TokenId   uint64 `protobuf:"varint,3,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
+	ExecMsg   string `protobuf:"bytes,4,opt,name=exec_msg,json=execMsg,proto3" json:"exec_msg,omitempty"`
+	Signature []byte `protobuf:"bytes,5,opt,name=signature,proto3" json:"signature,omitempty"`
+}
+
 func (m *MsgWithdrawUpdatedNft) Reset()         { *m = MsgWithdrawUpdatedNft{} }
 func (m *MsgWithdrawUpdatedNft) String() string { return proto.CompactTextString(m) }
 func (*MsgWithdrawUpdatedNft) ProtoMessage()    {}
 func (*MsgWithdrawUpdatedNft) Descriptor() ([]byte, []int) {
-	return fileDescriptor_497c523f337df817, []int{9}
+	return fileDescriptor_497c523f337df817, []int{10}
 }
 func (m *MsgWithdrawUpdatedNft) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -493,6 +564,13 @@ func (m *MsgWithdrawUpdatedNft) GetExecMsg() string {
 	return ""
 }
 
+func (m *MsgWithdrawUpdatedNft) GetSignature() []byte {
+	if m != nil {
+		return m.Signature
+	}
+	return nil
+}
+
 type MsgWithdrawUpdatedNftResponse struct {
 }
 
@@ -500,7 +578,7 @@ func (m *MsgWithdrawUpdatedNftResponse) Reset()         { *m = MsgWithdrawUpdate
 func (m *MsgWithdrawUpdatedNftResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgWithdrawUpdatedNftResponse) ProtoMessage()    {}
 func (*MsgWithdrawUpdatedNftResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_497c523f337df817, []int{10}
+	return fileDescriptor_497c523f337df817, []int{11}
 }
 func (m *MsgWithdrawUpdatedNftResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -529,6 +607,438 @@ func (m *MsgWithdrawUpdatedNftResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgWithdrawUpdatedNftResponse proto.InternalMessageInfo
 
+type MsgDepositToken struct {
+	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+}
+
+func (m *MsgDepositToken) Reset()         { *m = MsgDepositToken{} }
+func (m *MsgDepositToken) String() string { return proto.CompactTextString(m) }
+func (*MsgDepositToken) ProtoMessage()    {}
+func (*MsgDepositToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{12}
+}
+func (m *MsgDepositToken) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDepositToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDepositToken.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDepositToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDepositToken.Merge(m, src)
+}
+func (m *MsgDepositToken) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDepositToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDepositToken.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDepositToken proto.InternalMessageInfo
+
+func (m *MsgDepositToken) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgDepositToken) GetAmount() types.Coin {
+	if m != nil {
+		return m.Amount
+	}
+	return types.Coin{}
+}
+
+type MsgDepositTokenResponse struct {
+}
+
+func (m *MsgDepositTokenResponse) Reset()         { *m = MsgDepositTokenResponse{} }
+func (m *MsgDepositTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDepositTokenResponse) ProtoMessage()    {}
+func (*MsgDepositTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{13}
+}
+func (m *MsgDepositTokenResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDepositTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDepositTokenResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDepositTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDepositTokenResponse.Merge(m, src)
+}
+func (m *MsgDepositTokenResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDepositTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDepositTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDepositTokenResponse proto.InternalMessageInfo
+
+type MsgWithdrawToken struct {
+	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+}
+
+func (m *MsgWithdrawToken) Reset()         { *m = MsgWithdrawToken{} }
+func (m *MsgWithdrawToken) String() string { return proto.CompactTextString(m) }
+func (*MsgWithdrawToken) ProtoMessage()    {}
+func (*MsgWithdrawToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{14}
+}
+func (m *MsgWithdrawToken) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgWithdrawToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgWithdrawToken.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgWithdrawToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgWithdrawToken.Merge(m, src)
+}
+func (m *MsgWithdrawToken) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgWithdrawToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgWithdrawToken.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgWithdrawToken proto.InternalMessageInfo
+
+func (m *MsgWithdrawToken) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgWithdrawToken) GetAmount() types.Coin {
+	if m != nil {
+		return m.Amount
+	}
+	return types.Coin{}
+}
+
+type MsgWithdrawTokenResponse struct {
+}
+
+func (m *MsgWithdrawTokenResponse) Reset()         { *m = MsgWithdrawTokenResponse{} }
+func (m *MsgWithdrawTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgWithdrawTokenResponse) ProtoMessage()    {}
+func (*MsgWithdrawTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{15}
+}
+func (m *MsgWithdrawTokenResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgWithdrawTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgWithdrawTokenResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgWithdrawTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgWithdrawTokenResponse.Merge(m, src)
+}
+func (m *MsgWithdrawTokenResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgWithdrawTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgWithdrawTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgWithdrawTokenResponse proto.InternalMessageInfo
+
+type MsgStakeInGameToken struct {
+	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+}
+
+func (m *MsgStakeInGameToken) Reset()         { *m = MsgStakeInGameToken{} }
+func (m *MsgStakeInGameToken) String() string { return proto.CompactTextString(m) }
+func (*MsgStakeInGameToken) ProtoMessage()    {}
+func (*MsgStakeInGameToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{16}
+}
+func (m *MsgStakeInGameToken) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgStakeInGameToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgStakeInGameToken.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgStakeInGameToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgStakeInGameToken.Merge(m, src)
+}
+func (m *MsgStakeInGameToken) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgStakeInGameToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgStakeInGameToken.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgStakeInGameToken proto.InternalMessageInfo
+
+func (m *MsgStakeInGameToken) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgStakeInGameToken) GetAmount() types.Coin {
+	if m != nil {
+		return m.Amount
+	}
+	return types.Coin{}
+}
+
+type MsgStakeInGameTokenResponse struct {
+}
+
+func (m *MsgStakeInGameTokenResponse) Reset()         { *m = MsgStakeInGameTokenResponse{} }
+func (m *MsgStakeInGameTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgStakeInGameTokenResponse) ProtoMessage()    {}
+func (*MsgStakeInGameTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{17}
+}
+func (m *MsgStakeInGameTokenResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgStakeInGameTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgStakeInGameTokenResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgStakeInGameTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgStakeInGameTokenResponse.Merge(m, src)
+}
+func (m *MsgStakeInGameTokenResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgStakeInGameTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgStakeInGameTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgStakeInGameTokenResponse proto.InternalMessageInfo
+
+type MsgBeginUnstakeInGameToken struct {
+	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+}
+
+func (m *MsgBeginUnstakeInGameToken) Reset()         { *m = MsgBeginUnstakeInGameToken{} }
+func (m *MsgBeginUnstakeInGameToken) String() string { return proto.CompactTextString(m) }
+func (*MsgBeginUnstakeInGameToken) ProtoMessage()    {}
+func (*MsgBeginUnstakeInGameToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{18}
+}
+func (m *MsgBeginUnstakeInGameToken) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgBeginUnstakeInGameToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgBeginUnstakeInGameToken.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgBeginUnstakeInGameToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgBeginUnstakeInGameToken.Merge(m, src)
+}
+func (m *MsgBeginUnstakeInGameToken) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgBeginUnstakeInGameToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgBeginUnstakeInGameToken.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgBeginUnstakeInGameToken proto.InternalMessageInfo
+
+func (m *MsgBeginUnstakeInGameToken) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgBeginUnstakeInGameToken) GetAmount() types.Coin {
+	if m != nil {
+		return m.Amount
+	}
+	return types.Coin{}
+}
+
+type MsgBeginUnstakeInGameTokenResponse struct {
+}
+
+func (m *MsgBeginUnstakeInGameTokenResponse) Reset()         { *m = MsgBeginUnstakeInGameTokenResponse{} }
+func (m *MsgBeginUnstakeInGameTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgBeginUnstakeInGameTokenResponse) ProtoMessage()    {}
+func (*MsgBeginUnstakeInGameTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{19}
+}
+func (m *MsgBeginUnstakeInGameTokenResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgBeginUnstakeInGameTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgBeginUnstakeInGameTokenResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgBeginUnstakeInGameTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgBeginUnstakeInGameTokenResponse.Merge(m, src)
+}
+func (m *MsgBeginUnstakeInGameTokenResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgBeginUnstakeInGameTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgBeginUnstakeInGameTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgBeginUnstakeInGameTokenResponse proto.InternalMessageInfo
+
+type MsgClaimInGameStakingReward struct {
+	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+}
+
+func (m *MsgClaimInGameStakingReward) Reset()         { *m = MsgClaimInGameStakingReward{} }
+func (m *MsgClaimInGameStakingReward) String() string { return proto.CompactTextString(m) }
+func (*MsgClaimInGameStakingReward) ProtoMessage()    {}
+func (*MsgClaimInGameStakingReward) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{20}
+}
+func (m *MsgClaimInGameStakingReward) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgClaimInGameStakingReward) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgClaimInGameStakingReward.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgClaimInGameStakingReward) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgClaimInGameStakingReward.Merge(m, src)
+}
+func (m *MsgClaimInGameStakingReward) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgClaimInGameStakingReward) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgClaimInGameStakingReward.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgClaimInGameStakingReward proto.InternalMessageInfo
+
+func (m *MsgClaimInGameStakingReward) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+type MsgClaimInGameStakingRewardResponse struct {
+}
+
+func (m *MsgClaimInGameStakingRewardResponse) Reset()         { *m = MsgClaimInGameStakingRewardResponse{} }
+func (m *MsgClaimInGameStakingRewardResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgClaimInGameStakingRewardResponse) ProtoMessage()    {}
+func (*MsgClaimInGameStakingRewardResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_497c523f337df817, []int{21}
+}
+func (m *MsgClaimInGameStakingRewardResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgClaimInGameStakingRewardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgClaimInGameStakingRewardResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgClaimInGameStakingRewardResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgClaimInGameStakingRewardResponse.Merge(m, src)
+}
+func (m *MsgClaimInGameStakingRewardResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgClaimInGameStakingRewardResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgClaimInGameStakingRewardResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgClaimInGameStakingRewardResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgTransferModuleOwnership)(nil), "cosmichorizon.coho.game.MsgTransferModuleOwnership")
 	proto.RegisterType((*MsgTransferModuleOwnershipResponse)(nil), "cosmichorizon.coho.game.MsgTransferModuleOwnershipResponse")
@@ -539,45 +1049,74 @@ func init() {
 	proto.RegisterType((*MsgDepositNft)(nil), "cosmichorizon.coho.game.MsgDepositNft")
 	proto.RegisterType((*MsgDepositNftResponse)(nil), "cosmichorizon.coho.game.MsgDepositNftResponse")
 	proto.RegisterType((*TokenInfoExtension)(nil), "cosmichorizon.coho.game.TokenInfoExtension")
+	proto.RegisterType((*MsgSignerWithdrawUpdatedNft)(nil), "cosmichorizon.coho.game.MsgSignerWithdrawUpdatedNft")
 	proto.RegisterType((*MsgWithdrawUpdatedNft)(nil), "cosmichorizon.coho.game.MsgWithdrawUpdatedNft")
 	proto.RegisterType((*MsgWithdrawUpdatedNftResponse)(nil), "cosmichorizon.coho.game.MsgWithdrawUpdatedNftResponse")
+	proto.RegisterType((*MsgDepositToken)(nil), "cosmichorizon.coho.game.MsgDepositToken")
+	proto.RegisterType((*MsgDepositTokenResponse)(nil), "cosmichorizon.coho.game.MsgDepositTokenResponse")
+	proto.RegisterType((*MsgWithdrawToken)(nil), "cosmichorizon.coho.game.MsgWithdrawToken")
+	proto.RegisterType((*MsgWithdrawTokenResponse)(nil), "cosmichorizon.coho.game.MsgWithdrawTokenResponse")
+	proto.RegisterType((*MsgStakeInGameToken)(nil), "cosmichorizon.coho.game.MsgStakeInGameToken")
+	proto.RegisterType((*MsgStakeInGameTokenResponse)(nil), "cosmichorizon.coho.game.MsgStakeInGameTokenResponse")
+	proto.RegisterType((*MsgBeginUnstakeInGameToken)(nil), "cosmichorizon.coho.game.MsgBeginUnstakeInGameToken")
+	proto.RegisterType((*MsgBeginUnstakeInGameTokenResponse)(nil), "cosmichorizon.coho.game.MsgBeginUnstakeInGameTokenResponse")
+	proto.RegisterType((*MsgClaimInGameStakingReward)(nil), "cosmichorizon.coho.game.MsgClaimInGameStakingReward")
+	proto.RegisterType((*MsgClaimInGameStakingRewardResponse)(nil), "cosmichorizon.coho.game.MsgClaimInGameStakingRewardResponse")
 }
 
 func init() { proto.RegisterFile("game/tx.proto", fileDescriptor_497c523f337df817) }
 
 var fileDescriptor_497c523f337df817 = []byte{
-	// 490 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x94, 0x4f, 0x6b, 0xd4, 0x40,
-	0x18, 0xc6, 0x77, 0xba, 0xb5, 0xed, 0xbe, 0xd0, 0x4b, 0xb0, 0x6e, 0x0c, 0x36, 0x2e, 0x41, 0x64,
-	0x51, 0x4c, 0xd0, 0x82, 0x20, 0x9e, 0xfc, 0xd3, 0x83, 0x87, 0xa8, 0x84, 0x4a, 0xc5, 0x83, 0x25,
-	0x4d, 0xde, 0x4d, 0x06, 0x9b, 0x99, 0x90, 0x77, 0xea, 0xae, 0xe2, 0xc5, 0x83, 0x27, 0x2f, 0x7e,
-	0x01, 0xf1, 0xeb, 0x78, 0xec, 0xd1, 0xa3, 0xec, 0x7e, 0x11, 0x49, 0xb6, 0x99, 0x2a, 0x6e, 0xa2,
-	0x2d, 0x3d, 0xbe, 0x33, 0xcf, 0xfb, 0x7b, 0x1e, 0x86, 0x87, 0x81, 0xf5, 0x24, 0xcc, 0xd0, 0x53,
-	0x13, 0x37, 0x2f, 0xa4, 0x92, 0x46, 0x3f, 0x92, 0x94, 0xf1, 0x28, 0x95, 0x05, 0x7f, 0x2f, 0x85,
-	0x1b, 0xc9, 0x54, 0xba, 0xa5, 0xc2, 0x79, 0x0e, 0x96, 0x4f, 0xc9, 0x4e, 0x11, 0x0a, 0x1a, 0x61,
-	0xe1, 0xcb, 0xf8, 0xf0, 0x00, 0x9f, 0x8d, 0x05, 0x16, 0x94, 0xf2, 0xdc, 0xb8, 0x04, 0x2b, 0x84,
-	0x22, 0xc6, 0xc2, 0x64, 0x03, 0x36, 0xec, 0x05, 0xc7, 0x93, 0x61, 0xc1, 0x9a, 0xc0, 0x71, 0xa5,
-	0x33, 0x97, 0xaa, 0x1b, 0x3d, 0x3b, 0xd7, 0xc0, 0x69, 0x26, 0x06, 0x48, 0xb9, 0x14, 0x54, 0xfa,
-	0x9a, 0x3e, 0x25, 0xbb, 0x29, 0x57, 0x78, 0xc0, 0x49, 0x3d, 0x1d, 0xa9, 0x47, 0x52, 0xa8, 0x22,
-	0x8c, 0x14, 0x35, 0xba, 0x5e, 0x81, 0x5e, 0x54, 0x8b, 0xcc, 0xa5, 0x41, 0x77, 0xd8, 0x0b, 0x4e,
-	0x0e, 0x1c, 0x07, 0x06, 0x4d, 0x44, 0xed, 0xfa, 0xb2, 0xd2, 0x04, 0x98, 0xc9, 0xb7, 0xa8, 0x95,
-	0x18, 0x9f, 0x83, 0xfb, 0x0d, 0x18, 0xfe, 0x8b, 0xac, 0x53, 0xbc, 0x86, 0x75, 0x9f, 0x92, 0xc7,
-	0x98, 0x4b, 0xe2, 0x65, 0xce, 0xb6, 0x67, 0xae, 0x1d, 0xea, 0x67, 0xae, 0x67, 0xe3, 0x32, 0xac,
-	0x29, 0xf9, 0x06, 0xc5, 0x1e, 0x8f, 0xcd, 0xee, 0x80, 0x0d, 0x97, 0x83, 0xd5, 0x6a, 0x7e, 0x12,
-	0x3b, 0x7d, 0xd8, 0xf8, 0x83, 0xaf, 0x8d, 0x2f, 0x82, 0xb1, 0x53, 0x69, 0xc4, 0x48, 0x6e, 0x4f,
-	0x14, 0x0a, 0xe2, 0x52, 0x38, 0x1f, 0x59, 0xa5, 0xdf, 0xe5, 0x2a, 0x8d, 0x8b, 0x70, 0xfc, 0x22,
-	0x8f, 0xc3, 0x79, 0xf2, 0x73, 0xce, 0x55, 0x5e, 0xe1, 0x04, 0xa3, 0xbd, 0x8c, 0x12, 0x73, 0xb9,
-	0x5a, 0x5b, 0x2d, 0x67, 0x9f, 0x12, 0xe7, 0x2a, 0x6c, 0x2e, 0x8c, 0x50, 0x47, 0xbf, 0xf3, 0xed,
-	0x02, 0x74, 0x7d, 0x4a, 0x8c, 0xcf, 0x0c, 0xfa, 0x4d, 0x6d, 0xdd, 0x72, 0x1b, 0x5a, 0xee, 0x36,
-	0x17, 0xd2, 0xba, 0x7f, 0x86, 0xa5, 0x3a, 0x95, 0xf1, 0x89, 0xc1, 0xc6, 0xe2, 0x0e, 0xdf, 0x6e,
-	0xc3, 0x2e, 0x5c, 0xb1, 0xee, 0x9d, 0x7a, 0x45, 0xe7, 0xf8, 0xca, 0x60, 0xb3, 0xbd, 0xd5, 0xad,
-	0xf0, 0xd6, 0x55, 0xeb, 0xc1, 0x99, 0x57, 0x75, 0xbe, 0x18, 0xe0, 0xb7, 0xba, 0x5f, 0x6f, 0x03,
-	0x9e, 0xe8, 0x2c, 0xf7, 0xff, 0x74, 0xda, 0xe5, 0x03, 0x18, 0x0b, 0x4a, 0xdc, 0x4a, 0xf9, 0x5b,
-	0x6f, 0xdd, 0x3d, 0x9d, 0xbe, 0x76, 0x7f, 0xb8, 0xfd, 0x7d, 0x6a, 0xb3, 0xa3, 0xa9, 0xcd, 0x7e,
-	0x4e, 0x6d, 0xf6, 0x65, 0x66, 0x77, 0x8e, 0x66, 0x76, 0xe7, 0xc7, 0xcc, 0xee, 0xbc, 0xba, 0x99,
-	0x70, 0x95, 0x1e, 0xee, 0xbb, 0x91, 0xcc, 0xbc, 0x39, 0xfb, 0xd6, 0x31, 0xdc, 0x2b, 0xe1, 0xde,
-	0xc4, 0x9b, 0x7f, 0xd6, 0xef, 0x72, 0xa4, 0xfd, 0x95, 0xea, 0xc3, 0xde, 0xfa, 0x15, 0x00, 0x00,
-	0xff, 0xff, 0xc4, 0x41, 0xc0, 0x57, 0xc1, 0x05, 0x00, 0x00,
+	// 775 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x96, 0x4b, 0x6f, 0xd3, 0x4a,
+	0x14, 0xc7, 0xe3, 0xb6, 0xb7, 0x8f, 0x73, 0x5b, 0xdd, 0xca, 0xb7, 0x25, 0xae, 0xa1, 0x69, 0x64,
+	0x1e, 0x0a, 0x2f, 0x9b, 0xb4, 0x3c, 0x84, 0x60, 0x43, 0x4b, 0x85, 0xba, 0x08, 0x54, 0xa6, 0x55,
+	0x11, 0x0b, 0x2a, 0xc7, 0x9e, 0x4c, 0x86, 0xd6, 0x33, 0x91, 0x67, 0xd2, 0x04, 0xc4, 0x16, 0xb1,
+	0x40, 0x42, 0xf0, 0x01, 0x10, 0x5f, 0xa7, 0xcb, 0x2e, 0x59, 0x21, 0xd4, 0x7e, 0x11, 0x64, 0x3b,
+	0x99, 0xf4, 0x11, 0xbb, 0x69, 0xd5, 0x8a, 0x9d, 0xc7, 0xf3, 0x3f, 0xe7, 0xff, 0xcb, 0xc4, 0xe7,
+	0x6f, 0xc3, 0x18, 0x76, 0x7c, 0x64, 0x89, 0xa6, 0x59, 0x0b, 0x98, 0x60, 0x6a, 0xd6, 0x65, 0xdc,
+	0x27, 0x6e, 0x95, 0x05, 0xe4, 0x3d, 0xa3, 0xa6, 0xcb, 0xaa, 0xcc, 0x0c, 0x15, 0x7a, 0x2e, 0xdc,
+	0x60, 0xdc, 0x2a, 0x3b, 0x1c, 0x59, 0x5b, 0xc5, 0x32, 0x12, 0x4e, 0xd1, 0x72, 0x19, 0xa1, 0x71,
+	0xa1, 0x3e, 0x81, 0x19, 0x66, 0xd1, 0xa5, 0x15, 0x5e, 0xc5, 0x77, 0x8d, 0x65, 0xd0, 0x4b, 0x1c,
+	0xaf, 0x04, 0x0e, 0xe5, 0x15, 0x14, 0x94, 0x98, 0x57, 0xdf, 0x44, 0x2f, 0x1a, 0x14, 0x05, 0xbc,
+	0x4a, 0x6a, 0xea, 0x05, 0x18, 0xe4, 0x88, 0x7a, 0x28, 0xd0, 0x94, 0xbc, 0x52, 0x18, 0xb1, 0x5b,
+	0x2b, 0x55, 0x87, 0x61, 0x8a, 0x1a, 0x91, 0x4e, 0xeb, 0x8b, 0x76, 0xe4, 0xda, 0xb8, 0x02, 0x46,
+	0x72, 0x47, 0x1b, 0xf1, 0x1a, 0xa3, 0x1c, 0x19, 0xcb, 0xa0, 0x95, 0x38, 0x5e, 0xab, 0x12, 0x81,
+	0x36, 0x09, 0x17, 0xcf, 0x2b, 0x62, 0x81, 0x51, 0x11, 0x38, 0xae, 0xe0, 0x89, 0xae, 0x97, 0x60,
+	0xc4, 0x6d, 0x8b, 0xb4, 0xbe, 0x7c, 0x7f, 0x61, 0xc4, 0xee, 0xdc, 0x30, 0x0c, 0xc8, 0x27, 0x75,
+	0x94, 0xae, 0xaf, 0x22, 0x8d, 0x8d, 0x7c, 0xb6, 0x85, 0xa4, 0x12, 0x79, 0x67, 0xe0, 0x7e, 0x03,
+	0x0a, 0xc7, 0x75, 0x96, 0x14, 0x6f, 0x60, 0xac, 0xc4, 0xf1, 0x53, 0x54, 0x63, 0x9c, 0x84, 0x9c,
+	0x69, 0xc7, 0xdc, 0x76, 0x68, 0x1f, 0x73, 0x7b, 0xad, 0x4e, 0xc1, 0xb0, 0x60, 0x1b, 0x88, 0xae,
+	0x13, 0x4f, 0xeb, 0xcf, 0x2b, 0x85, 0x01, 0x7b, 0x28, 0x5a, 0x2f, 0x79, 0x46, 0x16, 0x26, 0x0f,
+	0xf4, 0x97, 0xc6, 0x13, 0xa0, 0xae, 0x44, 0x1a, 0x5a, 0x61, 0x8b, 0x4d, 0x81, 0x28, 0x27, 0x8c,
+	0x1a, 0x9f, 0x14, 0xb8, 0x58, 0xe2, 0xf8, 0x25, 0xc1, 0x14, 0x05, 0x6b, 0x44, 0x54, 0xbd, 0xc0,
+	0x69, 0xac, 0xd6, 0x3c, 0x27, 0xe6, 0x3f, 0x63, 0xba, 0x70, 0x0b, 0x35, 0x91, 0xbb, 0xee, 0x73,
+	0xac, 0x0d, 0x44, 0x65, 0x43, 0xe1, 0xba, 0xc4, 0xb1, 0xf1, 0x43, 0x89, 0xc8, 0xff, 0x26, 0x43,
+	0xf8, 0x37, 0x73, 0x82, 0xa9, 0x23, 0xea, 0x01, 0xd2, 0xfe, 0xc9, 0x2b, 0x85, 0x51, 0xbb, 0x73,
+	0xc3, 0x98, 0x81, 0xe9, 0xae, 0x80, 0xf2, 0x88, 0xcb, 0xf0, 0x5f, 0xe7, 0xec, 0xa3, 0xc3, 0x4e,
+	0x64, 0x7f, 0x00, 0x83, 0x8e, 0xcf, 0xea, 0x34, 0x26, 0xff, 0x77, 0x76, 0xca, 0x8c, 0x27, 0xd8,
+	0x0c, 0x27, 0xd8, 0x6c, 0x4d, 0xb0, 0xb9, 0xc0, 0x08, 0x9d, 0x1f, 0xd8, 0xfe, 0x35, 0x93, 0xb1,
+	0x5b, 0x72, 0x63, 0x0a, 0xb2, 0x87, 0x3c, 0xa4, 0xbd, 0x0b, 0xe3, 0xfb, 0xf8, 0xce, 0xc9, 0x5f,
+	0x8f, 0x67, 0x77, 0xbf, 0x89, 0x04, 0xa8, 0xc0, 0xff, 0xe1, 0xb3, 0x24, 0x9c, 0x0d, 0xb4, 0x44,
+	0x9f, 0x39, 0x3e, 0x3a, 0x27, 0x86, 0xe9, 0xf8, 0x99, 0x3d, 0xe4, 0x23, 0x31, 0xfc, 0x28, 0xd6,
+	0xe6, 0x11, 0x26, 0x74, 0x95, 0xf2, 0x73, 0xa7, 0x89, 0x33, 0x2f, 0xc1, 0x4e, 0x42, 0xdd, 0x8b,
+	0x98, 0x17, 0x36, 0x1d, 0xe2, 0xc7, 0xdb, 0x21, 0x3e, 0xa1, 0xd8, 0x46, 0x0d, 0x27, 0xf0, 0x92,
+	0xa8, 0x8c, 0xab, 0x70, 0x39, 0xa5, 0xac, 0xdd, 0x7d, 0xf6, 0x1b, 0x40, 0x7f, 0xf8, 0x00, 0x7f,
+	0x56, 0x20, 0x9b, 0x94, 0xe7, 0x73, 0x66, 0xc2, 0xdb, 0xc3, 0x4c, 0x8e, 0x6c, 0xfd, 0xd1, 0x29,
+	0x8a, 0xda, 0x54, 0xea, 0x47, 0x05, 0x26, 0xbb, 0xa7, 0x7c, 0x31, 0xad, 0x6d, 0xd7, 0x12, 0xfd,
+	0xe1, 0x89, 0x4b, 0x24, 0xc7, 0x77, 0x05, 0xa6, 0xd3, 0x73, 0x3f, 0xb5, 0x79, 0x6a, 0xa9, 0xfe,
+	0xe4, 0xd4, 0xa5, 0x92, 0xcf, 0x03, 0xd8, 0xf7, 0x42, 0xb8, 0x96, 0xd6, 0xb0, 0xa3, 0xd3, 0xcd,
+	0xde, 0x74, 0xd2, 0xe5, 0x03, 0xa8, 0x5d, 0xc2, 0x35, 0xb5, 0xcb, 0x51, 0xbd, 0x7e, 0xff, 0x64,
+	0x7a, 0xe9, 0xfe, 0x16, 0x46, 0x0f, 0x04, 0x63, 0xa1, 0x07, 0xfa, 0x48, 0xa9, 0xdf, 0xe9, 0x55,
+	0x29, 0xbd, 0x7c, 0x18, 0x3b, 0x98, 0x82, 0xd7, 0x7b, 0x81, 0x8e, 0xdd, 0x8a, 0x3d, 0x4b, 0xa5,
+	0xdd, 0x16, 0x8c, 0x1f, 0xc9, 0xbc, 0x5b, 0x69, 0x6d, 0x0e, 0xab, 0xf5, 0xbb, 0x27, 0x51, 0x4b,
+	0xdf, 0x70, 0xd8, 0x93, 0x52, 0x2e, 0x75, 0xd8, 0x13, 0x8a, 0xd2, 0x87, 0xfd, 0x98, 0x80, 0x53,
+	0xbf, 0x28, 0xa0, 0x25, 0xc6, 0x5b, 0xea, 0x0f, 0x4c, 0xaa, 0xd2, 0x1f, 0x9f, 0xa6, 0xaa, 0x0d,
+	0x34, 0xbf, 0xb8, 0xbd, 0x9b, 0x53, 0x76, 0x76, 0x73, 0xca, 0xef, 0xdd, 0x9c, 0xf2, 0x75, 0x2f,
+	0x97, 0xd9, 0xd9, 0xcb, 0x65, 0x7e, 0xee, 0xe5, 0x32, 0xaf, 0x6f, 0x62, 0x22, 0xaa, 0xf5, 0xb2,
+	0xe9, 0x32, 0xdf, 0x8a, 0x1d, 0x6e, 0xb7, 0x2c, 0xac, 0xd0, 0xc2, 0x6a, 0x5a, 0xf1, 0x67, 0xf7,
+	0xbb, 0x1a, 0xe2, 0xe5, 0xc1, 0xe8, 0x5b, 0x79, 0xee, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x85,
+	0x17, 0xca, 0xcc, 0x8b, 0x0b, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -597,6 +1136,11 @@ type MsgClient interface {
 	RemoveWhitelistedNftContracts(ctx context.Context, in *MsgRemoveWhitelistedNftContracts, opts ...grpc.CallOption) (*MsgRemoveWhitelistedNftContractsResponse, error)
 	DepositNft(ctx context.Context, in *MsgDepositNft, opts ...grpc.CallOption) (*MsgDepositNftResponse, error)
 	WithdrawUpdatedNft(ctx context.Context, in *MsgWithdrawUpdatedNft, opts ...grpc.CallOption) (*MsgWithdrawUpdatedNftResponse, error)
+	DepositToken(ctx context.Context, in *MsgDepositToken, opts ...grpc.CallOption) (*MsgDepositTokenResponse, error)
+	WithdrawToken(ctx context.Context, in *MsgWithdrawToken, opts ...grpc.CallOption) (*MsgWithdrawTokenResponse, error)
+	StakeInGameToken(ctx context.Context, in *MsgStakeInGameToken, opts ...grpc.CallOption) (*MsgStakeInGameTokenResponse, error)
+	BeginUnstakeInGameToken(ctx context.Context, in *MsgBeginUnstakeInGameToken, opts ...grpc.CallOption) (*MsgBeginUnstakeInGameTokenResponse, error)
+	ClaimInGameStakingReward(ctx context.Context, in *MsgClaimInGameStakingReward, opts ...grpc.CallOption) (*MsgClaimInGameStakingRewardResponse, error)
 }
 
 type msgClient struct {
@@ -652,6 +1196,51 @@ func (c *msgClient) WithdrawUpdatedNft(ctx context.Context, in *MsgWithdrawUpdat
 	return out, nil
 }
 
+func (c *msgClient) DepositToken(ctx context.Context, in *MsgDepositToken, opts ...grpc.CallOption) (*MsgDepositTokenResponse, error) {
+	out := new(MsgDepositTokenResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Msg/DepositToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) WithdrawToken(ctx context.Context, in *MsgWithdrawToken, opts ...grpc.CallOption) (*MsgWithdrawTokenResponse, error) {
+	out := new(MsgWithdrawTokenResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Msg/WithdrawToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) StakeInGameToken(ctx context.Context, in *MsgStakeInGameToken, opts ...grpc.CallOption) (*MsgStakeInGameTokenResponse, error) {
+	out := new(MsgStakeInGameTokenResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Msg/StakeInGameToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) BeginUnstakeInGameToken(ctx context.Context, in *MsgBeginUnstakeInGameToken, opts ...grpc.CallOption) (*MsgBeginUnstakeInGameTokenResponse, error) {
+	out := new(MsgBeginUnstakeInGameTokenResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Msg/BeginUnstakeInGameToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) ClaimInGameStakingReward(ctx context.Context, in *MsgClaimInGameStakingReward, opts ...grpc.CallOption) (*MsgClaimInGameStakingRewardResponse, error) {
+	out := new(MsgClaimInGameStakingRewardResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.coho.game.Msg/ClaimInGameStakingReward", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	TransferModuleOwnership(context.Context, *MsgTransferModuleOwnership) (*MsgTransferModuleOwnershipResponse, error)
@@ -659,6 +1248,11 @@ type MsgServer interface {
 	RemoveWhitelistedNftContracts(context.Context, *MsgRemoveWhitelistedNftContracts) (*MsgRemoveWhitelistedNftContractsResponse, error)
 	DepositNft(context.Context, *MsgDepositNft) (*MsgDepositNftResponse, error)
 	WithdrawUpdatedNft(context.Context, *MsgWithdrawUpdatedNft) (*MsgWithdrawUpdatedNftResponse, error)
+	DepositToken(context.Context, *MsgDepositToken) (*MsgDepositTokenResponse, error)
+	WithdrawToken(context.Context, *MsgWithdrawToken) (*MsgWithdrawTokenResponse, error)
+	StakeInGameToken(context.Context, *MsgStakeInGameToken) (*MsgStakeInGameTokenResponse, error)
+	BeginUnstakeInGameToken(context.Context, *MsgBeginUnstakeInGameToken) (*MsgBeginUnstakeInGameTokenResponse, error)
+	ClaimInGameStakingReward(context.Context, *MsgClaimInGameStakingReward) (*MsgClaimInGameStakingRewardResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -679,6 +1273,21 @@ func (*UnimplementedMsgServer) DepositNft(ctx context.Context, req *MsgDepositNf
 }
 func (*UnimplementedMsgServer) WithdrawUpdatedNft(ctx context.Context, req *MsgWithdrawUpdatedNft) (*MsgWithdrawUpdatedNftResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WithdrawUpdatedNft not implemented")
+}
+func (*UnimplementedMsgServer) DepositToken(ctx context.Context, req *MsgDepositToken) (*MsgDepositTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DepositToken not implemented")
+}
+func (*UnimplementedMsgServer) WithdrawToken(ctx context.Context, req *MsgWithdrawToken) (*MsgWithdrawTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WithdrawToken not implemented")
+}
+func (*UnimplementedMsgServer) StakeInGameToken(ctx context.Context, req *MsgStakeInGameToken) (*MsgStakeInGameTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StakeInGameToken not implemented")
+}
+func (*UnimplementedMsgServer) BeginUnstakeInGameToken(ctx context.Context, req *MsgBeginUnstakeInGameToken) (*MsgBeginUnstakeInGameTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BeginUnstakeInGameToken not implemented")
+}
+func (*UnimplementedMsgServer) ClaimInGameStakingReward(ctx context.Context, req *MsgClaimInGameStakingReward) (*MsgClaimInGameStakingRewardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClaimInGameStakingReward not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -775,6 +1384,96 @@ func _Msg_WithdrawUpdatedNft_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_DepositToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDepositToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DepositToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Msg/DepositToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DepositToken(ctx, req.(*MsgDepositToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_WithdrawToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgWithdrawToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).WithdrawToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Msg/WithdrawToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).WithdrawToken(ctx, req.(*MsgWithdrawToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_StakeInGameToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgStakeInGameToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).StakeInGameToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Msg/StakeInGameToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).StakeInGameToken(ctx, req.(*MsgStakeInGameToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_BeginUnstakeInGameToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgBeginUnstakeInGameToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).BeginUnstakeInGameToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Msg/BeginUnstakeInGameToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).BeginUnstakeInGameToken(ctx, req.(*MsgBeginUnstakeInGameToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_ClaimInGameStakingReward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgClaimInGameStakingReward)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ClaimInGameStakingReward(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.coho.game.Msg/ClaimInGameStakingReward",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ClaimInGameStakingReward(ctx, req.(*MsgClaimInGameStakingReward))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "cosmichorizon.coho.game.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -798,6 +1497,26 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "WithdrawUpdatedNft",
 			Handler:    _Msg_WithdrawUpdatedNft_Handler,
+		},
+		{
+			MethodName: "DepositToken",
+			Handler:    _Msg_DepositToken_Handler,
+		},
+		{
+			MethodName: "WithdrawToken",
+			Handler:    _Msg_WithdrawToken_Handler,
+		},
+		{
+			MethodName: "StakeInGameToken",
+			Handler:    _Msg_StakeInGameToken_Handler,
+		},
+		{
+			MethodName: "BeginUnstakeInGameToken",
+			Handler:    _Msg_BeginUnstakeInGameToken_Handler,
+		},
+		{
+			MethodName: "ClaimInGameStakingReward",
+			Handler:    _Msg_ClaimInGameStakingReward_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1076,6 +1795,55 @@ func (m *TokenInfoExtension) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgSignerWithdrawUpdatedNft) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgSignerWithdrawUpdatedNft) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgSignerWithdrawUpdatedNft) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ExecMsg) > 0 {
+		i -= len(m.ExecMsg)
+		copy(dAtA[i:], m.ExecMsg)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ExecMsg)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if m.TokenId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.TokenId))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.Contract) > 0 {
+		i -= len(m.Contract)
+		copy(dAtA[i:], m.Contract)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Contract)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *MsgWithdrawUpdatedNft) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1096,6 +1864,13 @@ func (m *MsgWithdrawUpdatedNft) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.Signature) > 0 {
+		i -= len(m.Signature)
+		copy(dAtA[i:], m.Signature)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Signature)))
+		i--
+		dAtA[i] = 0x2a
+	}
 	if len(m.ExecMsg) > 0 {
 		i -= len(m.ExecMsg)
 		copy(dAtA[i:], m.ExecMsg)
@@ -1141,6 +1916,311 @@ func (m *MsgWithdrawUpdatedNftResponse) MarshalTo(dAtA []byte) (int, error) {
 }
 
 func (m *MsgWithdrawUpdatedNftResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDepositToken) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDepositToken) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDepositToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Amount.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDepositTokenResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDepositTokenResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDepositTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgWithdrawToken) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgWithdrawToken) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgWithdrawToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Amount.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgWithdrawTokenResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgWithdrawTokenResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgWithdrawTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgStakeInGameToken) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgStakeInGameToken) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgStakeInGameToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Amount.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgStakeInGameTokenResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgStakeInGameTokenResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgStakeInGameTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgBeginUnstakeInGameToken) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgBeginUnstakeInGameToken) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgBeginUnstakeInGameToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Amount.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgBeginUnstakeInGameTokenResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgBeginUnstakeInGameTokenResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgBeginUnstakeInGameTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgClaimInGameStakingReward) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgClaimInGameStakingReward) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgClaimInGameStakingReward) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgClaimInGameStakingRewardResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgClaimInGameStakingRewardResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgClaimInGameStakingRewardResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1279,7 +2359,7 @@ func (m *TokenInfoExtension) Size() (n int) {
 	return n
 }
 
-func (m *MsgWithdrawUpdatedNft) Size() (n int) {
+func (m *MsgSignerWithdrawUpdatedNft) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1303,7 +2383,153 @@ func (m *MsgWithdrawUpdatedNft) Size() (n int) {
 	return n
 }
 
+func (m *MsgWithdrawUpdatedNft) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Contract)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.TokenId != 0 {
+		n += 1 + sovTx(uint64(m.TokenId))
+	}
+	l = len(m.ExecMsg)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Signature)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
 func (m *MsgWithdrawUpdatedNftResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgDepositToken) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.Amount.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgDepositTokenResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgWithdrawToken) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.Amount.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgWithdrawTokenResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgStakeInGameToken) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.Amount.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgStakeInGameTokenResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgBeginUnstakeInGameToken) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.Amount.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgBeginUnstakeInGameTokenResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgClaimInGameStakingReward) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgClaimInGameStakingRewardResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2043,6 +3269,171 @@ func (m *TokenInfoExtension) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *MsgSignerWithdrawUpdatedNft) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgSignerWithdrawUpdatedNft: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgSignerWithdrawUpdatedNft: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Contract", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Contract = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TokenId", wireType)
+			}
+			m.TokenId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TokenId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ExecMsg", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ExecMsg = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *MsgWithdrawUpdatedNft) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2187,6 +3578,40 @@ func (m *MsgWithdrawUpdatedNft) Unmarshal(dAtA []byte) error {
 			}
 			m.ExecMsg = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Signature", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Signature = append(m.Signature[:0], dAtA[iNdEx:postIndex]...)
+			if m.Signature == nil {
+				m.Signature = []byte{}
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -2235,6 +3660,798 @@ func (m *MsgWithdrawUpdatedNftResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgWithdrawUpdatedNftResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDepositToken) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDepositToken: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDepositToken: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Amount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDepositTokenResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDepositTokenResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDepositTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgWithdrawToken) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgWithdrawToken: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgWithdrawToken: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Amount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgWithdrawTokenResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgWithdrawTokenResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgWithdrawTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgStakeInGameToken) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgStakeInGameToken: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgStakeInGameToken: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Amount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgStakeInGameTokenResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgStakeInGameTokenResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgStakeInGameTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgBeginUnstakeInGameToken) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgBeginUnstakeInGameToken: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgBeginUnstakeInGameToken: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Amount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgBeginUnstakeInGameTokenResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgBeginUnstakeInGameTokenResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgBeginUnstakeInGameTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgClaimInGameStakingReward) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgClaimInGameStakingReward: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgClaimInGameStakingReward: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgClaimInGameStakingRewardResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgClaimInGameStakingRewardResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgClaimInGameStakingRewardResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -44,3 +44,54 @@ func (k Keeper) InGameNfts(c context.Context, req *types.QueryInGameNftsRequest)
 	_ = ctx
 	return &types.QueryInGameNftsResponse{}, nil
 }
+
+func (k Keeper) DepositBalance(c context.Context, req *types.QueryDepositBalanceRequest) (*types.QueryDepositBalanceResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	address, err := sdk.AccAddressFromBech32(req.Address)
+	if err != nil {
+		return nil, err
+	}
+	return &types.QueryDepositBalanceResponse{
+		Deposit: types.Deposit{
+			Address: req.Address,
+			Amount:  k.GetDeposit(ctx, address),
+		},
+	}, nil
+}
+
+func (k Keeper) AllDepositBalance(c context.Context, req *types.QueryAllDepositBalancesRequest) (*types.QueryAllDepositBalanceResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	return &types.QueryAllDepositBalanceResponse{
+		Deposits: k.GetAllDeposits(ctx),
+	}, nil
+}
+
+func (k Keeper) AllUnbondings(c context.Context, req *types.QueryAllUnbondingsRequest) (*types.QueryAllUnbondingsResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	return &types.QueryAllUnbondingsResponse{
+		Unbondings: k.GetAllUnbondings(ctx),
+	}, nil
+}
+
+func (k Keeper) UserUnbondings(c context.Context, req *types.QueryUserUnbondingsRequest) (*types.QueryUserUnbondingsResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	return &types.QueryUserUnbondingsResponse{
+		Unbondings: k.GetUserUnbondings(ctx, req.Address),
+	}, nil
+}

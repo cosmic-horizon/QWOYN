@@ -24,6 +24,8 @@ func GetQueryCmd() *cobra.Command {
 		GetCmdQueryParams(),
 		GetCmdWhitelistedContracts(),
 		GetCmdInGameNfts(),
+		GetCmdDepositBalance(),
+		GetCmdAllDepositBalances(),
 	)
 
 	return queryCmd
@@ -108,6 +110,70 @@ func GetCmdInGameNfts() *cobra.Command {
 			queryClient := types.NewQueryClient(clientCtx)
 
 			res, err := queryClient.InGameNfts(context.Background(), &types.QueryInGameNftsRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdDepositBalance() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "deposit-balance [address] [flags]",
+		Long: "Query in-game nfts.",
+		Example: fmt.Sprintf(
+			`$ %s query game deposit-balance [address]`, version.AppName),
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.DepositBalance(context.Background(), &types.QueryDepositBalanceRequest{
+				Address: args[0],
+			})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdAllDepositBalances() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "all-deposit-balances [flags]",
+		Long: "Query in-game nfts.",
+		Example: fmt.Sprintf(
+			`$ %s query game all-deposit-balances`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.AllDepositBalance(context.Background(), &types.QueryAllDepositBalancesRequest{})
 
 			if err != nil {
 				return err

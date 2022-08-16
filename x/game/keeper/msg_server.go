@@ -103,3 +103,100 @@ func (m msgServer) WithdrawUpdatedNft(goCtx context.Context, msg *types.MsgWithd
 	}
 	return &types.MsgWithdrawUpdatedNftResponse{}, nil
 }
+
+func (m msgServer) DepositToken(goCtx context.Context, msg *types.MsgDepositToken) (*types.MsgDepositTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidDepositDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	m.IncreaseDeposit(ctx, sender, msg.Amount)
+
+	return &types.MsgDepositTokenResponse{}, nil
+}
+
+func (m msgServer) WithdrawToken(goCtx context.Context, msg *types.MsgWithdrawToken) (*types.MsgWithdrawTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidWithdrawDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	m.DecreaseDeposit(ctx, sender, msg.Amount)
+
+	return &types.MsgWithdrawTokenResponse{}, nil
+}
+
+func (m msgServer) StakeInGameToken(goCtx context.Context, msg *types.MsgStakeInGameToken) (*types.MsgStakeInGameTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidWithdrawDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	m.ClaimInGameStakingReward(ctx, sender)
+	m.IncreaseStaking(ctx, sender, msg.Amount)
+
+	return &types.MsgStakeInGameTokenResponse{}, nil
+}
+
+func (m msgServer) BeginUnstakeInGameToken(goCtx context.Context, msg *types.MsgBeginUnstakeInGameToken) (*types.MsgBeginUnstakeInGameTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidWithdrawDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	m.ClaimInGameStakingReward(ctx, sender)
+	m.IncreaseUnbonding(ctx, sender, msg.Amount)
+
+	return &types.MsgBeginUnstakeInGameTokenResponse{}, nil
+}
+
+func (m msgServer) ClaimInGameStakingReward(goCtx context.Context, msg *types.MsgClaimInGameStakingReward) (*types.MsgClaimInGameStakingRewardResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParamSet(ctx)
+	if msg.Amount.Denom != params.DepositDenom {
+		return nil, types.ErrInvalidWithdrawDenom
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	m.ClaimInGameStakingReward(ctx, sender)
+
+	return &types.MsgClaimInGameStakingRewardResponse{}, nil
+}
