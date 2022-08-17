@@ -12,11 +12,7 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	k.SetParamSet(ctx, genState.Params)
 
 	for _, deposit := range genState.Deposits {
-		addr, err := sdk.AccAddressFromBech32(deposit.Address)
-		if err != nil {
-			panic(err)
-		}
-		k.SetDeposit(ctx, addr, deposit.Amount)
+		k.SetDeposit(ctx, deposit)
 	}
 
 	for _, contract := range genState.WhitelistedContracts {

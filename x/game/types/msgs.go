@@ -230,3 +230,86 @@ func (msg MsgWithdrawToken) GetSigners() []sdk.AccAddress {
 	}
 	return []sdk.AccAddress{sender}
 }
+
+var _ sdk.Msg = &MsgStakeInGameToken{}
+
+func NewMsgStakeInGameToken(sender sdk.AccAddress, coin sdk.Coin,
+) *MsgStakeInGameToken {
+	return &MsgStakeInGameToken{
+		Sender: sender.String(),
+		Amount: coin,
+	}
+}
+
+func (msg MsgStakeInGameToken) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgStakeInGameToken) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}
+
+var _ sdk.Msg = &MsgBeginUnstakeInGameToken{}
+
+func NewMsgBeginUnstakeInGameToken(sender sdk.AccAddress, coin sdk.Coin,
+) *MsgBeginUnstakeInGameToken {
+	return &MsgBeginUnstakeInGameToken{
+		Sender: sender.String(),
+		Amount: coin,
+	}
+}
+
+func (msg MsgBeginUnstakeInGameToken) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgBeginUnstakeInGameToken) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}
+
+var _ sdk.Msg = &MsgClaimInGameStakingReward{}
+
+func NewMsgClaimInGameStakingReward(sender sdk.AccAddress,
+) *MsgClaimInGameStakingReward {
+	return &MsgClaimInGameStakingReward{
+		Sender: sender.String(),
+	}
+}
+
+func (msg MsgClaimInGameStakingReward) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgClaimInGameStakingReward) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}

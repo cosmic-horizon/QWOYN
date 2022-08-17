@@ -16,4 +16,7 @@ var (
 	ErrSignerAccountPubKeyNotRegistered = sdkerrors.Register(ModuleName, 6, "signer account public key is not registered")
 	ErrInvalidDepositDenom              = sdkerrors.Register(ModuleName, 7, "invalid deposit denom")
 	ErrInvalidWithdrawDenom             = sdkerrors.Register(ModuleName, 8, "invalid withdraw denom")
+	ErrInsufficientDepositAmount        = sdkerrors.Register(ModuleName, 9, "insufficient deposit amount")
+	ErrInsufficientStakingAmount        = sdkerrors.Register(ModuleName, 10, "insufficient staking amount")
+	ErrInsufficientUnbondingAmount      = sdkerrors.Register(ModuleName, 11, "insufficient unbonding amount")
 )

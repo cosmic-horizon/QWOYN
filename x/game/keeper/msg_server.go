@@ -121,7 +121,7 @@ func (m msgServer) DepositToken(goCtx context.Context, msg *types.MsgDepositToke
 		return nil, err
 	}
 
-	m.IncreaseDeposit(ctx, sender, msg.Amount)
+	m.IncreaseDeposit(ctx, sender, msg.Amount.Amount)
 
 	return &types.MsgDepositTokenResponse{}, nil
 }
@@ -143,7 +143,7 @@ func (m msgServer) WithdrawToken(goCtx context.Context, msg *types.MsgWithdrawTo
 		return nil, err
 	}
 
-	m.DecreaseDeposit(ctx, sender, msg.Amount)
+	m.DecreaseDeposit(ctx, sender, msg.Amount.Amount)
 
 	return &types.MsgWithdrawTokenResponse{}, nil
 }
@@ -160,8 +160,15 @@ func (m msgServer) StakeInGameToken(goCtx context.Context, msg *types.MsgStakeIn
 		return nil, err
 	}
 
-	m.ClaimInGameStakingReward(ctx, sender)
-	m.IncreaseStaking(ctx, sender, msg.Amount)
+	err = m.Keeper.ClaimInGameStakingReward(ctx, sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.IncreaseStaking(ctx, sender, msg.Amount.Amount)
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgStakeInGameTokenResponse{}, nil
 }
@@ -178,25 +185,31 @@ func (m msgServer) BeginUnstakeInGameToken(goCtx context.Context, msg *types.Msg
 		return nil, err
 	}
 
-	m.ClaimInGameStakingReward(ctx, sender)
-	m.IncreaseUnbonding(ctx, sender, msg.Amount)
+	err = m.Keeper.ClaimInGameStakingReward(ctx, sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.IncreaseUnbonding(ctx, sender, msg.Amount.Amount)
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgBeginUnstakeInGameTokenResponse{}, nil
 }
 
 func (m msgServer) ClaimInGameStakingReward(goCtx context.Context, msg *types.MsgClaimInGameStakingReward) (*types.MsgClaimInGameStakingRewardResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	params := m.GetParamSet(ctx)
-	if msg.Amount.Denom != params.DepositDenom {
-		return nil, types.ErrInvalidWithdrawDenom
-	}
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		return nil, err
 	}
 
-	m.ClaimInGameStakingReward(ctx, sender)
+	err = m.Keeper.ClaimInGameStakingReward(ctx, sender)
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgClaimInGameStakingRewardResponse{}, nil
 }

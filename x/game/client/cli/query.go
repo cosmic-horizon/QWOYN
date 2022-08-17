@@ -26,6 +26,8 @@ func GetQueryCmd() *cobra.Command {
 		GetCmdInGameNfts(),
 		GetCmdDepositBalance(),
 		GetCmdAllDepositBalances(),
+		GetCmdUserUnbondings(),
+		GetCmdAllUnbondings(),
 	)
 
 	return queryCmd
@@ -174,6 +176,70 @@ func GetCmdAllDepositBalances() *cobra.Command {
 			queryClient := types.NewQueryClient(clientCtx)
 
 			res, err := queryClient.AllDepositBalance(context.Background(), &types.QueryAllDepositBalancesRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdAllUnbondings() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "all-unbondings [flags]",
+		Long: "Query all unbondings.",
+		Example: fmt.Sprintf(
+			`$ %s query game all-unbondings`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.AllUnbondings(context.Background(), &types.QueryAllUnbondingsRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdUserUnbondings() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "user-unbondings [user] [flags]",
+		Long: "Query user unbondings.",
+		Example: fmt.Sprintf(
+			`$ %s query game user-unbondings [user]`, version.AppName),
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.UserUnbondings(context.Background(), &types.QueryUserUnbondingsRequest{
+				Address: args[0],
+			})
 
 			if err != nil {
 				return err

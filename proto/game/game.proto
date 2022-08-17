@@ -10,22 +10,28 @@ option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 
 message Deposit {
   string address = 1;
-  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
-  cosmos.base.v1beta1.Coin staking = 3 [ (gogoproto.nullable) = false ];
-  cosmos.base.v1beta1.Coin unbonding = 4 [ (gogoproto.nullable) = false ];
+  string amount = 2 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.nullable) = false
+  ];
+  string staking = 3 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.nullable) = false
+  ];
+  string unbonding = 4 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
+    (gogoproto.nullable) = false
+  ];
   google.protobuf.Timestamp reward_claim_time = 5 [ (gogoproto.nullable) = false, (gogoproto.stdtime) = true ];
 }
 
 message Unbonding {
-  option (gogoproto.equal)            = false;
-  option (gogoproto.goproto_getters)  = false;
-  option (gogoproto.goproto_stringer) = false;
-
-  string staker_address = 1;
-  int64 creation_height = 2;
-  google.protobuf.Timestamp completion_time = 3
+  uint64 id = 1;
+  string staker_address = 2;
+  int64 creation_height = 3;
+  google.protobuf.Timestamp completion_time = 4
       [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
-  string amount = 4 [
+  string amount = 5 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable)   = false
   ];

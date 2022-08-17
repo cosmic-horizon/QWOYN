@@ -207,7 +207,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		wasm.ModuleName:                {authtypes.Burner},
-		gametypes.ModuleName:           {},
+		gametypes.ModuleName:           {authtypes.Minter, authtypes.Burner},
 	}
 )
 

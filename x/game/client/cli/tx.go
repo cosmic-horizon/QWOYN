@@ -34,6 +34,9 @@ func GetTxCmd() *cobra.Command {
 		GetCmdWithdrawUpdatedNft(),
 		GetCmdDepositToken(),
 		GetCmdWithdrawToken(),
+		GetCmdStakeInGameToken(),
+		GetCmdBeginUnstakeInGameToken(),
+		GetCmdClaimInGameStakingReward(),
 	)
 
 	return txCmd
@@ -336,6 +339,114 @@ func GetCmdWithdrawToken() *cobra.Command {
 			msg := types.NewMsgWithdrawToken(
 				clientCtx.GetFromAddress(),
 				coin,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdStakeInGameToken() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "stake-ingame-token [coin] [flags]",
+		Long: "Stake ingame token",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx stake-ingame-token [coin]`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			coin, err := sdk.ParseCoinNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgStakeInGameToken(
+				clientCtx.GetFromAddress(),
+				coin,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdBeginUnstakeInGameToken() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "begin-unstake-ingame-token [coin] [flags]",
+		Long: "Begin unstake of ingame token",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx begin-unstake-ingame-token [coin]`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			coin, err := sdk.ParseCoinNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgBeginUnstakeInGameToken(
+				clientCtx.GetFromAddress(),
+				coin,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdClaimInGameStakingReward() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "claim-ingame-staking-reward [coin] [flags]",
+		Long: "Claim ingame staking reward",
+		Args: cobra.ExactArgs(0),
+		Example: fmt.Sprintf(
+			`$ %s tx claim-ingame-staking-reward`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgClaimInGameStakingReward(
+				clientCtx.GetFromAddress(),
 			)
 
 			if err := msg.ValidateBasic(); err != nil {

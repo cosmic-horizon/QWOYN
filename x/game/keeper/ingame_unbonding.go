@@ -59,14 +59,22 @@ func (k Keeper) SetUnbonding(ctx sdk.Context, unbonding types.Unbonding) {
 	store.Set(types.UnbondingKey(unbonding.Id), bz)
 
 	idBytes := sdk.Uint64ToBigEndian(unbonding.Id)
-	store.Set(types.InGameUnbondingUserKey(unbonding.StakerAddress, unbonding.Id), idBytes)
+	stakerAddr, err := sdk.AccAddressFromBech32(unbonding.StakerAddress)
+	if err != nil {
+		panic(err)
+	}
+	store.Set(types.InGameUnbondingUserKey(stakerAddr, unbonding.Id), idBytes)
 	store.Set(types.InGameUnbondingTimeKey(unbonding.CompletionTime, unbonding.Id), idBytes)
 }
 
 func (k Keeper) DeleteUnbonding(ctx sdk.Context, unbonding types.Unbonding) {
 	store := ctx.KVStore(k.storeKey)
 	store.Delete(types.UnbondingKey(unbonding.Id))
-	store.Delete(types.InGameUnbondingUserKey(unbonding.StakerAddress, unbonding.Id))
+	stakerAddr, err := sdk.AccAddressFromBech32(unbonding.StakerAddress)
+	if err != nil {
+		panic(err)
+	}
+	store.Delete(types.InGameUnbondingUserKey(stakerAddr, unbonding.Id))
 	store.Delete(types.InGameUnbondingTimeKey(unbonding.CompletionTime, unbonding.Id))
 }
 

@@ -56,10 +56,7 @@ func (k Keeper) DepositBalance(c context.Context, req *types.QueryDepositBalance
 		return nil, err
 	}
 	return &types.QueryDepositBalanceResponse{
-		Deposit: types.Deposit{
-			Address: req.Address,
-			Amount:  k.GetDeposit(ctx, address),
-		},
+		Deposit: k.GetDeposit(ctx, address),
 	}, nil
 }
 
@@ -91,7 +88,11 @@ func (k Keeper) UserUnbondings(c context.Context, req *types.QueryUserUnbondings
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
+	addr, err := sdk.AccAddressFromBech32(req.Address)
+	if err != nil {
+		return nil, err
+	}
 	return &types.QueryUserUnbondingsResponse{
-		Unbondings: k.GetUserUnbondings(ctx, req.Address),
+		Unbondings: k.GetUserUnbondings(ctx, addr),
 	}, nil
 }
