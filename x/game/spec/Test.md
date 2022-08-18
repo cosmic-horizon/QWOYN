@@ -3,12 +3,23 @@ cohod query game params
 cohod query game whitelisted-contracts
 cohod query game all-deposit-balances
 cohod query game deposit-balance $(cohod keys show -a validator --keyring-backend=test)
+cohod query game all-unbondings
+cohod query game user-unbondings $(cohod keys show -a validator --keyring-backend=test)
 
 # deposit tokens
 cohod tx game deposit-token 1000000stake --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 
 # withdraw tokens
 cohod tx game withdraw-token 500000stake --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+
+# stake ingame token
+cohod tx game stake-ingame-token 500000stake --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+
+# begin unstake of ingame token
+cohod tx game begin-unstake-ingame-token 100000stake --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+
+# claim staking reward
+cohod tx game claim-ingame-staking-reward --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 
 # whitelist contract
 cohod tx game whitelist-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block

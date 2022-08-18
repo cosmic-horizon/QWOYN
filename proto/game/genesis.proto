@@ -15,4 +15,5 @@ message GenesisState {
   repeated Deposit deposits = 2 [ (gogoproto.nullable) = false ];
   repeated string whitelisted_contracts = 3;
   repeated Unbonding unbondings = 4 [ (gogoproto.nullable) = false ];
+  uint64 last_unbonding_id = 5;
 }

@@ -195,6 +195,18 @@ func (m msgServer) BeginUnstakeInGameToken(goCtx context.Context, msg *types.Msg
 		return nil, err
 	}
 
+	lastUnbondingId := m.GetLastUnbondingId(ctx)
+	lastUnbondingId++
+	m.SetLastUnbondingId(ctx, lastUnbondingId)
+
+	m.SetUnbonding(ctx, types.Unbonding{
+		Id:             lastUnbondingId,
+		StakerAddress:  msg.Sender,
+		CreationHeight: ctx.BlockHeight(),
+		CompletionTime: ctx.BlockTime().Add(params.UnstakingTime),
+		Amount:         msg.Amount.Amount,
+	})
+
 	return &types.MsgBeginUnstakeInGameTokenResponse{}, nil
 }
 

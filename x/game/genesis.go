@@ -10,6 +10,7 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	k.SetParamSet(ctx, genState.Params)
+	k.SetLastUnbondingId(ctx, genState.LastUnbondingId)
 
 	for _, deposit := range genState.Deposits {
 		k.SetDeposit(ctx, deposit)
@@ -31,6 +32,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Deposits = k.GetAllDeposits(ctx)
 	genesis.WhitelistedContracts = k.GetAllWhitelistedContracts(ctx)
 	genesis.Unbondings = k.GetAllUnbondings(ctx)
+	genesis.LastUnbondingId = k.GetLastUnbondingId(ctx)
 
 	return genesis
 }

@@ -7,6 +7,20 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+func (k Keeper) SetLastUnbondingId(ctx sdk.Context, id uint64) {
+	store := ctx.KVStore(k.storeKey)
+	store.Set(types.KeyLastUnbondingIndex, sdk.Uint64ToBigEndian(id))
+}
+
+func (k Keeper) GetLastUnbondingId(ctx sdk.Context) uint64 {
+	store := ctx.KVStore(k.storeKey)
+	bz := store.Get(types.KeyLastUnbondingIndex)
+	if bz == nil {
+		return 0
+	}
+	return sdk.BigEndianToUint64(bz)
+}
+
 func (k Keeper) GetAllUnbondings(ctx sdk.Context) []types.Unbonding {
 	store := ctx.KVStore(k.storeKey)
 
