@@ -1,11 +1,10 @@
-package game
+package keeper
 
 import (
-	"github.com/cosmic-horizon/coho/x/game/keeper"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
+func (k Keeper) EndBlocker(ctx sdk.Context) {
 	endingUnbondings := k.GetCompletedUnbondingsAt(ctx, ctx.BlockTime())
 	for _, unbonding := range endingUnbondings {
 		addr, err := sdk.AccAddressFromBech32(unbonding.StakerAddress)
@@ -20,7 +19,6 @@ func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 		if err != nil {
 			continue
 		}
-		k.IncreaseDeposit(ctx, addr, unbonding.Amount)
 		k.DeleteUnbonding(ctx, unbonding)
 	}
 }

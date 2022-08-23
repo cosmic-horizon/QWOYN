@@ -39,7 +39,11 @@ func (k Keeper) DeleteDeposit(ctx sdk.Context, addr sdk.AccAddress) {
 }
 
 func (k Keeper) GetDeposit(ctx sdk.Context, addr sdk.AccAddress) types.Deposit {
-	deposit := types.Deposit{}
+	deposit := types.Deposit{
+		Amount:    sdk.ZeroInt(),
+		Staking:   sdk.ZeroInt(),
+		Unbonding: sdk.ZeroInt(),
+	}
 	store := ctx.KVStore(k.storeKey)
 	bz := store.Get(types.AccountDepositKey(addr))
 	if bz == nil {
@@ -52,7 +56,6 @@ func (k Keeper) GetDeposit(ctx sdk.Context, addr sdk.AccAddress) types.Deposit {
 func (k Keeper) IncreaseDeposit(ctx sdk.Context, addr sdk.AccAddress, amount sdk.Int) {
 	deposit := k.GetDeposit(ctx, addr)
 	if deposit.Address == "" {
-		deposit.RewardClaimTime = ctx.BlockTime()
 		deposit.Address = addr.String()
 		deposit.Amount = amount
 	} else {
@@ -63,7 +66,7 @@ func (k Keeper) IncreaseDeposit(ctx sdk.Context, addr sdk.AccAddress, amount sdk
 
 func (k Keeper) DecreaseDeposit(ctx sdk.Context, addr sdk.AccAddress, amount sdk.Int) error {
 	deposit := k.GetDeposit(ctx, addr)
-	if deposit.Staking.Add(amount).GT(deposit.Amount) {
+	if amount.Add(deposit.Staking).GT(deposit.Amount) {
 		return types.ErrInsufficientDepositAmount
 	}
 	deposit.Amount = deposit.Amount.Sub(amount)
@@ -120,19 +123,21 @@ func (k Keeper) ClaimInGameStakingReward(ctx sdk.Context, addr sdk.AccAddress) e
 	rewardAmount := deposit.Staking.Sub(deposit.Unbonding).
 		Mul(sdk.NewInt(int64(params.StakingInflation))).
 		Mul(sdk.NewInt(int64(duration))).
-		Quo(sdk.NewInt(int64(time.Second * 86400 * 365)))
+		Quo(sdk.NewInt(int64(24 * time.Hour * 365)))
 
 	// mint coins and send rewards
 	if rewardAmount.IsPositive() {
 		rewardCoin := sdk.NewCoin(params.DepositDenom, rewardAmount)
 		err := k.BankKeeper.MintCoins(ctx, types.ModuleName, sdk.Coins{rewardCoin})
 		if err != nil {
-			panic(err)
+			return err
 		}
 		deposit.Amount = deposit.Amount.Add(rewardAmount)
-		// set last claim time
-		deposit.RewardClaimTime = ctx.BlockTime()
-		k.SetDeposit(ctx, deposit)
 	}
+
+	// set last claim time
+	deposit.RewardClaimTime = ctx.BlockTime()
+	k.SetDeposit(ctx, deposit)
+
 	return nil
 }
