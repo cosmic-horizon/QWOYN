@@ -38,6 +38,12 @@ service Query {
   rpc Liquidity(QueryLiquidityRequest) returns (QueryLiquidityResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/liquidity";
   }
+  rpc EstimatedSwapResult(QueryEstimatedSwapResultRequest) returns (QueryEstimatedSwapResultResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/estimated_swap_result/{amount}";
+  }
+  rpc SwapRate(QuerySwapRateRequest) returns (QuerySwapRateResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/swap_rate";
+  }
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -87,4 +93,20 @@ message QueryUserUnbondingsResponse {
 message QueryLiquidityRequest {}
 message QueryLiquidityResponse {
   Liquidity liquidity = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryEstimatedSwapResultRequest {
+  string amount = 1;
+}
+message QueryEstimatedSwapResultResponse {
+  cosmos.base.v1beta1.Coin amount = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QuerySwapRateRequest {}
+message QuerySwapRateResponse {
+  string rate = 1 [
+    (gogoproto.moretags) = "yaml:\"rate\"",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false
+  ];
 }

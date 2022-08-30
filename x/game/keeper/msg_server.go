@@ -225,3 +225,42 @@ func (m msgServer) ClaimInGameStakingReward(goCtx context.Context, msg *types.Ms
 
 	return &types.MsgClaimInGameStakingRewardResponse{}, nil
 }
+
+func (m msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidity) (*types.MsgAddLiquidityResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	_, _ = ctx, sender
+	// TODO: check if module admin
+	return &types.MsgAddLiquidityResponse{}, nil
+}
+
+func (m msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLiquidity) (*types.MsgRemoveLiquidityResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	_, _ = ctx, sender
+	// TODO: check if module admin
+
+	return &types.MsgRemoveLiquidityResponse{}, nil
+}
+
+func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSwapResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	_, _ = ctx, sender
+	return &types.MsgSwapResponse{}, nil
+}

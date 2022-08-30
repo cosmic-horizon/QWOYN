@@ -96,3 +96,33 @@ func (k Keeper) UserUnbondings(c context.Context, req *types.QueryUserUnbondings
 		Unbondings: k.GetUserUnbondings(ctx, addr),
 	}, nil
 }
+
+func (k Keeper) Liquidity(c context.Context, req *types.QueryLiquidityRequest) (*types.QueryLiquidityResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	_ = ctx
+	return &types.QueryLiquidityResponse{}, nil
+}
+
+func (k Keeper) EstimatedSwapResult(c context.Context, req *types.QueryEstimatedSwapResultRequest) (*types.QueryEstimatedSwapResultResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	_ = ctx
+	return &types.QueryEstimatedSwapResultResponse{}, nil
+}
+
+func (k Keeper) SwapRate(c context.Context, req *types.QuerySwapRateRequest) (*types.QuerySwapRateResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	_ = ctx
+	return &types.QuerySwapRateResponse{}, nil
+}
