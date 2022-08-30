@@ -18,6 +18,9 @@ service Msg {
   rpc StakeInGameToken(MsgStakeInGameToken) returns (MsgStakeInGameTokenResponse);
   rpc BeginUnstakeInGameToken(MsgBeginUnstakeInGameToken) returns (MsgBeginUnstakeInGameTokenResponse);
   rpc ClaimInGameStakingReward(MsgClaimInGameStakingReward) returns (MsgClaimInGameStakingRewardResponse);
+  rpc AddLiquidity(MsgAddLiquidity) returns (MsgAddLiquidityResponse);
+  rpc RemoveLiquidity(MsgRemoveLiquidity) returns (MsgRemoveLiquidityResponse);
+  rpc Swap(MsgSwap) returns (MsgSwapResponse);
 }
 
 message MsgTransferModuleOwnership {
@@ -92,3 +95,21 @@ message MsgClaimInGameStakingReward {
   string sender = 1;
 }
 message MsgClaimInGameStakingRewardResponse {}
+
+message MsgAddLiquidity {
+  string sender = 1;
+  repeated cosmos.base.v1beta1.Coin amounts = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgAddLiquidityResponse {}
+
+message MsgRemoveLiquidity {
+  string sender = 1;
+  repeated cosmos.base.v1beta1.Coin amounts = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgRemoveLiquidityResponse {}
+
+message MsgSwap {
+  string sender = 1;
+  repeated cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgSwapResponse {}

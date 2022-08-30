@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "game/params.proto";
 import "game/game.proto";
+import "game/liquidity.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/cosmic-horizon/coho/x/game/types";
@@ -33,6 +34,9 @@ service Query {
   }
   rpc UserUnbondings(QueryUserUnbondingsRequest) returns (QueryUserUnbondingsResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/user_unbondings/{address}";
+  }
+  rpc Liquidity(QueryLiquidityRequest) returns (QueryLiquidityResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/liquidity";
   }
 }
 
@@ -78,4 +82,9 @@ message QueryUserUnbondingsRequest {
 }
 message QueryUserUnbondingsResponse {
   repeated Unbonding unbondings = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryLiquidityRequest {}
+message QueryLiquidityResponse {
+  Liquidity liquidity = 1 [ (gogoproto.nullable) = false ];
 }
