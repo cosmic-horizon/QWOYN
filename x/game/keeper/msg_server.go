@@ -287,27 +287,27 @@ func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return nil, err
 	}
 
+	// deposit coins into module and increase liquidity
 	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
 	if err != nil {
 		return nil, err
 	}
 
-	liquidity := m.Keeper.GetLiquidity(ctx)
-	if len(liquidity.Amounts) != 2 {
-		return nil, types.ErrLiquidityShouldHoldTwoTokens
+	m.Keeper.IncreaseLiquidity(ctx, sdk.Coins{msg.Amount})
+
+	// withdraw coins from module and decrease liquidity
+	tarCoin, err := m.Keeper.SwapOutAmount(ctx, msg.Amount)
+	if err != nil {
+		return nil, err
 	}
 
-	srcLiq := liquidity.Amounts[0]
-	tarLiq := liquidity.Amounts[1]
-	if liquidity.Amounts[1].Denom == msg.Amount.Denom {
-		srcLiq = liquidity.Amounts[1]
-		tarLiq = liquidity.Amounts[0]
-	}
-
-	constantK := srcLiq.Amount.Mul(tarLiq.Amount)
-	tarAmount := constantK.Quo(msg.Amount.Amount)
-	tarCoins := sdk.Coins{sdk.NewCoin(tarLiq.Denom, tarAmount)}
+	tarCoins := sdk.Coins{tarCoin}
 	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, tarCoins)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.DecreaseLiquidity(ctx, tarCoins)
 	if err != nil {
 		return nil, err
 	}
