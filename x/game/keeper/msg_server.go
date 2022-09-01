@@ -234,8 +234,22 @@ func (m msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidit
 		return nil, err
 	}
 
-	_, _ = ctx, sender
-	// TODO: check if module admin
+	params := m.GetParamSet(ctx)
+	if msg.Sender != params.Owner {
+		return nil, types.ErrNotModuleOwner
+	}
+
+	m.Keeper.IncreaseLiquidity(ctx, msg.Amounts)
+	liquidity := m.Keeper.GetLiquidity(ctx)
+	if len(liquidity.Amounts) != 2 {
+		return nil, types.ErrLiquidityShouldHoldTwoTokens
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, msg.Amounts)
+	if err != nil {
+		return nil, err
+	}
+
 	return &types.MsgAddLiquidityResponse{}, nil
 }
 
@@ -247,8 +261,20 @@ func (m msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 		return nil, err
 	}
 
-	_, _ = ctx, sender
-	// TODO: check if module admin
+	params := m.GetParamSet(ctx)
+	if msg.Sender != params.Owner {
+		return nil, types.ErrNotModuleOwner
+	}
+
+	err = m.Keeper.DecreaseLiquidity(ctx, msg.Amounts)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, msg.Amounts)
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgRemoveLiquidityResponse{}, nil
 }
@@ -261,6 +287,30 @@ func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return nil, err
 	}
 
-	_, _ = ctx, sender
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	liquidity := m.Keeper.GetLiquidity(ctx)
+	if len(liquidity.Amounts) != 2 {
+		return nil, types.ErrLiquidityShouldHoldTwoTokens
+	}
+
+	srcLiq := liquidity.Amounts[0]
+	tarLiq := liquidity.Amounts[1]
+	if liquidity.Amounts[1].Denom == msg.Amount.Denom {
+		srcLiq = liquidity.Amounts[1]
+		tarLiq = liquidity.Amounts[0]
+	}
+
+	constantK := srcLiq.Amount.Mul(tarLiq.Amount)
+	tarAmount := constantK.Quo(msg.Amount.Amount)
+	tarCoins := sdk.Coins{sdk.NewCoin(tarLiq.Denom, tarAmount)}
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, tarCoins)
+	if err != nil {
+		return nil, err
+	}
+
 	return &types.MsgSwapResponse{}, nil
 }

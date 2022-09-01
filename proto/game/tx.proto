@@ -110,6 +110,6 @@ message MsgRemoveLiquidityResponse {}
 
 message MsgSwap {
   string sender = 1;
-  repeated cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
 }
 message MsgSwapResponse {}

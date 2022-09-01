@@ -20,4 +20,5 @@ var (
 	ErrInsufficientStakingAmount        = sdkerrors.Register(ModuleName, 10, "insufficient staking amount")
 	ErrInsufficientUnbondingAmount      = sdkerrors.Register(ModuleName, 11, "insufficient unbonding amount")
 	ErrInsufficientLiquidityAmount      = sdkerrors.Register(ModuleName, 12, "insufficient liquidity amount")
+	ErrLiquidityShouldHoldTwoTokens     = sdkerrors.Register(ModuleName, 13, "liquidity should hold two tokens")
 )

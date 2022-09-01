@@ -38,8 +38,8 @@ service Query {
   rpc Liquidity(QueryLiquidityRequest) returns (QueryLiquidityResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/liquidity";
   }
-  rpc EstimatedSwapResult(QueryEstimatedSwapResultRequest) returns (QueryEstimatedSwapResultResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/estimated_swap_result/{amount}";
+  rpc EstimatedSwapOut(QueryEstimatedSwapOutRequest) returns (QueryEstimatedSwapOutResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/estimated_swap_out/{amount}";
   }
   rpc SwapRate(QuerySwapRateRequest) returns (QuerySwapRateResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/swap_rate";
@@ -95,10 +95,10 @@ message QueryLiquidityResponse {
   Liquidity liquidity = 1 [ (gogoproto.nullable) = false ];
 }
 
-message QueryEstimatedSwapResultRequest {
+message QueryEstimatedSwapOutRequest {
   string amount = 1;
 }
-message QueryEstimatedSwapResultResponse {
+message QueryEstimatedSwapOutResponse {
   cosmos.base.v1beta1.Coin amount = 1 [ (gogoproto.nullable) = false ];
 }
 
@@ -109,4 +109,6 @@ message QuerySwapRateResponse {
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
     (gogoproto.nullable) = false
   ];
+  string src_denom = 2;
+  string tar_denom = 3;
 }

@@ -43,3 +43,21 @@ func (k Keeper) DecreaseLiquidity(ctx sdk.Context, amounts sdk.Coins) error {
 	k.SetLiquidity(ctx, liquidity)
 	return nil
 }
+
+func (k Keeper) SwapOutAmount(ctx sdk.Context, amount sdk.Coin) (sdk.Coin, error) {
+	liquidity := k.GetLiquidity(ctx)
+	if len(liquidity.Amounts) != 2 {
+		return sdk.Coin{}, types.ErrLiquidityShouldHoldTwoTokens
+	}
+
+	srcLiq := liquidity.Amounts[0]
+	tarLiq := liquidity.Amounts[1]
+	if liquidity.Amounts[1].Denom == amount.Denom {
+		srcLiq = liquidity.Amounts[1]
+		tarLiq = liquidity.Amounts[0]
+	}
+
+	constantK := srcLiq.Amount.Mul(tarLiq.Amount)
+	tarAmount := constantK.Quo(amount.Amount)
+	return sdk.NewCoin(tarLiq.Denom, tarAmount), nil
+}
