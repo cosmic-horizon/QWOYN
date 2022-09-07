@@ -6,6 +6,7 @@ import (
 	"github.com/cosmic-horizon/coho/x/game/keeper"
 	"github.com/cosmic-horizon/coho/x/game/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 )
 
@@ -227,4 +228,274 @@ func (suite *KeeperTestSuite) TestMsgServerBeginUnstakeInGameToken() {
 		CompletionTime: suite.ctx.BlockTime().UTC().Add(params.UnstakingTime),
 		Amount:         sdk.NewInt(500),
 	})
+}
+
+func (suite *KeeperTestSuite) TestMsgServerAddLiquidity() {
+	moduleOwner := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
+	addr1 := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
+
+	for _, tc := range []struct {
+		desc     string
+		executor sdk.AccAddress
+		balance  sdk.Coins
+		deposit  sdk.Coins
+		expPass  bool
+	}{
+		{
+			desc:     "ensure owner to add liquidity",
+			executor: addr1,
+			balance:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			deposit:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			expPass:  false,
+		},
+		{
+			desc:     "not enough balance",
+			executor: moduleOwner,
+			balance:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 100), sdk.NewInt64Coin("ucoho", 100)},
+			deposit:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			expPass:  false,
+		},
+		{
+			desc:     "1 coin deposit",
+			executor: moduleOwner,
+			balance:  sdk.Coins{sdk.NewInt64Coin("vvv", 1000)},
+			deposit:  sdk.Coins{sdk.NewInt64Coin("vvv", 1000)},
+			expPass:  false,
+		},
+		{
+			desc:     "3 coins deposit",
+			executor: moduleOwner,
+			balance:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000), sdk.NewInt64Coin("zzz", 1000)},
+			deposit:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000), sdk.NewInt64Coin("zzz", 1000)},
+			expPass:  false,
+		},
+		{
+			desc:     "successful deposit",
+			executor: moduleOwner,
+			balance:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			deposit:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			expPass:  true,
+		},
+	} {
+		suite.Run(tc.desc, func() {
+			suite.SetupTest()
+			now := time.Now().UTC()
+			suite.ctx = suite.ctx.WithBlockTime(now)
+
+			params := suite.app.GameKeeper.GetParamSet(suite.ctx)
+			params.Owner = moduleOwner.String()
+			suite.app.GameKeeper.SetParamSet(suite.ctx, params)
+
+			// allocate coins to executor
+			err := suite.app.BankKeeper.MintCoins(suite.ctx, minttypes.ModuleName, tc.balance)
+			suite.Require().NoError(err)
+			err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, minttypes.ModuleName, tc.executor, tc.balance)
+			suite.Require().NoError(err)
+
+			// execute liquidity addition
+			msgServer := keeper.NewMsgServerImpl(suite.app.GameKeeper)
+			_, err = msgServer.AddLiquidity(sdk.WrapSDKContext(suite.ctx), &types.MsgAddLiquidity{
+				Sender:  tc.executor.String(),
+				Amounts: tc.deposit,
+			})
+
+			if tc.expPass {
+				suite.Require().NoError(err)
+
+				// check liquidity is increased by correct amount
+				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
+				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), tc.deposit.String())
+
+				// check coin movement by correct amount
+				bal := suite.app.BankKeeper.GetAllBalances(suite.ctx, tc.executor)
+				suite.Require().Equal(bal.String(), tc.balance.Sub(tc.deposit).String())
+
+				// module address
+				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
+				bal = suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
+				suite.Require().Equal(bal.String(), tc.deposit.String())
+			} else {
+				suite.Require().Error(err)
+			}
+		})
+	}
+}
+
+func (suite *KeeperTestSuite) TestMsgServerRemoveLiquidity() {
+	moduleOwner := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
+	addr1 := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
+
+	for _, tc := range []struct {
+		desc      string
+		executor  sdk.AccAddress
+		liquidity sdk.Coins
+		withdraw  sdk.Coins
+		expPass   bool
+	}{
+		{
+			desc:      "ensure owner to remove liquidity",
+			executor:  addr1,
+			liquidity: sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			withdraw:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			expPass:   false,
+		},
+		{
+			desc:      "withdrawing more than existing liquidity",
+			executor:  moduleOwner,
+			liquidity: sdk.Coins{sdk.NewInt64Coin("qwoyn", 100), sdk.NewInt64Coin("ucoho", 100)},
+			withdraw:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			expPass:   false,
+		},
+		{
+			desc:      "successful withdraw",
+			executor:  moduleOwner,
+			liquidity: sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			withdraw:  sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			expPass:   true,
+		},
+	} {
+		suite.Run(tc.desc, func() {
+			suite.SetupTest()
+			now := time.Now().UTC()
+			suite.ctx = suite.ctx.WithBlockTime(now)
+
+			params := suite.app.GameKeeper.GetParamSet(suite.ctx)
+			params.Owner = moduleOwner.String()
+			suite.app.GameKeeper.SetParamSet(suite.ctx, params)
+
+			// allocate coins to module owner
+			err := suite.app.BankKeeper.MintCoins(suite.ctx, minttypes.ModuleName, tc.liquidity)
+			suite.Require().NoError(err)
+			err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, minttypes.ModuleName, moduleOwner, tc.liquidity)
+			suite.Require().NoError(err)
+
+			// execute liquidity addition
+			msgServer := keeper.NewMsgServerImpl(suite.app.GameKeeper)
+			_, err = msgServer.AddLiquidity(sdk.WrapSDKContext(suite.ctx), &types.MsgAddLiquidity{
+				Sender:  moduleOwner.String(),
+				Amounts: tc.liquidity,
+			})
+			suite.Require().NoError(err)
+
+			// execute liquidity withdraw
+			_, err = msgServer.RemoveLiquidity(sdk.WrapSDKContext(suite.ctx), &types.MsgRemoveLiquidity{
+				Sender:  tc.executor.String(),
+				Amounts: tc.withdraw,
+			})
+
+			if tc.expPass {
+				suite.Require().NoError(err)
+
+				// check liquidity is decreased by correct amount
+				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
+				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), tc.liquidity.Sub(tc.withdraw).String())
+
+				// check coin movement by correct amount
+				bal := suite.app.BankKeeper.GetAllBalances(suite.ctx, tc.executor)
+				suite.Require().Equal(bal.String(), tc.withdraw.String())
+
+				// module address
+				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
+				bal = suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
+				suite.Require().Equal(bal.String(), tc.liquidity.Sub(tc.withdraw).String())
+			} else {
+				suite.Require().Error(err)
+			}
+		})
+	}
+}
+
+func (suite *KeeperTestSuite) TestMsgServerSwap() {
+	moduleOwner := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
+	addr1 := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
+
+	for _, tc := range []struct {
+		desc         string
+		executor     sdk.AccAddress
+		liquidity    sdk.Coins
+		inAmount     sdk.Coin
+		expPass      bool
+		expOutAmount sdk.Coin
+	}{
+		{
+			desc:         "no liquidity available case",
+			executor:     addr1,
+			liquidity:    sdk.Coins{},
+			inAmount:     sdk.NewInt64Coin("qwoyn", 1000),
+			expPass:      false,
+			expOutAmount: sdk.NewInt64Coin("ucoho", 500),
+		},
+		{
+			desc:         "successful swap from qwoyn -> ucoho",
+			executor:     addr1,
+			liquidity:    sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			inAmount:     sdk.NewInt64Coin("qwoyn", 1000),
+			expPass:      true,
+			expOutAmount: sdk.NewInt64Coin("ucoho", 500),
+		},
+		{
+			desc:         "successful swap from ucoho -> qwoyn",
+			executor:     addr1,
+			liquidity:    sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			inAmount:     sdk.NewInt64Coin("ucoho", 1000),
+			expPass:      true,
+			expOutAmount: sdk.NewInt64Coin("qwoyn", 500),
+		},
+	} {
+		suite.Run(tc.desc, func() {
+			suite.SetupTest()
+			now := time.Now().UTC()
+			suite.ctx = suite.ctx.WithBlockTime(now)
+
+			params := suite.app.GameKeeper.GetParamSet(suite.ctx)
+			params.Owner = moduleOwner.String()
+			suite.app.GameKeeper.SetParamSet(suite.ctx, params)
+
+			// allocate coins to module owner
+			err := suite.app.BankKeeper.MintCoins(suite.ctx, minttypes.ModuleName, tc.liquidity)
+			suite.Require().NoError(err)
+			err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, minttypes.ModuleName, moduleOwner, tc.liquidity)
+			suite.Require().NoError(err)
+
+			// execute liquidity addition
+			msgServer := keeper.NewMsgServerImpl(suite.app.GameKeeper)
+			if tc.liquidity.String() != "" {
+				_, err = msgServer.AddLiquidity(sdk.WrapSDKContext(suite.ctx), &types.MsgAddLiquidity{
+					Sender:  moduleOwner.String(),
+					Amounts: tc.liquidity,
+				})
+				suite.Require().NoError(err)
+			}
+
+			// execute swap operation
+			err = suite.app.BankKeeper.MintCoins(suite.ctx, minttypes.ModuleName, sdk.Coins{tc.inAmount})
+			suite.Require().NoError(err)
+			err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, minttypes.ModuleName, tc.executor, sdk.Coins{tc.inAmount})
+			suite.Require().NoError(err)
+			_, err = msgServer.Swap(sdk.WrapSDKContext(suite.ctx), &types.MsgSwap{
+				Sender: tc.executor.String(),
+				Amount: tc.inAmount,
+			})
+
+			if tc.expPass {
+				suite.Require().NoError(err)
+
+				// check liquidity changes bi-directional by correct amount
+				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
+				expLiqRemaining := tc.liquidity.Add(tc.inAmount).Sub(sdk.Coins{tc.expOutAmount})
+				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), expLiqRemaining.String())
+
+				// check coin movement bi-directional by correct amount
+				bal := suite.app.BankKeeper.GetAllBalances(suite.ctx, tc.executor)
+				suite.Require().Equal(bal.String(), tc.expOutAmount.String())
+
+				// module address
+				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
+				bal = suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
+				suite.Require().Equal(bal.String(), expLiqRemaining.String())
+			} else {
+				suite.Require().Error(err)
+			}
+		})
+	}
 }

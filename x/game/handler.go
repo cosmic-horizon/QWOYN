@@ -32,6 +32,15 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgWithdrawUpdatedNft:
 			res, err := msgServer.WithdrawUpdatedNft(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgAddLiquidity:
+			res, err := msgServer.AddLiquidity(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgRemoveLiquidity:
+			res, err := msgServer.RemoveLiquidity(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgSwap:
+			res, err := msgServer.Swap(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
 		default:
 			errMsg := fmt.Sprintf("unrecognized %s message type: %T", types.ModuleName, msg)
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, errMsg)

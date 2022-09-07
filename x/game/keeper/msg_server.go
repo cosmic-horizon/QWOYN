@@ -293,8 +293,6 @@ func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return nil, err
 	}
 
-	m.Keeper.IncreaseLiquidity(ctx, sdk.Coins{msg.Amount})
-
 	// withdraw coins from module and decrease liquidity
 	tarCoin, err := m.Keeper.SwapOutAmount(ctx, msg.Amount)
 	if err != nil {
@@ -307,6 +305,7 @@ func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return nil, err
 	}
 
+	m.Keeper.IncreaseLiquidity(ctx, sdk.Coins{msg.Amount})
 	err = m.Keeper.DecreaseLiquidity(ctx, tarCoins)
 	if err != nil {
 		return nil, err

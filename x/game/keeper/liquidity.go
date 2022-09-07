@@ -57,8 +57,10 @@ func (k Keeper) SwapOutAmount(ctx sdk.Context, amount sdk.Coin) (sdk.Coin, error
 		tarLiq = liquidity.Amounts[0]
 	}
 
-	constantK := srcLiq.Amount.Mul(tarLiq.Amount)
-	tarLiqRemaining := constantK.Quo(srcLiq.Amount.Add(amount.Amount))
-	tarAmount := tarLiq.Amount.Sub(tarLiqRemaining)
+	srcLiqAmount := srcLiq.Amount
+	tarLiqAmount := tarLiq.Amount
+	constantK := srcLiqAmount.Mul(tarLiqAmount)
+	tarLiqRemaining := constantK.Quo(srcLiqAmount.Add(amount.Amount))
+	tarAmount := tarLiqAmount.Sub(tarLiqRemaining)
 	return sdk.NewCoin(tarLiq.Denom, tarAmount), nil
 }

@@ -28,6 +28,9 @@ func GetQueryCmd() *cobra.Command {
 		GetCmdAllDepositBalances(),
 		GetCmdUserUnbondings(),
 		GetCmdAllUnbondings(),
+		GetCmdQueryLiquidity(),
+		GetCmdQueryEstimatedSwapOut(),
+		GetCmdQuerySwapRate(),
 	)
 
 	return queryCmd
@@ -240,6 +243,101 @@ func GetCmdUserUnbondings() *cobra.Command {
 			res, err := queryClient.UserUnbondings(context.Background(), &types.QueryUserUnbondingsRequest{
 				Address: args[0],
 			})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdQueryLiquidity() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "liquidity [flags]",
+		Long: "Query total liquidity.",
+		Example: fmt.Sprintf(
+			`$ %s query game liquidity`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.Liquidity(context.Background(), &types.QueryLiquidityRequest{})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdQueryEstimatedSwapOut() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "estimated-swap-out [amount] [flags]",
+		Long: "Query estimated swap out.",
+		Example: fmt.Sprintf(
+			`$ %s query game estimated-swap-out 1000ucoho`, version.AppName),
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.EstimatedSwapOut(context.Background(), &types.QueryEstimatedSwapOutRequest{
+				Amount: args[0],
+			})
+
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdQuerySwapRate() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "swap-rate [flags]",
+		Long: "Query swap rate.",
+		Example: fmt.Sprintf(
+			`$ %s query game swap-rate`, version.AppName),
+		Args: cobra.ExactArgs(0),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.SwapRate(context.Background(), &types.QuerySwapRateRequest{})
 
 			if err != nil {
 				return err

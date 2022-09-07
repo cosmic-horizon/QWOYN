@@ -37,6 +37,9 @@ func GetTxCmd() *cobra.Command {
 		GetCmdStakeInGameToken(),
 		GetCmdBeginUnstakeInGameToken(),
 		GetCmdClaimInGameStakingReward(),
+		GetCmdAddLiquidity(),
+		GetCmdRemoveLiquidity(),
+		GetCmdSwap(),
 	)
 
 	return txCmd
@@ -447,6 +450,120 @@ func GetCmdClaimInGameStakingReward() *cobra.Command {
 
 			msg := types.NewMsgClaimInGameStakingReward(
 				clientCtx.GetFromAddress(),
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdAddLiquidity() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "add-liquidity [coins] [flags]",
+		Long: "Add liquidity by admin",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx add-liquidity 1000ucoho,10000qwoyn`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			amounts, err := sdk.ParseCoinsNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgAddLiquidity(
+				clientCtx.GetFromAddress(),
+				amounts,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdRemoveLiquidity() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "remove-liquidity [coins] [flags]",
+		Long: "Remove liquidity by admin",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx remove-liquidity 1000ucoho,10000qwoyn`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			amounts, err := sdk.ParseCoinsNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgRemoveLiquidity(
+				clientCtx.GetFromAddress(),
+				amounts,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdSwap() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "swap [coin] [flags]",
+		Long: "Swap coin to another coin",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx swap 1000ucoho`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			amount, err := sdk.ParseCoinNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgSwap(
+				clientCtx.GetFromAddress(),
+				amount,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
