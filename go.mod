@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/CosmWasm/wasmd v0.27.0
-	github.com/cosmos/cosmos-sdk v0.45.4
+	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/cosmos/ibc-go/v3 v3.0.0
 	github.com/dustin/go-humanize v1.0.1-0.20200219035652-afde56e7acac // indirect
 	github.com/gogo/protobuf v1.3.3
@@ -15,6 +15,7 @@ require (
 	github.com/onsi/gomega v1.18.1 // indirect
 	github.com/prometheus/client_golang v1.12.1
 	github.com/rakyll/statik v0.1.7
+	github.com/regen-network/cosmos-proto v0.3.1 // indirect
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.1
@@ -22,6 +23,7 @@ require (
 	github.com/tendermint/tm-db v0.6.7
 	google.golang.org/genproto v0.0.0-20220407144326-9054f6ed7bac
 	google.golang.org/grpc v1.45.0
+	google.golang.org/protobuf v1.28.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 

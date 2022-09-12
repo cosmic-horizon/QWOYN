@@ -1,0 +1,18 @@
+syntax = "proto3";
+package cosmichorizon.coho.game;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cosmic-horizon/coho/x/game/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+  string owner = 1;
+  string deposit_denom = 2;
+  uint64 staking_inflation = 3; // percentage
+  google.protobuf.Duration unstaking_time = 4 [(gogoproto.nullable) = false, (gogoproto.stdduration) = true];
+}

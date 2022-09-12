@@ -6,11 +6,12 @@ import (
 )
 
 const (
-	HumanCoinUnit = "COHO"
-	BaseCoinUnit  = "ucoho"
-	CohoDecimals  = 6
+	CohoDecimals = 6
 
-	DefaultBondDenom = BaseCoinUnit
+	HumanGameCoinUnit = "COHO"
+	GameCoinUnit      = "ucoho"
+	HumanBondCoin     = "QWOYN"
+	BondDenom         = "uqwoyn"
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address
 	Bech32PrefixAccAddr = "coho"
@@ -31,18 +32,6 @@ var (
 
 func init() {
 	SetAddressPrefixes()
-	RegisterDenoms()
-}
-
-func RegisterDenoms() {
-	err := sdk.RegisterDenom(HumanCoinUnit, sdk.OneDec())
-	if err != nil {
-		panic(err)
-	}
-	err = sdk.RegisterDenom(BaseCoinUnit, sdk.NewDecWithPrec(1, CohoDecimals))
-	if err != nil {
-		panic(err)
-	}
 }
 
 func SetAddressPrefixes() {

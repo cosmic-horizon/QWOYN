@@ -99,6 +99,10 @@ import (
 	cohomodulekeeper "github.com/cosmic-horizon/coho/x/coho/keeper"
 	cohomoduletypes "github.com/cosmic-horizon/coho/x/coho/types"
 
+	"github.com/cosmic-horizon/coho/x/game"
+	gamekeeper "github.com/cosmic-horizon/coho/x/game/keeper"
+	gametypes "github.com/cosmic-horizon/coho/x/game/types"
+
 	appparams "github.com/cosmic-horizon/coho/app/params"
 
 	"github.com/CosmWasm/wasmd/x/wasm"
@@ -190,6 +194,7 @@ var (
 		vesting.AppModuleBasic{},
 		wasm.AppModuleBasic{},
 		cohomodule.AppModuleBasic{},
+		game.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -202,6 +207,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		wasm.ModuleName:                {authtypes.Burner},
+		gametypes.ModuleName:           {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -262,6 +268,7 @@ type App struct {
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
 
 	CohoKeeper cohomodulekeeper.Keeper
+	GameKeeper gamekeeper.Keeper
 
 	// mm is the module manager
 	mm *module.Manager
@@ -300,6 +307,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		wasm.StoreKey,
 		cohomoduletypes.StoreKey,
+		gametypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -458,7 +466,16 @@ func New(
 		keys[cohomoduletypes.MemStoreKey],
 		app.GetSubspace(cohomoduletypes.ModuleName),
 	)
-	cohoModule := cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper)
+	app.GameKeeper = *gamekeeper.NewKeeper(
+		appCodec,
+		keys[gametypes.StoreKey],
+		keys[gametypes.MemStoreKey],
+		app.GetSubspace(gametypes.ModuleName),
+		wasmkeeper.NewDefaultPermissionKeeper(app.wasmKeeper),
+		app.wasmKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+	)
 
 	/****  Module Options ****/
 
@@ -492,7 +509,8 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.wasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
-		cohoModule,
+		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -512,6 +530,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		cohomoduletypes.ModuleName,
+		gametypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(
@@ -525,6 +544,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		cohomoduletypes.ModuleName,
+		gametypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -553,6 +573,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		cohomoduletypes.ModuleName,
+		gametypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -576,7 +597,8 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.wasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
-		cohoModule,
+		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 	app.sm.RegisterStoreDecoders()
 
@@ -790,6 +812,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(cohomoduletypes.ModuleName)
+	paramsKeeper.Subspace(gametypes.ModuleName)
 	paramsKeeper.Subspace(wasm.ModuleName)
 
 	return paramsKeeper
