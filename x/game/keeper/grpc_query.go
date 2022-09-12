@@ -96,3 +96,57 @@ func (k Keeper) UserUnbondings(c context.Context, req *types.QueryUserUnbondings
 		Unbondings: k.GetUserUnbondings(ctx, addr),
 	}, nil
 }
+
+func (k Keeper) Liquidity(c context.Context, req *types.QueryLiquidityRequest) (*types.QueryLiquidityResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	return &types.QueryLiquidityResponse{
+		Liquidity: k.GetLiquidity(ctx),
+	}, nil
+}
+
+func (k Keeper) EstimatedSwapOut(c context.Context, req *types.QueryEstimatedSwapOutRequest) (*types.QueryEstimatedSwapOutResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	coin, err := sdk.ParseCoinNormalized(req.Amount)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	outAmount, err := k.SwapOutAmount(ctx, coin)
+	if err != nil {
+		return nil, err
+	}
+	return &types.QueryEstimatedSwapOutResponse{
+		Amount: outAmount,
+	}, nil
+}
+
+func (k Keeper) SwapRate(c context.Context, req *types.QuerySwapRateRequest) (*types.QuerySwapRateResponse, error) {
+	if req == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	liquidity := k.GetLiquidity(ctx)
+	if len(liquidity.Amounts) != 2 {
+		return nil, types.ErrLiquidityShouldHoldTwoTokens
+	}
+
+	srcLiq := liquidity.Amounts[0]
+	tarLiq := liquidity.Amounts[1]
+
+	rate := tarLiq.Amount.ToDec().Quo(srcLiq.Amount.ToDec())
+
+	return &types.QuerySwapRateResponse{
+		Rate:     rate,
+		SrcDenom: srcLiq.Denom,
+		TarDenom: tarLiq.Denom,
+	}, nil
+}

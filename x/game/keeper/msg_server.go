@@ -225,3 +225,91 @@ func (m msgServer) ClaimInGameStakingReward(goCtx context.Context, msg *types.Ms
 
 	return &types.MsgClaimInGameStakingRewardResponse{}, nil
 }
+
+func (m msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidity) (*types.MsgAddLiquidityResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	params := m.GetParamSet(ctx)
+	if msg.Sender != params.Owner {
+		return nil, types.ErrNotModuleOwner
+	}
+
+	m.Keeper.IncreaseLiquidity(ctx, msg.Amounts)
+	liquidity := m.Keeper.GetLiquidity(ctx)
+	if len(liquidity.Amounts) != 2 {
+		return nil, types.ErrLiquidityShouldHoldTwoTokens
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, msg.Amounts)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.MsgAddLiquidityResponse{}, nil
+}
+
+func (m msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLiquidity) (*types.MsgRemoveLiquidityResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	params := m.GetParamSet(ctx)
+	if msg.Sender != params.Owner {
+		return nil, types.ErrNotModuleOwner
+	}
+
+	err = m.Keeper.DecreaseLiquidity(ctx, msg.Amounts)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, msg.Amounts)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.MsgRemoveLiquidityResponse{}, nil
+}
+
+func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSwapResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	// deposit coins into module and increase liquidity
+	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	// withdraw coins from module and decrease liquidity
+	tarCoin, err := m.Keeper.SwapOutAmount(ctx, msg.Amount)
+	if err != nil {
+		return nil, err
+	}
+
+	tarCoins := sdk.Coins{tarCoin}
+	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, tarCoins)
+	if err != nil {
+		return nil, err
+	}
+
+	m.Keeper.IncreaseLiquidity(ctx, sdk.Coins{msg.Amount})
+	err = m.Keeper.DecreaseLiquidity(ctx, tarCoins)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.MsgSwapResponse{}, nil
+}

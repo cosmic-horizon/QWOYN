@@ -313,3 +313,84 @@ func (msg MsgClaimInGameStakingReward) GetSigners() []sdk.AccAddress {
 	}
 	return []sdk.AccAddress{sender}
 }
+
+var _ sdk.Msg = &MsgAddLiquidity{}
+
+func NewMsgAddLiquidity(sender sdk.AccAddress, amounts sdk.Coins) *MsgAddLiquidity {
+	return &MsgAddLiquidity{
+		Sender:  sender.String(),
+		Amounts: amounts,
+	}
+}
+
+func (msg MsgAddLiquidity) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgAddLiquidity) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}
+
+var _ sdk.Msg = &MsgRemoveLiquidity{}
+
+func NewMsgRemoveLiquidity(sender sdk.AccAddress, amounts sdk.Coins) *MsgRemoveLiquidity {
+	return &MsgRemoveLiquidity{
+		Sender:  sender.String(),
+		Amounts: amounts,
+	}
+}
+
+func (msg MsgRemoveLiquidity) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgRemoveLiquidity) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}
+
+var _ sdk.Msg = &MsgSwap{}
+
+func NewMsgSwap(sender sdk.AccAddress, amount sdk.Coin) *MsgSwap {
+	return &MsgSwap{
+		Sender: sender.String(),
+		Amount: amount,
+	}
+}
+
+func (msg MsgSwap) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgSwap) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}

@@ -35,6 +35,7 @@ var (
 	PrefixInGameUnbondingUserKey = []byte{0x04}
 	PrefixInGameUnbondingTimeKey = []byte{0x05}
 	KeyLastUnbondingIndex        = []byte{0x06}
+	KeyLiquidity                 = []byte{0x07}
 )
 
 func AccountDepositKey(addr sdk.AccAddress) []byte {

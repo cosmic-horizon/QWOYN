@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "game/params.proto";
 import "game/game.proto";
+import "game/liquidity.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/cosmic-horizon/coho/x/game/types";
@@ -33,6 +34,15 @@ service Query {
   }
   rpc UserUnbondings(QueryUserUnbondingsRequest) returns (QueryUserUnbondingsResponse) {
     option (google.api.http).get = "/cosmichorizon/coho/game/user_unbondings/{address}";
+  }
+  rpc Liquidity(QueryLiquidityRequest) returns (QueryLiquidityResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/liquidity";
+  }
+  rpc EstimatedSwapOut(QueryEstimatedSwapOutRequest) returns (QueryEstimatedSwapOutResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/estimated_swap_out/{amount}";
+  }
+  rpc SwapRate(QuerySwapRateRequest) returns (QuerySwapRateResponse) {
+    option (google.api.http).get = "/cosmichorizon/coho/game/swap_rate";
   }
 }
 
@@ -78,4 +88,27 @@ message QueryUserUnbondingsRequest {
 }
 message QueryUserUnbondingsResponse {
   repeated Unbonding unbondings = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryLiquidityRequest {}
+message QueryLiquidityResponse {
+  Liquidity liquidity = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryEstimatedSwapOutRequest {
+  string amount = 1;
+}
+message QueryEstimatedSwapOutResponse {
+  cosmos.base.v1beta1.Coin amount = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QuerySwapRateRequest {}
+message QuerySwapRateResponse {
+  string rate = 1 [
+    (gogoproto.moretags) = "yaml:\"rate\"",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false
+  ];
+  string src_denom = 2;
+  string tar_denom = 3;
 }
