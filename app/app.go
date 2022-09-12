@@ -197,6 +197,7 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
+		wasm.AppModuleBasic{},
 		cohomodule.AppModuleBasic{},
 		game.AppModuleBasic{},
 	)
@@ -270,6 +271,9 @@ type App struct {
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
+	wasmKeeper       wasm.Keeper
+	scopedWasmKeeper capabilitykeeper.ScopedKeeper
+
 	CohoKeeper cohomodulekeeper.Keeper
 	GameKeeper gamekeeper.Keeper
 
@@ -308,6 +312,7 @@ func New(
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey,
 		feegrant.StoreKey, authzkeeper.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		wasm.StoreKey,
 		cohomoduletypes.StoreKey,
 		gametypes.StoreKey,
 	)
@@ -336,6 +341,8 @@ func New(
 	// grant capabilities for the ibc and ibc-transfer modules
 	scopedIBCKeeper := app.CapabilityKeeper.ScopeToModule(ibchost.ModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
+	scopedICAHostKeeper := app.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
+	scopedWasmKeeper := app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
 
 	// add keepers
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
@@ -463,6 +470,7 @@ func New(
 	}
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := porttypes.NewRouter()
+	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule)
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
 	ibcRouter.AddRoute(wasm.ModuleName, wasm.NewIBCHandler(app.wasmKeeper, app.IBCKeeper.ChannelKeeper))
 	app.IBCKeeper.SetRouter(ibcRouter)
@@ -478,13 +486,18 @@ func New(
 		keys[cohomoduletypes.MemStoreKey],
 		app.GetSubspace(cohomoduletypes.ModuleName),
 	)
+	app.GameKeeper = *gamekeeper.NewKeeper(
+		appCodec,
+		keys[gametypes.StoreKey],
+		keys[gametypes.MemStoreKey],
+		app.GetSubspace(gametypes.ModuleName),
+		wasmkeeper.NewDefaultPermissionKeeper(app.wasmKeeper),
+		app.wasmKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+	)
+
 	cohoModule := cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper)
-
-	// Create static IBC router, add transfer route, then set and seal it
-	ibcRouter := porttypes.NewRouter()
-	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
-
-	app.IBCKeeper.SetRouter(ibcRouter)
 
 	/****  Module Options ****/
 
@@ -517,7 +530,11 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
+		icaModule,
 		cohoModule,
+		wasm.NewAppModule(appCodec, &app.wasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
+		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
