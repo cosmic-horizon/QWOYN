@@ -497,8 +497,6 @@ func New(
 		app.BankKeeper,
 	)
 
-	cohoModule := cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper)
-
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
@@ -531,7 +529,6 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
 		icaModule,
-		cohoModule,
 		wasm.NewAppModule(appCodec, &app.wasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
