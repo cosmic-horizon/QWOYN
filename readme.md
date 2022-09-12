@@ -55,3 +55,9 @@ git clone https://github.com/cosmic-horizon/coho.git
 cd coho
 make install
 ```
+
+## Testnet generation
+
+```
+cohod testnet --keyring-backend=test --chain-id="qwoyn-1" --v 4 --output-dir ./testnet --starting-ip-address 192.168.10.2
+```
