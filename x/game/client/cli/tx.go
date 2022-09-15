@@ -237,7 +237,7 @@ func GetCmdSignWithdrawUpdatedNft() *cobra.Command {
 
 func GetCmdWithdrawUpdatedNft() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "withdraw-updated-nft [contract] [tokenId] [execMsg] [flags]",
+		Use:  "withdraw-updated-nft [contract] [tokenId] [execMsg] [signature] [flags]",
 		Long: "Withdraw updated nft",
 		Args: cobra.ExactArgs(4),
 		Example: fmt.Sprintf(
@@ -435,7 +435,7 @@ func GetCmdBeginUnstakeInGameToken() *cobra.Command {
 
 func GetCmdClaimInGameStakingReward() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "claim-ingame-staking-reward [coin] [flags]",
+		Use:  "claim-ingame-staking-reward [flags]",
 		Long: "Claim ingame staking reward",
 		Args: cobra.ExactArgs(0),
 		Example: fmt.Sprintf(

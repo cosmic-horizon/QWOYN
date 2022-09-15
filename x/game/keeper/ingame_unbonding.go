@@ -56,7 +56,7 @@ func (k Keeper) GetUserUnbondings(ctx sdk.Context, addr sdk.AccAddress) []types.
 	store := ctx.KVStore(k.storeKey)
 
 	unbondings := []types.Unbonding{}
-	it := store.Iterator(types.PrefixInGameUnbondingTimeKey, sdk.InclusiveEndBytes(types.InGameUnbondingUserPrefixKey(addr)))
+	it := sdk.KVStorePrefixIterator(store, types.InGameUnbondingUserPrefixKey(addr))
 	defer it.Close()
 
 	for ; it.Valid(); it.Next() {

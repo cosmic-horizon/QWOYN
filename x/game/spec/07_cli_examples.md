@@ -39,11 +39,20 @@ cohod query wasm contract-state smart coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcm
 # game module address
 # coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk
 
+# add signer
+cohod keys add signer --keyring-backend=test --home=$HOME/.cohod --recover
+# pipe woman clutch absorb lonely cost credit math antique better thumb cook pave clarify hungry east garbage absent warfare song helmet anchor drift purity
+
+cohod tx bank send validator $(cohod keys show -a signer --keyring-backend=test --home=$HOME/.cohod) 1000000stake --keyring-backend=test --home=$HOME/.cohod --broadcast-mode=block -y --chain-id=qwoyn-1
+
+# upload wasm
+cohod tx wasm store ./artifacts/ship_nft.wasm --from validator --chain-id qwoyn-1 --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ -y
+
 # instantiate ship nft with module account owned
-cohod tx wasm instantiate 1 '{"name":"Ship NFT","symbol":"SHIP","minter":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk","owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk"}' --from validator --label "Ship-NFT" --chain-id test --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ --no-admin -y
+cohod tx wasm instantiate 1 '{"name":"Ship NFT","symbol":"SHIP","minter":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk","owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk"}' --from validator --label "Ship-NFT" --chain-id qwoyn-1 --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ --no-admin -y
 
 # transfer nft update ownership to module account - when owner is set to different account
-cohod tx wasm execute coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc '{"transfer_ownership":{"owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk"}}' --from signer --chain-id test --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ -y
+cohod tx wasm execute coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc '{"transfer_ownership":{"owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk"}}' --from signer --chain-id qwoyn-1 --gas auto --gas-adjustment 1.3 -b block --keyring-backend=test --home=$HOME/.cohod/ -y
 
 
 cohod tx game sign-withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 '{"update_nft":{"token_id":"1","extension":{"ship_type":67,"owner":"200"}}}' --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/

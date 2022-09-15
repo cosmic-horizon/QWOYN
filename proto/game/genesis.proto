@@ -6,6 +6,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "game/params.proto";
 import "game/game.proto";
+import "game/liquidity.proto";
 
 option go_package = "github.com/cosmic-horizon/coho/x/game/types";
 
@@ -16,4 +17,5 @@ message GenesisState {
   repeated string whitelisted_contracts = 3;
   repeated Unbonding unbondings = 4 [ (gogoproto.nullable) = false ];
   uint64 last_unbonding_id = 5;
+  Liquidity liquidity = 6 [ (gogoproto.nullable) = false ];
 }
