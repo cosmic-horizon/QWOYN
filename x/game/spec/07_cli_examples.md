@@ -30,6 +30,9 @@ cohod tx game claim-ingame-staking-reward --from=validator --chain-id=qwoyn-1 --
 # whitelist contract
 cohod tx game whitelist-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 
+# remove whitelisted contract
+cohod tx game remove-whitelisted-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+
 # deposit nft from end wallet to game
 cohod tx game deposit-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 
@@ -59,12 +62,19 @@ cohod tx game sign-withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrv
 
 cohod tx game withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 '{"update_nft":{"token_id":"1","extension":{"ship_type":67,"owner":"200"}}}' 42d6e9d3b62ffc9b0bc3f6a97cbc0857af1c7a7aa57549571d7bc72415a955d978a1790440ce53c8f9fbfa2ce70d967812eda6094d6f112d7e5736170e48e2a8 --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block --gas=400000
 
-cohod tx game withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 2 '{"mint":{"token_id":"2","owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk","extension":{"ship_type":12,"owner":"300"}}}' --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+cohod tx game withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 2 '{"mint":{"token_id":"2","owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk","extension":{"ship_type":12,"owner":"300"}}}' 6a859feb353f0c49b9316cf871738f6d21a14320edb4817cdbfbcab7c6434cb10ab1b8debd61109c3726872d19b8090c7e3ae3c2cf87fe69de3533fe92127251 --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block --gas=300000
+
+cohod tx game sign-withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 2 '{"mint":{"token_id":"2","owner":"coho1djju4dm7wqk8s76vzjea80exht2rmfsxjx47wk","extension":{"ship_type":12,"owner":"300"}}}' --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 
 # send tokens to admin to add liquidity
 cohod tx bank send validator $(cohod keys show -a signer --keyring-backend=test) 1000000ucoho,1000000uqwoyn --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 # add liquidity
 cohod tx game add-liquidity 1000000ucoho,1000000uqwoyn --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+# remove liquidity
+cohod tx game remove-liquidity 10000ucoho,10000uqwoyn --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 
 cohod tx game swap 10000ucoho --from=validator --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
+
+# transfer module ownership
+cohod tx game transfer-module-ownership $(cohod keys show -a signer --keyring-backend=test) --from=signer --chain-id=qwoyn-1 --keyring-backend=test --home=$HOME/.cohod/ -y --broadcast-mode=block
 ```
