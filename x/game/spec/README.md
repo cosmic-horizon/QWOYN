@@ -1,32 +1,42 @@
-# In-game items / funds manager module
+<!--
+order: 0
+title: Game Module Overview
+parent:
+  title: "game"
+-->
 
-## module accounts
+# `game`
 
-- `active_use` module account
-  - Permanantly linked to Avatar
-  - Enabled and Disabled at specific locations ie. Cryo chamber, Shipyard, Bank
-  - Avatar can use any items and funds on this module account.
-  - Everything is managed off-chain for tokens and nfts put in `active_use` vault.
-  - Planets only exist in `active_use` account
-- `sales_use` module account
-  - items for sale will be stored in this account
-  - user cannot cancel sale
-  - creates nft(deed) tied to items for sale
-  - deed can then be transferred to end wallet
-- `starports` accounts: these accounts will get coho rewards, and it's switched to sagans
-- `retirement_account` interchain account which retires credits on behalf of the player
+## Abstract
 
-## functions
+This module provides interface for game tokens and nfts deposit, withdrawal and token liquidity/swap operations.
+Goal of the module is to manage in game items and tokens securely on-chain.
 
-- deposit item
-- deposit funds
-- withdraw item (items are changed during the game execution)
-- claim new item earned during the game
-- withdraw funds
+## Contents
 
-All of the withdraw functionalities should have signature from game manager account.
-There could be multiple game manager for security.
-
-## thoughts
-
-- In game funds can be staked for staking rewards? Yes. Sagans will be put in banks and the interest from storing your sagans in the banks will provide the staking rewards/inflation.
+1. **[State](01_state.md)**
+   - [Game tokens](01_state.md#game-tokens)
+   - [Liquidity](01_state.md#liquidity)
+   - [Game nfts](01_state.md#params)
+   - [Params](01_state.md#params)
+2. **[Messages](02_messages.md)**
+   - [MsgTransferModuleOwnership](02_messages.md#msgtransfermoduleownership)
+   - [MsgWhitelistNftContracts](02_messages.md#msgwhitelistnftcontracts)
+   - [MsgRemoveWhitelistedNftContracts](02_messages.md#msgremovewhitelistednftcontracts)
+   - [MsgDepositNft](02_messages.md#msgdepositnft)
+   - [MsgWithdrawUpdatedNft](02_messages.md#msgwithdrawupdatednft)
+   - [MsgDepositToken](02_messages.md#msgdeposittoken)
+   - [MsgWithdrawToken](02_messages.md#msgwithdrawtoken)
+   - [MsgStakeInGameToken](02_messages.md#msgstakeingametoken)
+   - [MsgBeginUnstakeInGameToken](02_messages.md#msgbeginunstakeingametoken)
+   - [MsgClaimInGameStakingReward](02_messages.md#msgclaimingamestakingreward)
+   - [MsgAddLiquidity](02_messages.md#msgaddliquidity)
+   - [MsgRemoveLiquidity](02_messages.md#msgremoveliquidity)
+   - [MsgSwap](02_messages.md#msgswap)
+3. **[End-Block](03_end_block.md)**
+   - [Unbonding queue](03_end_block.md#unbonding-queue)
+4. **[Events](04_events.md)**
+   - [EndBlocker](07_events.md#endblocker)
+   - [Msg's](07_events.md#msg's)
+5. **[Parameters](05_params.md)**
+6. **[Client](06_client.md)**

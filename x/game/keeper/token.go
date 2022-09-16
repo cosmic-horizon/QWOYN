@@ -139,5 +139,12 @@ func (k Keeper) ClaimInGameStakingReward(ctx sdk.Context, addr sdk.AccAddress) e
 	deposit.RewardClaimTime = ctx.BlockTime()
 	k.SetDeposit(ctx, deposit)
 
+	// emit event
+	ctx.EventManager().EmitTypedEvent(&types.EventClaimInGameStakingReward{
+		Sender:          addr.String(),
+		Amount:          rewardAmount.String(),
+		RewardClaimTime: uint64(ctx.BlockTime().Unix()),
+	})
+
 	return nil
 }

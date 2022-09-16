@@ -66,8 +66,15 @@ func (k Keeper) AllDepositBalance(c context.Context, req *types.QueryAllDepositB
 	}
 
 	ctx := sdk.UnwrapSDKContext(c)
+	params := k.GetParamSet(ctx)
+	deposits := k.GetAllDeposits(ctx)
+	amount := sdk.ZeroInt()
+	for _, deposit := range deposits {
+		amount = amount.Add(deposit.Amount)
+	}
 	return &types.QueryAllDepositBalanceResponse{
-		Deposits: k.GetAllDeposits(ctx),
+		Deposits: deposits,
+		Amount:   sdk.NewCoin(params.DepositDenom, amount),
 	}, nil
 }
 

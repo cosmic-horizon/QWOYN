@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"github.com/cosmic-horizon/coho/x/game/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -20,5 +21,13 @@ func (k Keeper) EndBlocker(ctx sdk.Context) {
 			continue
 		}
 		k.DeleteUnbonding(ctx, unbonding)
+
+		// emit event
+		ctx.EventManager().EmitTypedEvent(&types.EventCompleteUnstakeInGameToken{
+			User:           unbonding.StakerAddress,
+			Amount:         unbonding.Amount.String(),
+			CompletionTime: uint64(ctx.BlockTime().Unix()),
+			UnbondingId:    unbonding.Id,
+		})
 	}
 }
