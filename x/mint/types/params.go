@@ -19,6 +19,7 @@ var (
 	KeyInflationMin        = []byte("InflationMin")
 	KeyGoalBonded          = []byte("GoalBonded")
 	KeyBlocksPerYear       = []byte("BlocksPerYear")
+	KeyMaxCap              = []byte("MaxCap")
 )
 
 // ParamTable for minting module.
@@ -27,7 +28,7 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 func NewParams(
-	mintDenom string, inflationRateChange, inflationMax, inflationMin, goalBonded sdk.Dec, blocksPerYear uint64,
+	mintDenom string, inflationRateChange, inflationMax, inflationMin, goalBonded sdk.Dec, blocksPerYear uint64, maxCap sdk.Int,
 ) Params {
 
 	return Params{
@@ -37,6 +38,7 @@ func NewParams(
 		InflationMin:        inflationMin,
 		GoalBonded:          goalBonded,
 		BlocksPerYear:       blocksPerYear,
+		MaxCap:              maxCap,
 	}
 }
 
@@ -48,7 +50,8 @@ func DefaultParams() Params {
 		InflationMax:        sdk.NewDecWithPrec(20, 2),
 		InflationMin:        sdk.NewDecWithPrec(7, 2),
 		GoalBonded:          sdk.NewDecWithPrec(67, 2),
-		BlocksPerYear:       uint64(60 * 60 * 8766 / 5), // assuming 5 second block times
+		BlocksPerYear:       uint64(60 * 60 * 8766 / 5),     // assuming 5 second block times
+		MaxCap:              sdk.NewInt(21_000_000_000_000), // 21,000,000 QWOYN
 	}
 }
 
@@ -78,6 +81,9 @@ func (p Params) Validate() error {
 			p.InflationMax, p.InflationMin,
 		)
 	}
+	if err := validateMaxCap(p.MaxCap); err != nil {
+		return err
+	}
 
 	return nil
 
@@ -98,6 +104,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(KeyInflationMin, &p.InflationMin, validateInflationMin),
 		paramtypes.NewParamSetPair(KeyGoalBonded, &p.GoalBonded, validateGoalBonded),
 		paramtypes.NewParamSetPair(KeyBlocksPerYear, &p.BlocksPerYear, validateBlocksPerYear),
+		paramtypes.NewParamSetPair(KeyMaxCap, &p.MaxCap, validateMaxCap),
 	}
 }
 
@@ -189,6 +196,19 @@ func validateBlocksPerYear(i interface{}) error {
 
 	if v == 0 {
 		return fmt.Errorf("blocks per year must be positive: %d", v)
+	}
+
+	return nil
+}
+
+func validateMaxCap(i interface{}) error {
+	v, ok := i.(sdk.Int)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v.IsZero() {
+		return fmt.Errorf("max cap must be positive: %d", v)
 	}
 
 	return nil

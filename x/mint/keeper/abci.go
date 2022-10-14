@@ -1,16 +1,15 @@
-package mint
+package keeper
 
 import (
 	"time"
 
-	"github.com/cosmic-horizon/coho/x/mint/keeper"
 	"github.com/cosmic-horizon/coho/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // BeginBlocker mints new tokens for the previous block.
-func BeginBlocker(ctx sdk.Context, k keeper.Keeper) {
+func (k Keeper) BeginBlocker(ctx sdk.Context) {
 	defer telemetry.ModuleMeasureSince(types.ModuleName, time.Now(), telemetry.MetricKeyBeginBlocker)
 
 	// fetch stored minter & params
@@ -27,6 +26,12 @@ func BeginBlocker(ctx sdk.Context, k keeper.Keeper) {
 	// mint coins, update supply
 	mintedCoin := minter.BlockProvision(params)
 	mintedCoins := sdk.NewCoins(mintedCoin)
+
+	// prevent mint if total supply + mint amount is bigger than max cap
+	supply := k.bankKeeper.GetSupply(ctx, params.MintDenom)
+	if supply.Amount.Add(mintedCoin.Amount).GT(params.MaxCap) {
+		return
+	}
 
 	err := k.MintCoins(ctx, mintedCoins)
 	if err != nil {

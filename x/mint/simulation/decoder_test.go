@@ -6,15 +6,15 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	simapp "github.com/cosmic-horizon/coho/app"
 	"github.com/cosmic-horizon/coho/x/mint/simulation"
 	"github.com/cosmic-horizon/coho/x/mint/types"
-	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/kv"
 )
 
 func TestDecodeStore(t *testing.T) {
-	cdc := simapp.MakeTestEncodingConfig().Marshaler
+	cdc := simapp.MakeEncodingConfig().Marshaler
 	dec := simulation.NewDecodeStore(cdc)
 
 	minter := types.NewMinter(sdk.OneDec(), sdk.NewDec(15))

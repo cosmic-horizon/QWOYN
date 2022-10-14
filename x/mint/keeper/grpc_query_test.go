@@ -7,16 +7,16 @@ import (
 	"github.com/stretchr/testify/suite"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
+	simapp "github.com/cosmic-horizon/coho/app"
 	"github.com/cosmic-horizon/coho/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
-	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 type MintTestSuite struct {
 	suite.Suite
 
-	app         *simapp.SimApp
+	app         *simapp.App
 	ctx         sdk.Context
 	queryClient types.QueryClient
 }
