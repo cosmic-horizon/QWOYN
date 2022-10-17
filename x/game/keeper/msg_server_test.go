@@ -5,8 +5,8 @@ import (
 
 	"github.com/cosmic-horizon/coho/x/game/keeper"
 	"github.com/cosmic-horizon/coho/x/game/types"
+	minttypes "github.com/cosmic-horizon/coho/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 )
 

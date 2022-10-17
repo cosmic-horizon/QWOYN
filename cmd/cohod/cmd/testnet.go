@@ -38,9 +38,9 @@ import (
 
 	"github.com/cosmic-horizon/coho/app/params"
 	gametypes "github.com/cosmic-horizon/coho/x/game/types"
+	minttypes "github.com/cosmic-horizon/coho/x/mint/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 )
 
 var (
