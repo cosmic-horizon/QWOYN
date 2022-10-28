@@ -8,7 +8,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/x/game/types"
 )
 
 var _ types.QueryServer = Keeper{}

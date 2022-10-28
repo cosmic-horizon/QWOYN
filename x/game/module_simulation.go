@@ -3,8 +3,8 @@ package game
 import (
 	"math/rand"
 
-	"github.com/cosmic-horizon/coho/testutil/sample"
-	"github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/testutil/sample"
+	"github.com/cosmic-horizon/qwoyn/x/game/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"

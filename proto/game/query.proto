@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmichorizon.coho.game;
+package cosmichorizon.qwoyn.game;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
@@ -9,7 +9,7 @@ import "game/game.proto";
 import "game/liquidity.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
-option go_package = "github.com/cosmic-horizon/coho/x/game/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/game/types";
 
 // Query defines the gRPC querier service.
 service Query {

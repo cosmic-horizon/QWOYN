@@ -3,9 +3,9 @@ package coho
 import (
 	"math/rand"
 
-	"github.com/cosmic-horizon/coho/testutil/sample"
-	cohosimulation "github.com/cosmic-horizon/coho/x/coho/simulation"
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	"github.com/cosmic-horizon/qwoyn/testutil/sample"
+	cohosimulation "github.com/cosmic-horizon/qwoyn/x/coho/simulation"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"

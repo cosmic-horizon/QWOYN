@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	keepertest "github.com/cosmic-horizon/coho/testutil/keeper"
-	"github.com/cosmic-horizon/coho/x/coho/keeper"
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	keepertest "github.com/cosmic-horizon/qwoyn/testutil/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/coho/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

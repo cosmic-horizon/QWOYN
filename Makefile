@@ -53,8 +53,8 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=coho \
-		  -X github.com/cosmos/cosmos-sdk/version.AppName=cohod \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=qwoyn \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=qwoynd \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
@@ -71,16 +71,16 @@ all: install tools lint
 
 build: go.sum
 ifeq ($(OS),Windows_NT)
-	go build -mod=readonly $(BUILD_FLAGS) -o build/cohod.exe ./cmd/cohod
+	go build -mod=readonly $(BUILD_FLAGS) -o build/qwoynd.exe ./cmd/qwoynd
 else
-	go build -mod=readonly $(BUILD_FLAGS) -o build/cohod ./cmd/cohod
+	go build -mod=readonly $(BUILD_FLAGS) -o build/qwoynd ./cmd/qwoynd
 endif
 
 build-linux: go.sum
 	LEDGER_ENABLED=false GOOS=linux GOARCH=amd64 $(MAKE) build
 
 install: go.sum
-	go install -mod=readonly $(BUILD_FLAGS) ./cmd/cohod
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/qwoynd
 
 update-swagger-docs: statik
 	$(BINDIR)/statik -src=swagger/swagger-ui -dest=swagger -f -m

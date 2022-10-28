@@ -13,7 +13,7 @@ A user can query and interact with the `game` module using the CLI.
 The `query` commands allows users to query `game` module state.
 
 ```bash
-cohod query game --help
+qwoynd query game --help
 ```
 
 #### params
@@ -22,10 +22,10 @@ The `params` command allows users to query values set as game module parameters.
 
 ```bash
 # usage
-cohod query game params [flags]
+qwoynd query game params [flags]
 
 # example
-cohod query game params
+qwoynd query game params
 ```
 
 Example Output:
@@ -46,10 +46,10 @@ Usage:
 
 ```bash
 # usage
-cohod query game whitelisted-contracts [flags]
+qwoynd query game whitelisted-contracts [flags]
 
 # example
-cohod query game whitelisted-contracts
+qwoynd query game whitelisted-contracts
 ```
 
 Example Output:
@@ -65,10 +65,10 @@ The `all-deposit-balances` command allow users to query all deposits.
 
 ```bash
 # usage
-cohod query game all-deposit-balances [flags]
+qwoynd query game all-deposit-balances [flags]
 
 # example
-cohod query game all-deposit-balances
+qwoynd query game all-deposit-balances
 ```
 
 Example Output:
@@ -91,10 +91,10 @@ The `deposit-balance` command allow users to query a single deposit.
 
 ```bash
 # usage
-cohod query game deposit-balance [address] [flags]
+qwoynd query game deposit-balance [address] [flags]
 
 # example
-cohod query game deposit-balance coho1tpug77hddm558x39gzndx72w94zgfstzk95rdy
+qwoynd query game deposit-balance coho1tpug77hddm558x39gzndx72w94zgfstzk95rdy
 ```
 
 Example Output:
@@ -114,9 +114,9 @@ The `all-unbondings` command allow users to query all active unbondings.
 
 ```bash
 # usage
-cohod query game all-unbondings [flags]
+qwoynd query game all-unbondings [flags]
 # example
-cohod query game all-unbondings
+qwoynd query game all-unbondings
 ```
 
 Example Output:
@@ -136,9 +136,9 @@ The `user-unbondings` command allow users to query all active unbondings for an 
 
 ```bash
 # usage
-cohod query game user-unbondings [address] [flags]
+qwoynd query game user-unbondings [address] [flags]
 # example
-cohod query game user-unbondings $(cohod keys show -a validator --keyring-backend=test)
+qwoynd query game user-unbondings $(qwoynd keys show -a validator --keyring-backend=test)
 ```
 
 Example Output:
@@ -158,9 +158,9 @@ The `liquidity` command allow users to query total liquidity put for coho and qw
 
 ```bash
 # usage
-cohod query game liquidity [flags]
+qwoynd query game liquidity [flags]
 # example
-cohod query game liquidity
+qwoynd query game liquidity
 ```
 
 Example Output:
@@ -180,9 +180,9 @@ The `estimated-swap-out` command allow users to query estimated out amount on sw
 
 ```bash
 # bash
-cohod query game estimated-swap-out [amount] [flags]
+qwoynd query game estimated-swap-out [amount] [flags]
 # example
-cohod query game estimated-swap-out 10000ucoho
+qwoynd query game estimated-swap-out 10000ucoho
 ```
 
 Example Output:
@@ -199,9 +199,9 @@ The `swap-rate` command allow users to query spot price on current liquidity.
 
 ```bash
 # usage
-cohod query game swap-rate [flags]
+qwoynd query game swap-rate [flags]
 # example
-cohod query game swap-rate
+qwoynd query game swap-rate
 ```
 
 Example Output:
@@ -217,7 +217,7 @@ tar_denom: uqwoyn
 The `tx` commands allows users to interact with the `game` module.
 
 ```bash
-cohod tx game --help
+qwoynd tx game --help
 ```
 
 #### MsgTransferModuleOwnership
@@ -227,13 +227,13 @@ The command `transfer-module-ownership` allows the module owner to transfer the 
 Usage:
 
 ```bash
-cohod tx game transfer-module-ownership [newOwner] [flags]
+qwoynd tx game transfer-module-ownership [newOwner] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game transfer-module-ownership coho1tpug77hddm558x39gzndx72w94zgfstzk95rdy \
+qwoynd tx game transfer-module-ownership coho1tpug77hddm558x39gzndx72w94zgfstzk95rdy \
   --from=moduleOwner
 ```
 
@@ -244,13 +244,13 @@ The command `whitelist-contracts` allows the module owner to whitelist nft contr
 Usage:
 
 ```bash
-cohod tx game whitelist-contracts [contracts] [flags]
+qwoynd tx game whitelist-contracts [contracts] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game whitelist-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc \
+qwoynd tx game whitelist-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc \
   --from=moduleOwner
 ```
 
@@ -261,13 +261,13 @@ The command `remove-whitelisted-contracts` allows the module owner to remove whi
 Usage:
 
 ```bash
-cohod tx game remove-whitelisted-contracts [contracts] [flags]
+qwoynd tx game remove-whitelisted-contracts [contracts] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game remove-whitelisted-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc \
+qwoynd tx game remove-whitelisted-contracts coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc \
   --from=moduleOwner
 ```
 
@@ -278,13 +278,13 @@ The command `deposit-nft` allows a user to deposit a whitelisted nft.
 Usage:
 
 ```bash
-cohod tx game deposit-nft [contract] [tokenId] [flags]
+qwoynd tx game deposit-nft [contract] [tokenId] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game deposit-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 \
+qwoynd tx game deposit-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 \
   --from=user
 ```
 
@@ -295,13 +295,13 @@ The command `sign-withdraw-updated-nft` allows the module owner to generate sign
 Usage:
 
 ```bash
-cohod tx game sign-withdraw-updated-nft [contract] [tokenId] [execMsg] [flags]
+qwoynd tx game sign-withdraw-updated-nft [contract] [tokenId] [execMsg] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game sign-withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 '{"update_nft":{"token_id":"1","extension":{"ship_type":67,"owner":"200"}}}' \
+qwoynd tx game sign-withdraw-updated-nft coho14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9snm4thc 1 '{"update_nft":{"token_id":"1","extension":{"ship_type":67,"owner":"200"}}}' \
   --from=moduleOwner
 ```
 
@@ -312,13 +312,13 @@ The command `withdraw-updated-nft` allows a user to withdraw a deposited nft wit
 Usage:
 
 ```bash
-cohod tx game withdraw-updated-nft [contract] [tokenId] [execMsg] [signature] [flags]
+qwoynd tx game withdraw-updated-nft [contract] [tokenId] [execMsg] [signature] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game withdraw-updated-nft '{"update_nft":{"token_id":"1","extension":{"ship_type":67,"owner":"200"}}}' \
+qwoynd tx game withdraw-updated-nft '{"update_nft":{"token_id":"1","extension":{"ship_type":67,"owner":"200"}}}' \
  42d6e9d3b62ffc9b0bc3f6a97cbc0857af1c7a7aa57549571d7bc72415a955d978a1790440ce53c8f9fbfa2ce70d967812eda6094d6f112d7e5736170e48e2a8 \
   --from=user
 ```
@@ -330,13 +330,13 @@ The command `deposit-token` allows a user to deposit game tokens by users.
 Usage:
 
 ```bash
-cohod tx game deposit-token deposit-token [coin] [flags]
+qwoynd tx game deposit-token deposit-token [coin] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game deposit-token 1000000stake \
+qwoynd tx game deposit-token 1000000stake \
   --from=user
 ```
 
@@ -347,13 +347,13 @@ The command `withdraw-token` allows a user to withdraw game tokens by users.
 Usage:
 
 ```bash
-cohod tx game withdraw-token [coin] [flags]
+qwoynd tx game withdraw-token [coin] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game withdraw-token 1000000stake \
+qwoynd tx game withdraw-token 1000000stake \
   --from=user
 ```
 
@@ -364,13 +364,13 @@ The command `stake-ingame-token` allows a user to stake deposited game tokens by
 Usage:
 
 ```bash
-cohod tx game stake-ingame-token [coin] [flags]
+qwoynd tx game stake-ingame-token [coin] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game stake-ingame-token 1000000stake \
+qwoynd tx game stake-ingame-token 1000000stake \
   --from=user
 ```
 
@@ -381,13 +381,13 @@ The command `begin-unstake-ingame-token` allows a user to begin unstake of stake
 Usage:
 
 ```bash
-cohod tx game begin-unstake-ingame-token [coin] [flags]
+qwoynd tx game begin-unstake-ingame-token [coin] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game begin-unstake-ingame-token 1000000stake \
+qwoynd tx game begin-unstake-ingame-token 1000000stake \
   --from=user
 ```
 
@@ -398,13 +398,13 @@ The command `claim-ingame-staking-reward` allows a user to claim rewards from st
 Usage:
 
 ```bash
-cohod tx game claim-ingame-staking-reward [flags]
+qwoynd tx game claim-ingame-staking-reward [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game claim-ingame-staking-reward \
+qwoynd tx game claim-ingame-staking-reward \
   --from=user
 ```
 
@@ -415,13 +415,13 @@ The command `add-liquidity` allows the module owner to put liquidity for game to
 Usage:
 
 ```bash
-cohod tx game add-liquidity [coins] [flags]
+qwoynd tx game add-liquidity [coins] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game add-liquidity 10000ucoho,10000uqwoyn \
+qwoynd tx game add-liquidity 10000ucoho,10000uqwoyn \
   --from=user
 ```
 
@@ -432,13 +432,13 @@ The command `remove-liquidity` allows the module owner to remove liquidity.
 Usage:
 
 ```bash
-cohod tx game remove-liquidity [coins] [flags]
+qwoynd tx game remove-liquidity [coins] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game remove-liquidity 10000ucoho,10000uqwoyn \
+qwoynd tx game remove-liquidity 10000ucoho,10000uqwoyn \
   --from=user
 ```
 
@@ -449,12 +449,12 @@ The command `swap` allows a user to to swap on liquidity.
 Usage:
 
 ```bash
-cohod tx game swap [coin] [flags]
+qwoynd tx game swap [coin] [flags]
 ```
 
 Example:
 
 ```bash
-cohod tx game swap 10000ucoho \
+qwoynd tx game swap 10000ucoho \
   --from=user
 ```

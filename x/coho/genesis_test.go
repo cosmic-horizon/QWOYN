@@ -3,10 +3,10 @@ package coho_test
 import (
 	"testing"
 
-	keepertest "github.com/cosmic-horizon/coho/testutil/keeper"
-	"github.com/cosmic-horizon/coho/testutil/nullify"
-	"github.com/cosmic-horizon/coho/x/coho"
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	keepertest "github.com/cosmic-horizon/qwoyn/testutil/keeper"
+	"github.com/cosmic-horizon/qwoyn/testutil/nullify"
+	"github.com/cosmic-horizon/qwoyn/x/coho"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 	"github.com/stretchr/testify/require"
 )
 

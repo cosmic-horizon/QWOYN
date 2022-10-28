@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/cosmic-horizon/coho/app/params"
+	"github.com/cosmic-horizon/qwoyn/app/params"
 	"github.com/cosmos/cosmos-sdk/std"
 )
 

@@ -1,12 +1,12 @@
 syntax = "proto3";
-package cosmichorizon.coho.game;
+package cosmichorizon.qwoyn.game;
 
 import "cosmos/base/v1beta1/coin.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/cosmic-horizon/coho/x/game/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/game/types";
 
 message Deposit {
   string address = 1;

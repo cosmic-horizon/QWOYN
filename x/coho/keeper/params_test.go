@@ -3,8 +3,8 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "github.com/cosmic-horizon/coho/testutil/keeper"
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	testkeeper "github.com/cosmic-horizon/qwoyn/testutil/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 	"github.com/stretchr/testify/require"
 )
 

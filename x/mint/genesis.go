@@ -1,8 +1,8 @@
 package mint
 
 import (
-	"github.com/cosmic-horizon/coho/x/mint/keeper"
-	"github.com/cosmic-horizon/coho/x/mint/types"
+	"github.com/cosmic-horizon/qwoyn/x/mint/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

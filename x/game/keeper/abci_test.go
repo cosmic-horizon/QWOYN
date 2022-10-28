@@ -3,8 +3,8 @@ package keeper_test
 import (
 	"time"
 
-	"github.com/cosmic-horizon/coho/x/game/keeper"
-	"github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/x/game/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/game/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 )

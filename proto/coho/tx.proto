@@ -1,9 +1,9 @@
 syntax = "proto3";
-package cosmichorizon.coho.coho;
+package cosmichorizon.qwoyn.coho;
 
 // this line is used by starport scaffolding # proto/tx/import
 
-option go_package = "github.com/cosmic-horizon/coho/x/coho/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/coho/types";
 
 // Msg defines the Msg service.
 service Msg {

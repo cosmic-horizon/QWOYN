@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cosmic-horizon/coho/app"
+	"github.com/cosmic-horizon/qwoyn/app"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	simulationtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"

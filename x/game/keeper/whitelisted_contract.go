@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/x/game/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

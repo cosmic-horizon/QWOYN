@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	CohoDecimals = 6
+	Decimals = 6
 
 	HumanGameCoinUnit = "COHO"
 	GameCoinUnit      = "ucoho"
