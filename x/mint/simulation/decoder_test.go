@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	simapp "github.com/cosmic-horizon/coho/app"
-	"github.com/cosmic-horizon/coho/x/mint/simulation"
-	"github.com/cosmic-horizon/coho/x/mint/types"
+	simapp "github.com/cosmic-horizon/qwoyn/app"
+	"github.com/cosmic-horizon/qwoyn/x/mint/simulation"
+	"github.com/cosmic-horizon/qwoyn/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/kv"
 )

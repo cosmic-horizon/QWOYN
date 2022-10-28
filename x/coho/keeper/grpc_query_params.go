@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

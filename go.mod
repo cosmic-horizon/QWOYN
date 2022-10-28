@@ -1,4 +1,4 @@
-module github.com/cosmic-horizon/coho
+module github.com/cosmic-horizon/qwoyn
 
 go 1.16
 

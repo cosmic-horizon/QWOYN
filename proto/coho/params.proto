@@ -1,9 +1,9 @@
 syntax = "proto3";
-package cosmichorizon.coho.coho;
+package cosmichorizon.qwoyn.coho;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/cosmic-horizon/coho/x/coho/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/coho/types";
 
 // Params defines the parameters for the module.
 message Params {

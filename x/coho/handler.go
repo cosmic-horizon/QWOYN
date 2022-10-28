@@ -3,8 +3,8 @@ package coho
 import (
 	"fmt"
 
-	"github.com/cosmic-horizon/coho/x/coho/keeper"
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	"github.com/cosmic-horizon/qwoyn/x/coho/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )

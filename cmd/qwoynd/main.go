@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	app "github.com/cosmic-horizon/coho/app"
-	"github.com/cosmic-horizon/coho/cmd/cohod/cmd"
+	app "github.com/cosmic-horizon/qwoyn/app"
+	"github.com/cosmic-horizon/qwoyn/cmd/qwoynd/cmd"
 )
 
 func main() {

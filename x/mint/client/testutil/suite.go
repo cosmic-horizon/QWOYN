@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/suite"
 	tmcli "github.com/tendermint/tendermint/libs/cli"
 
-	"github.com/cosmic-horizon/coho/x/mint/client/cli"
-	minttypes "github.com/cosmic-horizon/coho/x/mint/types"
+	"github.com/cosmic-horizon/qwoyn/x/mint/client/cli"
+	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	"github.com/cosmos/cosmos-sdk/testutil/network"

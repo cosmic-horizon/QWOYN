@@ -1,11 +1,11 @@
 syntax = "proto3";
-package cosmichorizon.coho.game;
+package cosmichorizon.qwoyn.game;
 
 import "gogoproto/gogo.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/cosmic-horizon/coho/x/game/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/game/types";
 
 // Params defines the parameters for the module.
 message Params {

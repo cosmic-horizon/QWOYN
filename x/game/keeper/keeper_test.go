@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"testing"
 
-	simapp "github.com/cosmic-horizon/coho/app"
+	simapp "github.com/cosmic-horizon/qwoyn/app"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"

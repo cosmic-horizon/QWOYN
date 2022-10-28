@@ -6,7 +6,7 @@ import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/x/game/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"

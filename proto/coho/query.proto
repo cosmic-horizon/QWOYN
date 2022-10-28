@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmichorizon.coho.coho;
+package cosmichorizon.qwoyn.coho;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
@@ -7,7 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "coho/params.proto";
 // this line is used by starport scaffolding # 1
 
-option go_package = "github.com/cosmic-horizon/coho/x/coho/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/coho/types";
 
 // Query defines the gRPC querier service.
 service Query {

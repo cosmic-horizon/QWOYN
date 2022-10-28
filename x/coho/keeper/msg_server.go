@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 )
 
 type msgServer struct {

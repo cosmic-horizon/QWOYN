@@ -1,10 +1,10 @@
 syntax = "proto3";
-package cosmichorizon.coho.mint;
+package cosmichorizon.qwoyn.mint;
 
 import "gogoproto/gogo.proto";
 import "mint/mint.proto";
 
-option go_package = "github.com/cosmic-horizon/coho/x/mint/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/mint/types";
 
 // GenesisState defines the mint module's genesis state.
 message GenesisState {

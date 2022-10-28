@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/cosmic-horizon/coho/x/mint/types"
+	"github.com/cosmic-horizon/qwoyn/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/types/rest"
 )

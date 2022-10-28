@@ -8,7 +8,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/cosmic-horizon/coho/x/mint/types"
+	"github.com/cosmic-horizon/qwoyn/x/mint/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 )
 

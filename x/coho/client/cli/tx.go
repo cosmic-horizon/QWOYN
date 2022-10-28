@@ -8,7 +8,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	// "github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmic-horizon/coho/x/coho/types"
+	"github.com/cosmic-horizon/qwoyn/x/coho/types"
 )
 
 var (

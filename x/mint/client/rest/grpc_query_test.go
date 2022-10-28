@@ -13,7 +13,7 @@ import (
 	"github.com/gogo/protobuf/proto"
 	"github.com/stretchr/testify/suite"
 
-	minttypes "github.com/cosmic-horizon/coho/x/mint/types"
+	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/testutil/network"
 )
 

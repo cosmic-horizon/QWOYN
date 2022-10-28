@@ -32,8 +32,8 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmic-horizon/coho/app"
-	"github.com/cosmic-horizon/coho/app/params"
+	"github.com/cosmic-horizon/qwoyn/app"
+	"github.com/cosmic-horizon/qwoyn/app/params"
 )
 
 // NewRootCmd creates a new root command for simd. It is called once in the
@@ -51,7 +51,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithViper("")
 
 	rootCmd := &cobra.Command{
-		Use:   "cohod",
+		Use:   "qwoynd",
 		Short: "Stargate Cosmos Hub App",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			initClientCtx, err := client.ReadPersistentCommandFlags(initClientCtx, cmd.Flags())
@@ -68,8 +68,8 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 				return err
 			}
 
-			customTemplate, customCohoConfig := initAppConfig()
-			return server.InterceptConfigsPreRunHandler(cmd, customTemplate, customCohoConfig)
+			customTemplate, customConfig := initAppConfig()
+			return server.InterceptConfigsPreRunHandler(cmd, customTemplate, customConfig)
 		},
 	}
 
@@ -257,7 +257,7 @@ func (ac appCreator) appExport(
 		loadLatest = true
 	}
 
-	cohoApp := app.New(
+	qwoynApp := app.New(
 		logger,
 		db,
 		traceStore,
@@ -270,10 +270,10 @@ func (ac appCreator) appExport(
 	)
 
 	if height != -1 {
-		if err := cohoApp.LoadHeight(height); err != nil {
+		if err := qwoynApp.LoadHeight(height); err != nil {
 			return servertypes.ExportedApp{}, err
 		}
 	}
 
-	return cohoApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
+	return qwoynApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
 }

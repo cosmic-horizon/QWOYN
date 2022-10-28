@@ -17,8 +17,8 @@ import (
 	tmrand "github.com/tendermint/tendermint/libs/rand"
 	tmdb "github.com/tendermint/tm-db"
 
-	"github.com/cosmic-horizon/coho/app"
-	"github.com/cosmic-horizon/coho/app/params"
+	"github.com/cosmic-horizon/qwoyn/app"
+	"github.com/cosmic-horizon/qwoyn/app/params"
 )
 
 type (

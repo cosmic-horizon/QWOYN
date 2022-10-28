@@ -10,9 +10,9 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/cosmic-horizon/coho/x/game/client/cli"
-	"github.com/cosmic-horizon/coho/x/game/keeper"
-	"github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/x/game/client/cli"
+	"github.com/cosmic-horizon/qwoyn/x/game/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/game/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"

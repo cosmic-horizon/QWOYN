@@ -1,6 +1,6 @@
 # Cosmic Horizon Network
 
-# Installing CoHo
+# Installing `Qwoynd`
 
 ## Hardware Requirements
 
@@ -15,9 +15,9 @@ Here are the minimal hardware configs required for running a validator/sentry no
 - Ubuntu 18.04 or higher
 - [Go v1.17.1](https://golang.org/doc/install)
 
-# Install CoHo, Generate Wallet and Start your Node
+# Install `Qwoynd`, Generate Wallet and Start your Node
 
-You have two options for installing the cohod binary. First, our team will be providing releases of cohod in our github repository, please check the [releases page](https://github.com/cosmic-horizon/coho/releases) for the latest version of cohod. Secondly, you can follow the steps below to compile coho yourself.
+You have two options for installing the qwoynd binary. First, our team will be providing releases of qwoynd in our github repository, please check the [releases page](https://github.com/cosmic-horizon/qwoyn/releases) for the latest version of qwoynd. Secondly, you can follow the steps below to compile `Qwoynd` yourself.
 
 ## Install Go version 1.17.1
 
@@ -43,21 +43,21 @@ echo 'export PATH=$PATH:/usr/local/go/bin:$GOBIN' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Build CoHo
+## Build `Qwoynd`
 
-These steps install the `cohod` binary.
+These steps install the `qwoynd` binary.
 
 ```
 # Clone the Repo
-git clone https://github.com/cosmic-horizon/coho.git
+git clone https://github.com/cosmic-horizon/QWOYN.git
 
-# Install CoHo
-cd coho
+# Install `Qwoynd`
+cd QWOYN
 make install
 ```
 
 ## Testnet generation
 
 ```
-cohod testnet --keyring-backend=test --chain-id="qwoyn-1" --v 4 --output-dir ./testnet --starting-ip-address 192.168.10.2
+qwoynd testnet --keyring-backend=test --chain-id="qwoyn-1" --v 4 --output-dir ./testnet --starting-ip-address 192.168.10.2
 ```

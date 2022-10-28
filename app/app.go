@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cosmic-horizon/coho/x/mint"
-	mintkeeper "github.com/cosmic-horizon/coho/x/mint/keeper"
-	minttypes "github.com/cosmic-horizon/coho/x/mint/types"
+	"github.com/cosmic-horizon/qwoyn/x/mint"
+	mintkeeper "github.com/cosmic-horizon/qwoyn/x/mint/keeper"
+	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/grpc/tmservice"
@@ -100,15 +100,15 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	cohomodule "github.com/cosmic-horizon/coho/x/coho"
-	cohomodulekeeper "github.com/cosmic-horizon/coho/x/coho/keeper"
-	cohomoduletypes "github.com/cosmic-horizon/coho/x/coho/types"
+	cohomodule "github.com/cosmic-horizon/qwoyn/x/coho"
+	cohomodulekeeper "github.com/cosmic-horizon/qwoyn/x/coho/keeper"
+	cohomoduletypes "github.com/cosmic-horizon/qwoyn/x/coho/types"
 
-	"github.com/cosmic-horizon/coho/x/game"
-	gamekeeper "github.com/cosmic-horizon/coho/x/game/keeper"
-	gametypes "github.com/cosmic-horizon/coho/x/game/types"
+	"github.com/cosmic-horizon/qwoyn/x/game"
+	gamekeeper "github.com/cosmic-horizon/qwoyn/x/game/keeper"
+	gametypes "github.com/cosmic-horizon/qwoyn/x/game/types"
 
-	appparams "github.com/cosmic-horizon/coho/app/params"
+	appparams "github.com/cosmic-horizon/qwoyn/app/params"
 
 	"github.com/CosmWasm/wasmd/x/wasm"
 	wasmclient "github.com/CosmWasm/wasmd/x/wasm/client"
@@ -116,7 +116,7 @@ import (
 )
 
 const (
-	Name = "cohod"
+	Name = "qwoynd"
 )
 
 var (
