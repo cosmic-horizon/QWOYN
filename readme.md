@@ -1,14 +1,14 @@
 # Cosmic Horizon Network
 
-# Installing `Qwoynd`
+# Installing `qwoynd`
 
 ## Hardware Requirements
 
 Here are the minimal hardware configs required for running a validator/sentry node
 
-- 8GB RAM
+- 16GB RAM
 - 4vCPUs
-- 200GB Disk space
+- 500gb Disk space
 
 ## Software Requirements
 
