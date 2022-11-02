@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
-
+	appparams "github.com/cosmic-horizon/qwoyn/app/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+	yaml "gopkg.in/yaml.v2"
 )
 
 // Parameter store keys
@@ -45,12 +45,12 @@ func NewParams(
 // default minting module parameters
 func DefaultParams() Params {
 	return Params{
-		MintDenom:           sdk.DefaultBondDenom,
+		MintDenom:           appparams.BondDenom,
 		InflationRateChange: sdk.NewDecWithPrec(13, 2),
-		InflationMax:        sdk.NewDecWithPrec(20, 2),
+		InflationMax:        sdk.NewDecWithPrec(40, 2),
 		InflationMin:        sdk.NewDecWithPrec(7, 2),
 		GoalBonded:          sdk.NewDecWithPrec(67, 2),
-		BlocksPerYear:       uint64(60 * 60 * 8766 / 5),     // assuming 5 second block times
+		BlocksPerYear:       4360000,
 		MaxCap:              sdk.NewInt(21_000_000_000_000), // 21,000,000 QWOYN
 	}
 }
