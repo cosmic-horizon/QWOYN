@@ -55,4 +55,7 @@ git clone https://github.com/cosmic-horizon/QWOYN.git
 cd QWOYN
 git checkout v1.0.0-beta
 make install
+
+#check version (should be v1.0.0-beta)
+qwoynd version
 ```
