@@ -43,7 +43,7 @@ echo 'export PATH=$PATH:/usr/local/go/bin:$GOBIN' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Build `Qwoynd`
+## Build `qwoynd`
 
 These steps install the `qwoynd` binary.
 
