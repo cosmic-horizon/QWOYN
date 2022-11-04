@@ -56,6 +56,6 @@ cd QWOYN
 git checkout v1.0.0-beta
 make install
 
-#check version (should be v1.0.0-beta)
+# check version (should be v1.0.0-beta)
 qwoynd version
 ```
