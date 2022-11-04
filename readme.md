@@ -53,11 +53,6 @@ git clone https://github.com/cosmic-horizon/QWOYN.git
 
 # Install `Qwoynd`
 cd QWOYN
+git checkout v1.0.0-beta
 make install
-```
-
-## Testnet generation
-
-```
-qwoynd testnet --keyring-backend=test --chain-id="qwoyn-1" --v 4 --output-dir ./testnet --starting-ip-address 192.168.10.2
 ```
