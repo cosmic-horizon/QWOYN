@@ -58,7 +58,4 @@ make install
 
 # check version (1.0.0-beta)
 qwoynd version
-
-# perform checksum (3b1ac75c86d7c3d452c95a23a96c946a)
-md5sum qwoynd
 ```
