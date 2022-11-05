@@ -59,3 +59,12 @@ make install
 # check version (1.0.0-beta)
 qwoynd version
 ```
+
+## Generate Wallet Address
+
+Follow these steps to generate a wallet address.  Remember to save your seed phrase, as it is impossible to recover your account without it.  If you fail to save your seed phrase and lose access to your wallet you risk losing your tokens.
+
+```
+# replace <yourKeyName> with a name of your choosing
+qwoynd keys add <yourKeyName>
+```
