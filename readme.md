@@ -51,7 +51,7 @@ These steps install the `qwoynd` binary.
 # Clone the Repo
 git clone https://github.com/cosmic-horizon/QWOYN.git
 
-# Install `Qwoynd`
+# Install `qwoynd`
 cd QWOYN
 git checkout v1.0.0-beta
 make install
