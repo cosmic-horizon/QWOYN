@@ -41,16 +41,6 @@
 
 ## Introduction
 
-Regen Ledger is a blockchain application for ecological assets and data claims built on top of [Cosmos SDK](http://github.com/cosmos/cosmos-sdk) and [Tendermint Core](http://github.com/tendermint/tendermint). Leveraging these tools, Regen Ledger provides the infrastructure for a Proof-of-Stake blockchain network governed by a community dedicated to planetary regeneration.
-
-Features specific to Regen Ledger are developed within this repository as custom modules that are then wired up to the main application. The custom modules developed within Regen Ledger follow the same architecture and pattern as modules developed within Cosmos SDK and other Cosmos SDK applications.
-
-The core features that Regen Ledger aims to provide include the following:
-
-- infrastructure for managing the issuance and retirement of ecosystem service credits
-- a database of ecological state and change of state claims that spans both on and off-chain data sources
-- mechanisms for automating the assessment of ecological state, making payments, and issuing assets
-
 Qwoyn Blockchain is under heavy development and as result the above features are implemented to varying degrees of completeness. For more information about our approach and vision, see [Qwoyn Blockchain Specification](specs/qwoyn-blockchain.md).
 
 ## Documentation
