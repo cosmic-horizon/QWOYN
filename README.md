@@ -18,29 +18,14 @@
 </div>
 <br />
 <div align="center">
-    <a href="https://github.com/cosmic-horizon/QWOYN/commits/main">
-        <img alt="Build Status" src="https://github.com/cosmic-horizon/QWOYN/workflows/Build/badge.svg" />
-    </a>
-    <a href="https://github.com/cosmic-horizon/QWOYN/commits/main">
-        <img alt="Test Status" src="https://github.com/cosmic-horizon/QWOYN/workflows/Tests/badge.svg" />
-    </a>
-    <a href="https://github.com/cosmic-horizon/QWOYN/commits/main">
-        <img alt="Sims Status" src="https://github.com/cosmic-horizon/QWOYN/workflows/Sims/badge.svg" />
-    </a>
-    <a href="https://github.com/cosmic-horizon/QWOYN/commits/main">
-        <img alt="Lint Status" src="https://github.com/cosmic-horizon/QWOYN/workflows/Lint/badge.svg" />
-    </a>
-</div>
-<br />
-<div align="center">
     <a href="https://github.com/cosmic-horizon/QWOYN/issues">
-        <img alt="Issues" src="https://img.shields.io/github/issues/regen-network/regen-ledger?color=blue" />
+        <img alt="Issues" src="https://img.shields.io/github/issues/cosmic-horizon/QWOYN?color=blue" />
     </a>
     <a href="https://github.com/cosmic-horizon/QWOYN/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">
-        <img alt="Good First Issues" src="https://img.shields.io/github/issues/regen-network/regen-ledger/good%20first%20issue?color=blue" />
+        <img alt="Good First Issues" src="https://img.shields.io/github/issues/cosmic-horizon/QWOYN/good%20first%20issue?color=blue" />
     </a>
     <a href="https://github.com/cosmic-horizon/QWOYN/discussions">
-        <img alt="Discussions" src="https://img.shields.io/github/discussions/regen-network/regen-ledger?color=blue" />
+        <img alt="Discussions" src="https://img.shields.io/github/discussions/cosmic-horizon/QWOYN?color=blue" />
     </a>
     <a href="https://discord.cosmic-horizon.com">
         <img alt="Discord" src="https://img.shields.io/discord/684494798358315010?color=blue" />
@@ -49,7 +34,7 @@
 <br />
 <div align="center">
     <a href="https://codecov.io/gh/cosmic-horizon/QWOYN	">
-        <img alt="Code Coverage" src="https://codecov.io/gh/regen-network/cosmic-horizon/branch/main/graph/badge.svg" />
+        <img alt="Code Coverage" src="https://codecov.io/gh/cosmic-horizon/branch/main/graph/badge.svg" />
     </a>
 </div>
 <br />
