@@ -1,7 +1,7 @@
 <div align="center" style="font-size:20px">
     <img alt="Issues" src="https://i.imgur.com/EZBSGwH.png" />
     <h3>
-        <i>Decentralized Gaming Blockchain build using cosmos sdk</i>
+        <i>Decentralized Gaming Blockchain built using cosmos sdk</i>
     </h3>
 </div>
 <br />
