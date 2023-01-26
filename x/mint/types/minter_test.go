@@ -36,9 +36,9 @@ func TestNextInflation(t *testing.T) {
 		{sdk.OneDec(), sdk.NewDecWithPrec(7, 2), sdk.ZeroDec()},
 		{sdk.OneDec(), sdk.NewDecWithPrec(700000001, 10), sdk.NewDecWithPrec(-1, 10)},
 
-		// test 20% maximum stop (testing with 0% bonded)
-		{sdk.ZeroDec(), sdk.NewDecWithPrec(20, 2), sdk.ZeroDec()},
-		{sdk.ZeroDec(), sdk.NewDecWithPrec(1999999999, 10), sdk.NewDecWithPrec(1, 10)},
+		// test 40% maximum stop (testing with 0% bonded)
+		{sdk.ZeroDec(), sdk.NewDecWithPrec(40, 2), sdk.ZeroDec()},
+		{sdk.ZeroDec(), sdk.NewDecWithPrec(3999999999, 10), sdk.NewDecWithPrec(1, 10)},
 
 		// perfect balance shouldn't change inflation
 		{sdk.NewDecWithPrec(67, 2), sdk.NewDecWithPrec(15, 2), sdk.ZeroDec()},
