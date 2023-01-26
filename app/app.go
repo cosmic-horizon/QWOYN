@@ -100,6 +100,14 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
+	cohomodule "github.com/cosmic-horizon/qwoyn/x/coho"
+	cohomodulekeeper "github.com/cosmic-horizon/qwoyn/x/coho/keeper"
+	cohomoduletypes "github.com/cosmic-horizon/qwoyn/x/coho/types"
+
+	"github.com/cosmic-horizon/qwoyn/x/game"
+	gamekeeper "github.com/cosmic-horizon/qwoyn/x/game/keeper"
+	gametypes "github.com/cosmic-horizon/qwoyn/x/game/types"
+
 	appparams "github.com/cosmic-horizon/qwoyn/app/params"
 
 	"github.com/CosmWasm/wasmd/x/wasm"
@@ -190,6 +198,8 @@ var (
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		wasm.AppModuleBasic{},
+		cohomodule.AppModuleBasic{},
+		game.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -203,6 +213,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		wasm.ModuleName:                {authtypes.Burner},
+		gametypes.ModuleName:           {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -263,6 +274,9 @@ type App struct {
 	WasmKeeper       wasm.Keeper
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
 
+	CohoKeeper cohomodulekeeper.Keeper
+	GameKeeper gamekeeper.Keeper
+
 	// mm is the module manager
 	mm *module.Manager
 
@@ -299,6 +313,8 @@ func New(
 		feegrant.StoreKey, authzkeeper.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		wasm.StoreKey,
+		cohomoduletypes.StoreKey,
+		gametypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -464,6 +480,23 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
+	app.CohoKeeper = *cohomodulekeeper.NewKeeper(
+		appCodec,
+		keys[cohomoduletypes.StoreKey],
+		keys[cohomoduletypes.MemStoreKey],
+		app.GetSubspace(cohomoduletypes.ModuleName),
+	)
+	app.GameKeeper = *gamekeeper.NewKeeper(
+		appCodec,
+		keys[gametypes.StoreKey],
+		keys[gametypes.MemStoreKey],
+		app.GetSubspace(gametypes.ModuleName),
+		wasmkeeper.NewDefaultPermissionKeeper(app.WasmKeeper),
+		app.WasmKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+	)
+
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
@@ -497,6 +530,8 @@ func New(
 		transferModule,
 		icaModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
+		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -516,6 +551,8 @@ func New(
 		ibctransfertypes.ModuleName,
 		authz.ModuleName,
 		wasm.ModuleName,
+		cohomoduletypes.ModuleName,
+		gametypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(
@@ -529,6 +566,8 @@ func New(
 		paramstypes.ModuleName,
 		authz.ModuleName,
 		wasm.ModuleName,
+		cohomoduletypes.ModuleName,
+		gametypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -557,6 +596,8 @@ func New(
 		feegrant.ModuleName,
 		authz.ModuleName,
 		wasm.ModuleName,
+		cohomoduletypes.ModuleName,
+		gametypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -580,6 +621,8 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
+		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 	app.sm.RegisterStoreDecoders()
 
@@ -793,6 +836,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
+	paramsKeeper.Subspace(cohomoduletypes.ModuleName)
+	paramsKeeper.Subspace(gametypes.ModuleName)
 	paramsKeeper.Subspace(wasm.ModuleName)
 
 	return paramsKeeper
