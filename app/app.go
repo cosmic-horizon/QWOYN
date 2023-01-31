@@ -100,9 +100,9 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	cohomodule "github.com/cosmic-horizon/qwoyn/x/coho"
-	cohomodulekeeper "github.com/cosmic-horizon/qwoyn/x/coho/keeper"
-	cohomoduletypes "github.com/cosmic-horizon/qwoyn/x/coho/types"
+	stimulus "github.com/cosmic-horizon/qwoyn/x/stimulus"
+	stimuluskeeper "github.com/cosmic-horizon/qwoyn/x/stimulus/keeper"
+	stimulustypes "github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 
 	"github.com/cosmic-horizon/qwoyn/x/game"
 	gamekeeper "github.com/cosmic-horizon/qwoyn/x/game/keeper"
@@ -198,7 +198,7 @@ var (
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		wasm.AppModuleBasic{},
-		cohomodule.AppModuleBasic{},
+		stimulus.AppModuleBasic{},
 		game.AppModuleBasic{},
 	)
 
@@ -274,8 +274,8 @@ type App struct {
 	WasmKeeper       wasm.Keeper
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
 
-	CohoKeeper cohomodulekeeper.Keeper
-	GameKeeper gamekeeper.Keeper
+	StimulusKeeper stimuluskeeper.Keeper
+	GameKeeper     gamekeeper.Keeper
 
 	// mm is the module manager
 	mm *module.Manager
@@ -313,7 +313,7 @@ func New(
 		feegrant.StoreKey, authzkeeper.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		wasm.StoreKey,
-		cohomoduletypes.StoreKey,
+		stimulustypes.StoreKey,
 		gametypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -480,11 +480,11 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
-	app.CohoKeeper = *cohomodulekeeper.NewKeeper(
+	app.StimulusKeeper = *stimuluskeeper.NewKeeper(
 		appCodec,
-		keys[cohomoduletypes.StoreKey],
-		keys[cohomoduletypes.MemStoreKey],
-		app.GetSubspace(cohomoduletypes.ModuleName),
+		keys[stimulustypes.StoreKey],
+		keys[stimulustypes.MemStoreKey],
+		app.GetSubspace(stimulustypes.ModuleName),
 	)
 	app.GameKeeper = *gamekeeper.NewKeeper(
 		appCodec,
@@ -530,7 +530,7 @@ func New(
 		transferModule,
 		icaModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
-		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
@@ -551,7 +551,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		authz.ModuleName,
 		wasm.ModuleName,
-		cohomoduletypes.ModuleName,
+		stimulustypes.ModuleName,
 		gametypes.ModuleName,
 	)
 
@@ -566,7 +566,7 @@ func New(
 		paramstypes.ModuleName,
 		authz.ModuleName,
 		wasm.ModuleName,
-		cohomoduletypes.ModuleName,
+		stimulustypes.ModuleName,
 		gametypes.ModuleName,
 	)
 
@@ -596,7 +596,7 @@ func New(
 		feegrant.ModuleName,
 		authz.ModuleName,
 		wasm.ModuleName,
-		cohomoduletypes.ModuleName,
+		stimulustypes.ModuleName,
 		gametypes.ModuleName,
 	)
 
@@ -621,7 +621,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
-		cohomodule.NewAppModule(appCodec, app.CohoKeeper, app.AccountKeeper, app.BankKeeper),
+		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 	app.sm.RegisterStoreDecoders()
@@ -836,7 +836,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
-	paramsKeeper.Subspace(cohomoduletypes.ModuleName)
+	paramsKeeper.Subspace(stimulustypes.ModuleName)
 	paramsKeeper.Subspace(gametypes.ModuleName)
 	paramsKeeper.Subspace(wasm.ModuleName)
 

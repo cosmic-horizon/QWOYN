@@ -3,8 +3,8 @@ package keeper
 import (
 	"testing"
 
-	"github.com/cosmic-horizon/qwoyn/x/coho/keeper"
-	"github.com/cosmic-horizon/qwoyn/x/coho/types"
+	"github.com/cosmic-horizon/qwoyn/x/stimulus/keeper"
+	"github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/store"
