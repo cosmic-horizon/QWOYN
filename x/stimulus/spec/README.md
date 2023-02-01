@@ -60,3 +60,9 @@ The interest rate should be a fixed daily rate. Something like 2.5% for example.
 - Initial portion of COHO tokens should be minted into outpost funding pool at genesis, remaining put on LP, others given to COHO token manager
 
 That’s correct.
+
+## Apply swap fee for LP swap COHO <> QWOYN
+
+configure the fee to be paid in Qwoyn (static fee. e.g. 1 QWOYN)
+
+- Where to send fees to?

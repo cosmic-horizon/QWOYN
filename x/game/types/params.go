@@ -36,7 +36,7 @@ func NewParams(owner, depositDenom string, stakingInflation uint64, unstakingTim
 
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
-	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v", "stake", 1, time.Second*30)
+	return NewParams("qwoyn1uaa7lcgu58e5vj6jwzw66gl2ekyfcx7htqthky", "stake", 1, time.Second*30)
 }
 
 // ParamSetPairs get the params.ParamSet

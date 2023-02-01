@@ -15,6 +15,9 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_stimulus"
+
+	// OutpostFundingPoolName the root string for the outpost funding pool account address
+	OutpostFundingPoolName = "outpost_funding_pool"
 )
 
 func KeyPrefix(p string) []byte {

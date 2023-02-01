@@ -4,6 +4,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 
 	"github.com/cosmic-horizon/qwoyn/x/mint/types"
+	stimulustypes "github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
@@ -107,4 +108,8 @@ func (k Keeper) MintCoins(ctx sdk.Context, newCoins sdk.Coins) error {
 // AddCollectedFees to be used in BeginBlocker.
 func (k Keeper) AddCollectedFees(ctx sdk.Context, fees sdk.Coins) error {
 	return k.bankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, k.feeCollectorName, fees)
+}
+
+func (k Keeper) AddToOutpostFundingPool(ctx sdk.Context, fees sdk.Coins) error {
+	return k.bankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, stimulustypes.OutpostFundingPoolName, fees)
 }
