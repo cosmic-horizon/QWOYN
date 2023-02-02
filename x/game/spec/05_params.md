@@ -12,3 +12,5 @@ The game module contains the following parameters:
 | DepositDenom     | string           | "ucoho"                                       |
 | StakingInflation | uint64           | 1                                             |
 | UnstakingTime    | string (time ns) | "259200000000000"                             |
+| SwapFeeCollector | address          | "coho1gp39e7eahjehykfuywzvn2gswfqz22wpukygpa" |
+| SwapFee          | Coin             | "1000000uqwoyn"                               |
