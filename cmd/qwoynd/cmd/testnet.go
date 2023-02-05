@@ -37,6 +37,7 @@ import (
 	ibcchanneltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 
 	"github.com/cosmic-horizon/qwoyn/app/params"
+	gametypes "github.com/cosmic-horizon/qwoyn/x/game/types"
 	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -322,6 +323,12 @@ func initGenFiles(
 	clientCtx.Codec.MustUnmarshalJSON(appGenState[crisistypes.ModuleName], &crisisGenState)
 	crisisGenState.ConstantFee.Denom = params.BondDenom
 	appGenState[crisistypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&crisisGenState)
+
+	// game module deposit denom
+	var gameGenState gametypes.GenesisState
+	clientCtx.Codec.MustUnmarshalJSON(appGenState[gametypes.ModuleName], &gameGenState)
+	gameGenState.Params.DepositDenom = params.GameCoinUnit
+	appGenState[gametypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&gameGenState)
 
 	// mint module mint denom
 	var mintGenState minttypes.GenesisState
