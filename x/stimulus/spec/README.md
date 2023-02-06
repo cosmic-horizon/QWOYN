@@ -60,3 +60,15 @@ The interest rate should be a fixed daily rate. Something like 2.5% for example.
 - Initial portion of COHO tokens should be minted into outpost funding pool at genesis, remaining put on LP, others given to COHO token manager
 
 That’s correct.
+
+# More to work on
+
+1. we need a way for people to buy NFTs on our chain (stargaze clone possibly?)
+2. add the ability for users to swap their current genesis nfts for the new set of nfts that we have.
+   For 1, maybe we can just continue to use stargaze and then swap those NFTs for qwoyn NFTs
+   Since we have the dynamic parameters system. The reason Im asking for this is because the owners of my previous game, Hashkings. Want to launch Hashkings on our chain.
+   Question: Does the latest release of the chain include cosmwasm? If so, I'm going to spin up a devnet. Once you are finished with your current tasks, we will spin up a new testnet for our game devs.
+
+   I think we can clone Stargaze nft marketplace and launch (will need frontend developer for this)
+   For second one, wouldn't it be good to add a cosmwasm contract who can execute swap?
+   (Just a thought)
