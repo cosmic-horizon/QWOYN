@@ -41,11 +41,11 @@ func NewParams(owner, depositDenom string, stakingInflation uint64, unstakingTim
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
 	return NewParams(
-		"qwoyn1uaa7lcgu58e5vj6jwzw66gl2ekyfcx7htqthky",
+		"qwoyn1x0fha27pejg5ajg8vnrqm33ck8tq6raa64qw6h",
 		"stake",
 		1,
 		time.Second*30,
-		"qwoyn1uaa7lcgu58e5vj6jwzw66gl2ekyfcx7htqthky",
+		"qwoyn1x0fha27pejg5ajg8vnrqm33ck8tq6raa64qw6h",
 		sdk.NewInt64Coin("uqwoyn", 0),
 	)
 }

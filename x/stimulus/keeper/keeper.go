@@ -19,6 +19,7 @@ type Keeper struct {
 	ak         types.AccountKeeper
 	bk         types.BankKeeper
 	gk         types.GameKeeper
+	mk         types.MintKeeper
 }
 
 func NewKeeper(
@@ -29,6 +30,7 @@ func NewKeeper(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	gk types.GameKeeper,
+	mk types.MintKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -43,6 +45,7 @@ func NewKeeper(
 		ak:         ak,
 		bk:         bk,
 		gk:         gk,
+		mk:         mk,
 	}
 }
 

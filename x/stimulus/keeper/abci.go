@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	appparams "github.com/cosmic-horizon/qwoyn/app/params"
 	"github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -15,13 +14,14 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
 	defer telemetry.ModuleMeasureSince(types.ModuleName, time.Now(), telemetry.MetricKeyBeginBlocker)
 
 	outpostPoolAddr := k.ak.GetModuleAddress(types.OutpostFundingPoolName)
-	qwoynBalance := k.bk.GetBalance(ctx, outpostPoolAddr, appparams.BondDenom)
+	mintDenom := k.mk.GetParams(ctx).MintDenom
+	mintedBalance := k.bk.GetBalance(ctx, outpostPoolAddr, mintDenom)
 
 	cacheCtx, write := ctx.CacheContext()
-	err := k.gk.Swap(cacheCtx, outpostPoolAddr, qwoynBalance)
+	err := k.gk.SwapFromModule(cacheCtx, types.OutpostFundingPoolName, mintedBalance)
 	if err == nil {
 		write()
 	} else {
-		fmt.Println("automatic swap error", err)
+		fmt.Println("automatic swap error", mintedBalance, err)
 	}
 }

@@ -98,3 +98,37 @@ func (k Keeper) Swap(ctx sdk.Context, sender sdk.AccAddress, amount sdk.Coin) er
 	})
 	return nil
 }
+
+func (k Keeper) SwapFromModule(ctx sdk.Context, moduleName string, amount sdk.Coin) error {
+	// deposit coins into module and increase liquidity
+	err := k.BankKeeper.SendCoinsFromModuleToModule(ctx, moduleName, types.ModuleName, sdk.Coins{amount})
+	if err != nil {
+		return err
+	}
+
+	// withdraw coins from module and decrease liquidity
+	tarCoin, err := k.SwapOutAmount(ctx, amount)
+	if err != nil {
+		return err
+	}
+
+	tarCoins := sdk.Coins{tarCoin}
+	err = k.BankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, moduleName, tarCoins)
+	if err != nil {
+		return err
+	}
+
+	k.IncreaseLiquidity(ctx, sdk.Coins{amount})
+	err = k.DecreaseLiquidity(ctx, tarCoins)
+	if err != nil {
+		return err
+	}
+
+	// emit event
+	ctx.EventManager().EmitTypedEvent(&types.EventSwap{
+		Sender:    moduleName,
+		InAmount:  amount.String(),
+		OutAmount: tarCoin.String(),
+	})
+	return nil
+}

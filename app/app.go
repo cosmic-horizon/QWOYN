@@ -481,12 +481,6 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
-	app.StimulusKeeper = *stimuluskeeper.NewKeeper(
-		appCodec,
-		keys[stimulustypes.StoreKey],
-		keys[stimulustypes.MemStoreKey],
-		app.GetSubspace(stimulustypes.ModuleName),
-	)
 	app.GameKeeper = *gamekeeper.NewKeeper(
 		appCodec,
 		keys[gametypes.StoreKey],
@@ -498,6 +492,16 @@ func New(
 		app.BankKeeper,
 	)
 
+	app.StimulusKeeper = *stimuluskeeper.NewKeeper(
+		appCodec,
+		keys[stimulustypes.StoreKey],
+		keys[stimulustypes.MemStoreKey],
+		app.GetSubspace(stimulustypes.ModuleName),
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.GameKeeper,
+		app.MintKeeper,
+	)
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
