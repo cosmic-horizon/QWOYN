@@ -46,7 +46,7 @@ func (m msgServer) DepositIntoOutpostFunding(goCtx context.Context, msg *types.M
 	return &types.MsgDepositIntoOutpostFundingResponse{}, nil
 }
 
-func (m msgServer) WithdrawFromOutpotFunding(goCtx context.Context, msg *types.MsgWithdrawFromOutpotFunding) (*types.MsgWithdrawFromOutpotFundingResponse, error) {
+func (m msgServer) WithdrawFromOutpostFunding(goCtx context.Context, msg *types.MsgWithdrawFromOutpostFunding) (*types.MsgWithdrawFromOutpostFundingResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	params := m.gk.GetParamSet(ctx)
 	if msg.Amount.Denom != params.DepositDenom {
@@ -69,10 +69,10 @@ func (m msgServer) WithdrawFromOutpotFunding(goCtx context.Context, msg *types.M
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventWithdrawFromOutpotFunding{
+	ctx.EventManager().EmitTypedEvent(&types.EventWithdrawFromOutpostFunding{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
 
-	return &types.MsgWithdrawFromOutpotFundingResponse{}, nil
+	return &types.MsgWithdrawFromOutpostFundingResponse{}, nil
 }

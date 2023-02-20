@@ -33,17 +33,17 @@ func (msg MsgDepositIntoOutpostFunding) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sender}
 }
 
-var _ sdk.Msg = &MsgWithdrawFromOutpotFunding{}
+var _ sdk.Msg = &MsgWithdrawFromOutpostFunding{}
 
-func NewMsgWithdrawFromOutpotFunding(sender sdk.AccAddress, coin sdk.Coin,
-) *MsgWithdrawFromOutpotFunding {
-	return &MsgWithdrawFromOutpotFunding{
+func NewMsgWithdrawFromOutpostFunding(sender sdk.AccAddress, coin sdk.Coin,
+) *MsgWithdrawFromOutpostFunding {
+	return &MsgWithdrawFromOutpostFunding{
 		Sender: sender.String(),
 		Amount: coin,
 	}
 }
 
-func (msg MsgWithdrawFromOutpotFunding) ValidateBasic() error {
+func (msg MsgWithdrawFromOutpostFunding) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
@@ -53,7 +53,7 @@ func (msg MsgWithdrawFromOutpotFunding) ValidateBasic() error {
 }
 
 // GetSigners Implements Msg.
-func (msg MsgWithdrawFromOutpotFunding) GetSigners() []sdk.AccAddress {
+func (msg MsgWithdrawFromOutpostFunding) GetSigners() []sdk.AccAddress {
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		panic(err)
