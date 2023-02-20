@@ -15,34 +15,34 @@ option go_package = "github.com/cosmic-horizon/qwoyn/x/game/types";
 service Query {
   // Parameters queries the parameters of the module.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/params";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/params";
   }
   rpc WhitelistedContracts(QueryWhitelistedContractsRequest) returns (QueryWhitelistedContractsResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/whitelisted_contracts";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/whitelisted_contracts";
   }
   rpc InGameNfts(QueryInGameNftsRequest) returns (QueryInGameNftsResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/in_game_nfts/{contract}";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/in_game_nfts/{contract}";
   }
   rpc DepositBalance(QueryDepositBalanceRequest) returns (QueryDepositBalanceResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/deposit_balance/{address}";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/deposit_balance/{address}";
   }
   rpc AllDepositBalance(QueryAllDepositBalancesRequest) returns (QueryAllDepositBalanceResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/all_deposit_balances";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/all_deposit_balances";
   }
   rpc AllUnbondings(QueryAllUnbondingsRequest) returns (QueryAllUnbondingsResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/all_unbondings";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/all_unbondings";
   }
   rpc UserUnbondings(QueryUserUnbondingsRequest) returns (QueryUserUnbondingsResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/user_unbondings/{address}";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/user_unbondings/{address}";
   }
   rpc Liquidity(QueryLiquidityRequest) returns (QueryLiquidityResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/liquidity";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/liquidity";
   }
   rpc EstimatedSwapOut(QueryEstimatedSwapOutRequest) returns (QueryEstimatedSwapOutResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/estimated_swap_out/{amount}";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/estimated_swap_out/{amount}";
   }
   rpc SwapRate(QuerySwapRateRequest) returns (QuerySwapRateResponse) {
-    option (google.api.http).get = "/cosmichorizon/coho/game/swap_rate";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/game/swap_rate";
   }
 }
 

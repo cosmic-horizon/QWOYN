@@ -56,4 +56,10 @@ message Params {
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable) = false
   ];
+  // portion of inflation rewards to be sent to outpost funding pool
+  string outpost_funding_pool_portion = 8 [
+    (gogoproto.moretags) = "yaml:\"outpost_funding_pool_portion\"",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false
+  ];
 }

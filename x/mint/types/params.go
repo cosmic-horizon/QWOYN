@@ -13,13 +13,14 @@ import (
 
 // Parameter store keys
 var (
-	KeyMintDenom           = []byte("MintDenom")
-	KeyInflationRateChange = []byte("InflationRateChange")
-	KeyInflationMax        = []byte("InflationMax")
-	KeyInflationMin        = []byte("InflationMin")
-	KeyGoalBonded          = []byte("GoalBonded")
-	KeyBlocksPerYear       = []byte("BlocksPerYear")
-	KeyMaxCap              = []byte("MaxCap")
+	KeyMintDenom                 = []byte("MintDenom")
+	KeyInflationRateChange       = []byte("InflationRateChange")
+	KeyInflationMax              = []byte("InflationMax")
+	KeyInflationMin              = []byte("InflationMin")
+	KeyGoalBonded                = []byte("GoalBonded")
+	KeyBlocksPerYear             = []byte("BlocksPerYear")
+	KeyMaxCap                    = []byte("MaxCap")
+	KeyOutpostFundingPoolPortion = []byte("OutpostFundingPool")
 )
 
 // ParamTable for minting module.
@@ -28,30 +29,32 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 func NewParams(
-	mintDenom string, inflationRateChange, inflationMax, inflationMin, goalBonded sdk.Dec, blocksPerYear uint64, maxCap sdk.Int,
+	mintDenom string, inflationRateChange, inflationMax, inflationMin, goalBonded sdk.Dec, blocksPerYear uint64, maxCap sdk.Int, outpostFundingPoolPortion sdk.Dec,
 ) Params {
 
 	return Params{
-		MintDenom:           mintDenom,
-		InflationRateChange: inflationRateChange,
-		InflationMax:        inflationMax,
-		InflationMin:        inflationMin,
-		GoalBonded:          goalBonded,
-		BlocksPerYear:       blocksPerYear,
-		MaxCap:              maxCap,
+		MintDenom:                 mintDenom,
+		InflationRateChange:       inflationRateChange,
+		InflationMax:              inflationMax,
+		InflationMin:              inflationMin,
+		GoalBonded:                goalBonded,
+		BlocksPerYear:             blocksPerYear,
+		MaxCap:                    maxCap,
+		OutpostFundingPoolPortion: outpostFundingPoolPortion,
 	}
 }
 
 // default minting module parameters
 func DefaultParams() Params {
 	return Params{
-		MintDenom:           appparams.BondDenom,
-		InflationRateChange: sdk.NewDecWithPrec(13, 2),
-		InflationMax:        sdk.NewDecWithPrec(40, 2),
-		InflationMin:        sdk.NewDecWithPrec(7, 2),
-		GoalBonded:          sdk.NewDecWithPrec(67, 2),
-		BlocksPerYear:       4360000,
-		MaxCap:              sdk.NewInt(21_000_000_000_000), // 21,000,000 QWOYN
+		MintDenom:                 appparams.BondDenom,
+		InflationRateChange:       sdk.NewDecWithPrec(13, 2),
+		InflationMax:              sdk.NewDecWithPrec(40, 2),
+		InflationMin:              sdk.NewDecWithPrec(7, 2),
+		GoalBonded:                sdk.NewDecWithPrec(67, 2),
+		BlocksPerYear:             4360000,
+		MaxCap:                    sdk.NewInt(21_000_000_000_000), // 21,000,000 QWOYN
+		OutpostFundingPoolPortion: sdk.NewDecWithPrec(50, 2),      // 50%
 	}
 }
 
@@ -85,6 +88,10 @@ func (p Params) Validate() error {
 		return err
 	}
 
+	if err := validateOutpostFundingPoolPortion(p.OutpostFundingPoolPortion); err != nil {
+		return err
+	}
+
 	return nil
 
 }
@@ -105,6 +112,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(KeyGoalBonded, &p.GoalBonded, validateGoalBonded),
 		paramtypes.NewParamSetPair(KeyBlocksPerYear, &p.BlocksPerYear, validateBlocksPerYear),
 		paramtypes.NewParamSetPair(KeyMaxCap, &p.MaxCap, validateMaxCap),
+		paramtypes.NewParamSetPair(KeyOutpostFundingPoolPortion, &p.OutpostFundingPoolPortion, validateOutpostFundingPoolPortion),
 	}
 }
 
@@ -209,6 +217,22 @@ func validateMaxCap(i interface{}) error {
 
 	if v.IsZero() {
 		return fmt.Errorf("max cap must be positive: %d", v)
+	}
+
+	return nil
+}
+
+func validateOutpostFundingPoolPortion(i interface{}) error {
+	v, ok := i.(sdk.Dec)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v.IsNegative() {
+		return fmt.Errorf("outpost funding pool portion cannot be negative: %s", v)
+	}
+	if v.GT(sdk.OneDec()) {
+		return fmt.Errorf("outpost funding pool portion too large: %s", v)
 	}
 
 	return nil

@@ -356,36 +356,19 @@ func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 		return nil, err
 	}
 
-	// deposit coins into module and increase liquidity
-	err = m.Keeper.BankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, sdk.Coins{msg.Amount})
+	// send swap fee to collector
+	params := m.Keeper.GetParamSet(ctx)
+	if params.SwapFee.IsPositive() {
+		feeCollector := sdk.MustAccAddressFromBech32(params.SwapFeeCollector)
+		err = m.Keeper.BankKeeper.SendCoins(ctx, sender, feeCollector, sdk.Coins{params.SwapFee})
+		if err != nil {
+			return nil, err
+		}
+	}
+	err = m.Keeper.Swap(ctx, sender, msg.Amount)
 	if err != nil {
 		return nil, err
 	}
-
-	// withdraw coins from module and decrease liquidity
-	tarCoin, err := m.Keeper.SwapOutAmount(ctx, msg.Amount)
-	if err != nil {
-		return nil, err
-	}
-
-	tarCoins := sdk.Coins{tarCoin}
-	err = m.Keeper.BankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, tarCoins)
-	if err != nil {
-		return nil, err
-	}
-
-	m.Keeper.IncreaseLiquidity(ctx, sdk.Coins{msg.Amount})
-	err = m.Keeper.DecreaseLiquidity(ctx, tarCoins)
-	if err != nil {
-		return nil, err
-	}
-
-	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventSwap{
-		Sender:    msg.Sender,
-		InAmount:  msg.Amount.String(),
-		OutAmount: tarCoin.String(),
-	})
 
 	return &types.MsgSwapResponse{}, nil
 }
