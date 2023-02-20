@@ -15,4 +15,9 @@ message Params {
   string deposit_denom = 2;
   uint64 staking_inflation = 3; // percentage
   google.protobuf.Duration unstaking_time = 4 [(gogoproto.nullable) = false, (gogoproto.stdduration) = true];
+  string swap_fee_collector = 5;
+  string swap_fee = 6 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Coin",
+    (gogoproto.nullable) = false
+  ];
 }

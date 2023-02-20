@@ -806,25 +806,25 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "coho", "game", "params"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "qwoyn", "game", "params"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_WhitelistedContracts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "coho", "game", "whitelisted_contracts"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_WhitelistedContracts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "qwoyn", "game", "whitelisted_contracts"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_InGameNfts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "coho", "game", "in_game_nfts", "contract"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_InGameNfts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "qwoyn", "game", "in_game_nfts", "contract"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_DepositBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "coho", "game", "deposit_balance", "address"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_DepositBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "qwoyn", "game", "deposit_balance", "address"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_AllDepositBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "coho", "game", "all_deposit_balances"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_AllDepositBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "qwoyn", "game", "all_deposit_balances"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_AllUnbondings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "coho", "game", "all_unbondings"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_AllUnbondings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "qwoyn", "game", "all_unbondings"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_UserUnbondings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "coho", "game", "user_unbondings", "address"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_UserUnbondings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "qwoyn", "game", "user_unbondings", "address"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Liquidity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "coho", "game", "liquidity"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Liquidity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "qwoyn", "game", "liquidity"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_EstimatedSwapOut_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "coho", "game", "estimated_swap_out", "amount"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_EstimatedSwapOut_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"cosmichorizon", "qwoyn", "game", "estimated_swap_out", "amount"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_SwapRate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "coho", "game", "swap_rate"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_SwapRate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"cosmichorizon", "qwoyn", "game", "swap_rate"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

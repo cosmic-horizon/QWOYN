@@ -1,0 +1,12 @@
+syntax = "proto3";
+package cosmichorizon.qwoyn.stimulus;
+
+import "gogoproto/gogo.proto";
+import "stimulus/params.proto";
+
+option go_package = "github.com/cosmic-horizon/qwoyn/x/stimulus/types";
+
+// GenesisState defines the stimulus module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

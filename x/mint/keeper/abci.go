@@ -38,10 +38,22 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
 		panic(err)
 	}
 
-	// send the minted coins to the fee collector account
-	err = k.AddCollectedFees(ctx, mintedCoins)
-	if err != nil {
-		panic(err)
+	outpostFundingCoin := sdk.NewCoin(mintedCoin.Denom, mintedCoin.Amount.ToDec().Mul(params.OutpostFundingPoolPortion).RoundInt())
+	if outpostFundingCoin.IsPositive() {
+		outpostFundingCoins := sdk.NewCoins(outpostFundingCoin)
+		err = k.AddToOutpostFundingPool(ctx, outpostFundingCoins)
+		if err != nil {
+			panic(err)
+		}
+		mintedCoins = mintedCoins.Sub(outpostFundingCoins)
+	}
+
+	if mintedCoins.IsAllPositive() {
+		// send the minted coins to the fee collector account
+		err = k.AddCollectedFees(ctx, mintedCoins)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	if mintedCoin.Amount.IsInt64() {

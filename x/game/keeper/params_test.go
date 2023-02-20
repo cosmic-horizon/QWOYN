@@ -17,6 +17,8 @@ func (suite *KeeperTestSuite) TestParamsGetSet() {
 		DepositDenom:     "stake",
 		StakingInflation: 10,
 		UnstakingTime:    time.Hour * 24,
+		SwapFeeCollector: addr.String(),
+		SwapFee:          sdk.NewInt64Coin("stake", 1000_000),
 	}
 
 	suite.app.GameKeeper.SetParamSet(suite.ctx, params)

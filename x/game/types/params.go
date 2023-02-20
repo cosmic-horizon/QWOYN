@@ -17,6 +17,8 @@ var (
 	KeyDepositDenom     = []byte("DepositDenom")
 	KeyStakingInflation = []byte("StakingInflation")
 	KeyUnstakingTime    = []byte("UnstakingTime")
+	KeySwapFeeCollector = []byte("SwapFeeCollector")
+	KeySwapFee          = []byte("SwapFeeAmount")
 )
 
 // ParamKeyTable the param key table for launch module
@@ -25,18 +27,27 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams(owner, depositDenom string, stakingInflation uint64, unstakingTime time.Duration) Params {
+func NewParams(owner, depositDenom string, stakingInflation uint64, unstakingTime time.Duration, swapFeeCollector string, swapFee sdk.Coin) Params {
 	return Params{
 		Owner:            owner,
 		DepositDenom:     depositDenom,
 		StakingInflation: stakingInflation,
 		UnstakingTime:    unstakingTime,
+		SwapFeeCollector: swapFeeCollector,
+		SwapFee:          swapFee,
 	}
 }
 
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
-	return NewParams("coho1x0fha27pejg5ajg8vnrqm33ck8tq6raafkwa9v", "stake", 1, time.Second*30)
+	return NewParams(
+		"qwoyn1x0fha27pejg5ajg8vnrqm33ck8tq6raa64qw6h",
+		"stake",
+		1,
+		time.Second*30,
+		"qwoyn1x0fha27pejg5ajg8vnrqm33ck8tq6raa64qw6h",
+		sdk.NewInt64Coin("uqwoyn", 0),
+	)
 }
 
 // ParamSetPairs get the params.ParamSet
@@ -46,6 +57,8 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(KeyDepositDenom, &p.DepositDenom, validateDenom),
 		paramtypes.NewParamSetPair(KeyStakingInflation, &p.StakingInflation, validateStakingInflation),
 		paramtypes.NewParamSetPair(KeyUnstakingTime, &p.UnstakingTime, validateUnstakingTime),
+		paramtypes.NewParamSetPair(KeySwapFeeCollector, &p.SwapFeeCollector, validateFeeCollector),
+		paramtypes.NewParamSetPair(KeySwapFee, &p.SwapFee, validateSwapFee),
 	}
 }
 
@@ -70,6 +83,17 @@ func (p Params) Validate() error {
 	if err != nil {
 		return err
 	}
+
+	err = validateFeeCollector(p.SwapFeeCollector)
+	if err != nil {
+		return err
+	}
+
+	err = validateSwapFee(p.SwapFee)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -115,6 +139,27 @@ func validateStakingInflation(i interface{}) error {
 
 func validateUnstakingTime(i interface{}) error {
 	_, ok := i.(time.Duration)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	return nil
+}
+
+func validateFeeCollector(i interface{}) error {
+	v, ok := i.(string)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if _, err := sdk.AccAddressFromBech32(v); err != nil {
+		return fmt.Errorf("invalid fee collector address")
+	}
+	return nil
+}
+
+func validateSwapFee(i interface{}) error {
+	_, ok := i.(sdk.Coin)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
