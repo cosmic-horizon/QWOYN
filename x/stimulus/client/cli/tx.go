@@ -99,7 +99,7 @@ func GetCmdWithdrawFromOutpostFundingPool() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgWithdrawFromOutpotFunding(
+			msg := types.NewMsgWithdrawFromOutpostFunding(
 				clientCtx.GetFromAddress(),
 				coin,
 			)

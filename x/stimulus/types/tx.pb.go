@@ -117,23 +117,23 @@ func (m *MsgDepositIntoOutpostFundingResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDepositIntoOutpostFundingResponse proto.InternalMessageInfo
 
-type MsgWithdrawFromOutpotFunding struct {
+type MsgWithdrawFromOutpostFunding struct {
 	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
 }
 
-func (m *MsgWithdrawFromOutpotFunding) Reset()         { *m = MsgWithdrawFromOutpotFunding{} }
-func (m *MsgWithdrawFromOutpotFunding) String() string { return proto.CompactTextString(m) }
-func (*MsgWithdrawFromOutpotFunding) ProtoMessage()    {}
-func (*MsgWithdrawFromOutpotFunding) Descriptor() ([]byte, []int) {
+func (m *MsgWithdrawFromOutpostFunding) Reset()         { *m = MsgWithdrawFromOutpostFunding{} }
+func (m *MsgWithdrawFromOutpostFunding) String() string { return proto.CompactTextString(m) }
+func (*MsgWithdrawFromOutpostFunding) ProtoMessage()    {}
+func (*MsgWithdrawFromOutpostFunding) Descriptor() ([]byte, []int) {
 	return fileDescriptor_998c0a138c8bb0b7, []int{2}
 }
-func (m *MsgWithdrawFromOutpotFunding) XXX_Unmarshal(b []byte) error {
+func (m *MsgWithdrawFromOutpostFunding) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgWithdrawFromOutpotFunding) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgWithdrawFromOutpostFunding) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgWithdrawFromOutpotFunding.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgWithdrawFromOutpostFunding.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -143,47 +143,47 @@ func (m *MsgWithdrawFromOutpotFunding) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-func (m *MsgWithdrawFromOutpotFunding) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgWithdrawFromOutpotFunding.Merge(m, src)
+func (m *MsgWithdrawFromOutpostFunding) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgWithdrawFromOutpostFunding.Merge(m, src)
 }
-func (m *MsgWithdrawFromOutpotFunding) XXX_Size() int {
+func (m *MsgWithdrawFromOutpostFunding) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgWithdrawFromOutpotFunding) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgWithdrawFromOutpotFunding.DiscardUnknown(m)
+func (m *MsgWithdrawFromOutpostFunding) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgWithdrawFromOutpostFunding.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgWithdrawFromOutpotFunding proto.InternalMessageInfo
+var xxx_messageInfo_MsgWithdrawFromOutpostFunding proto.InternalMessageInfo
 
-func (m *MsgWithdrawFromOutpotFunding) GetSender() string {
+func (m *MsgWithdrawFromOutpostFunding) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgWithdrawFromOutpotFunding) GetAmount() types.Coin {
+func (m *MsgWithdrawFromOutpostFunding) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-type MsgWithdrawFromOutpotFundingResponse struct {
+type MsgWithdrawFromOutpostFundingResponse struct {
 }
 
-func (m *MsgWithdrawFromOutpotFundingResponse) Reset()         { *m = MsgWithdrawFromOutpotFundingResponse{} }
-func (m *MsgWithdrawFromOutpotFundingResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgWithdrawFromOutpotFundingResponse) ProtoMessage()    {}
-func (*MsgWithdrawFromOutpotFundingResponse) Descriptor() ([]byte, []int) {
+func (m *MsgWithdrawFromOutpostFundingResponse) Reset()         { *m = MsgWithdrawFromOutpostFundingResponse{} }
+func (m *MsgWithdrawFromOutpostFundingResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgWithdrawFromOutpostFundingResponse) ProtoMessage()    {}
+func (*MsgWithdrawFromOutpostFundingResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_998c0a138c8bb0b7, []int{3}
 }
-func (m *MsgWithdrawFromOutpotFundingResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgWithdrawFromOutpostFundingResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgWithdrawFromOutpotFundingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgWithdrawFromOutpostFundingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgWithdrawFromOutpotFundingResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgWithdrawFromOutpostFundingResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -193,17 +193,17 @@ func (m *MsgWithdrawFromOutpotFundingResponse) XXX_Marshal(b []byte, determinist
 		return b[:n], nil
 	}
 }
-func (m *MsgWithdrawFromOutpotFundingResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgWithdrawFromOutpotFundingResponse.Merge(m, src)
+func (m *MsgWithdrawFromOutpostFundingResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgWithdrawFromOutpostFundingResponse.Merge(m, src)
 }
-func (m *MsgWithdrawFromOutpotFundingResponse) XXX_Size() int {
+func (m *MsgWithdrawFromOutpostFundingResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgWithdrawFromOutpotFundingResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgWithdrawFromOutpotFundingResponse.DiscardUnknown(m)
+func (m *MsgWithdrawFromOutpostFundingResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgWithdrawFromOutpostFundingResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgWithdrawFromOutpotFundingResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgWithdrawFromOutpostFundingResponse proto.InternalMessageInfo
 
 type EventDepositIntoOutpostFunding struct {
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
@@ -257,23 +257,23 @@ func (m *EventDepositIntoOutpostFunding) GetAmount() string {
 	return ""
 }
 
-type EventWithdrawFromOutpotFunding struct {
+type EventWithdrawFromOutpostFunding struct {
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	Amount string `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
 }
 
-func (m *EventWithdrawFromOutpotFunding) Reset()         { *m = EventWithdrawFromOutpotFunding{} }
-func (m *EventWithdrawFromOutpotFunding) String() string { return proto.CompactTextString(m) }
-func (*EventWithdrawFromOutpotFunding) ProtoMessage()    {}
-func (*EventWithdrawFromOutpotFunding) Descriptor() ([]byte, []int) {
+func (m *EventWithdrawFromOutpostFunding) Reset()         { *m = EventWithdrawFromOutpostFunding{} }
+func (m *EventWithdrawFromOutpostFunding) String() string { return proto.CompactTextString(m) }
+func (*EventWithdrawFromOutpostFunding) ProtoMessage()    {}
+func (*EventWithdrawFromOutpostFunding) Descriptor() ([]byte, []int) {
 	return fileDescriptor_998c0a138c8bb0b7, []int{5}
 }
-func (m *EventWithdrawFromOutpotFunding) XXX_Unmarshal(b []byte) error {
+func (m *EventWithdrawFromOutpostFunding) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *EventWithdrawFromOutpotFunding) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *EventWithdrawFromOutpostFunding) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_EventWithdrawFromOutpotFunding.Marshal(b, m, deterministic)
+		return xxx_messageInfo_EventWithdrawFromOutpostFunding.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -283,26 +283,26 @@ func (m *EventWithdrawFromOutpotFunding) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-func (m *EventWithdrawFromOutpotFunding) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EventWithdrawFromOutpotFunding.Merge(m, src)
+func (m *EventWithdrawFromOutpostFunding) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventWithdrawFromOutpostFunding.Merge(m, src)
 }
-func (m *EventWithdrawFromOutpotFunding) XXX_Size() int {
+func (m *EventWithdrawFromOutpostFunding) XXX_Size() int {
 	return m.Size()
 }
-func (m *EventWithdrawFromOutpotFunding) XXX_DiscardUnknown() {
-	xxx_messageInfo_EventWithdrawFromOutpotFunding.DiscardUnknown(m)
+func (m *EventWithdrawFromOutpostFunding) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventWithdrawFromOutpostFunding.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EventWithdrawFromOutpotFunding proto.InternalMessageInfo
+var xxx_messageInfo_EventWithdrawFromOutpostFunding proto.InternalMessageInfo
 
-func (m *EventWithdrawFromOutpotFunding) GetSender() string {
+func (m *EventWithdrawFromOutpostFunding) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *EventWithdrawFromOutpotFunding) GetAmount() string {
+func (m *EventWithdrawFromOutpostFunding) GetAmount() string {
 	if m != nil {
 		return m.Amount
 	}
@@ -312,10 +312,10 @@ func (m *EventWithdrawFromOutpotFunding) GetAmount() string {
 func init() {
 	proto.RegisterType((*MsgDepositIntoOutpostFunding)(nil), "cosmichorizon.qwoyn.stimulus.MsgDepositIntoOutpostFunding")
 	proto.RegisterType((*MsgDepositIntoOutpostFundingResponse)(nil), "cosmichorizon.qwoyn.stimulus.MsgDepositIntoOutpostFundingResponse")
-	proto.RegisterType((*MsgWithdrawFromOutpotFunding)(nil), "cosmichorizon.qwoyn.stimulus.MsgWithdrawFromOutpotFunding")
-	proto.RegisterType((*MsgWithdrawFromOutpotFundingResponse)(nil), "cosmichorizon.qwoyn.stimulus.MsgWithdrawFromOutpotFundingResponse")
+	proto.RegisterType((*MsgWithdrawFromOutpostFunding)(nil), "cosmichorizon.qwoyn.stimulus.MsgWithdrawFromOutpostFunding")
+	proto.RegisterType((*MsgWithdrawFromOutpostFundingResponse)(nil), "cosmichorizon.qwoyn.stimulus.MsgWithdrawFromOutpostFundingResponse")
 	proto.RegisterType((*EventDepositIntoOutpostFunding)(nil), "cosmichorizon.qwoyn.stimulus.EventDepositIntoOutpostFunding")
-	proto.RegisterType((*EventWithdrawFromOutpotFunding)(nil), "cosmichorizon.qwoyn.stimulus.EventWithdrawFromOutpotFunding")
+	proto.RegisterType((*EventWithdrawFromOutpostFunding)(nil), "cosmichorizon.qwoyn.stimulus.EventWithdrawFromOutpostFunding")
 }
 
 func init() { proto.RegisterFile("stimulus/tx.proto", fileDescriptor_998c0a138c8bb0b7) }
@@ -360,7 +360,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
 	DepositIntoOutpostFunding(ctx context.Context, in *MsgDepositIntoOutpostFunding, opts ...grpc.CallOption) (*MsgDepositIntoOutpostFundingResponse, error)
-	WithdrawFromOutpotFunding(ctx context.Context, in *MsgWithdrawFromOutpotFunding, opts ...grpc.CallOption) (*MsgWithdrawFromOutpotFundingResponse, error)
+	WithdrawFromOutpostFunding(ctx context.Context, in *MsgWithdrawFromOutpostFunding, opts ...grpc.CallOption) (*MsgWithdrawFromOutpostFundingResponse, error)
 }
 
 type msgClient struct {
@@ -380,9 +380,9 @@ func (c *msgClient) DepositIntoOutpostFunding(ctx context.Context, in *MsgDeposi
 	return out, nil
 }
 
-func (c *msgClient) WithdrawFromOutpotFunding(ctx context.Context, in *MsgWithdrawFromOutpotFunding, opts ...grpc.CallOption) (*MsgWithdrawFromOutpotFundingResponse, error) {
-	out := new(MsgWithdrawFromOutpotFundingResponse)
-	err := c.cc.Invoke(ctx, "/cosmichorizon.qwoyn.stimulus.Msg/WithdrawFromOutpotFunding", in, out, opts...)
+func (c *msgClient) WithdrawFromOutpostFunding(ctx context.Context, in *MsgWithdrawFromOutpostFunding, opts ...grpc.CallOption) (*MsgWithdrawFromOutpostFundingResponse, error) {
+	out := new(MsgWithdrawFromOutpostFundingResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.qwoyn.stimulus.Msg/WithdrawFromOutpostFunding", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -392,7 +392,7 @@ func (c *msgClient) WithdrawFromOutpotFunding(ctx context.Context, in *MsgWithdr
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	DepositIntoOutpostFunding(context.Context, *MsgDepositIntoOutpostFunding) (*MsgDepositIntoOutpostFundingResponse, error)
-	WithdrawFromOutpotFunding(context.Context, *MsgWithdrawFromOutpotFunding) (*MsgWithdrawFromOutpotFundingResponse, error)
+	WithdrawFromOutpostFunding(context.Context, *MsgWithdrawFromOutpostFunding) (*MsgWithdrawFromOutpostFundingResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -402,8 +402,8 @@ type UnimplementedMsgServer struct {
 func (*UnimplementedMsgServer) DepositIntoOutpostFunding(ctx context.Context, req *MsgDepositIntoOutpostFunding) (*MsgDepositIntoOutpostFundingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DepositIntoOutpostFunding not implemented")
 }
-func (*UnimplementedMsgServer) WithdrawFromOutpotFunding(ctx context.Context, req *MsgWithdrawFromOutpotFunding) (*MsgWithdrawFromOutpotFundingResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method WithdrawFromOutpotFunding not implemented")
+func (*UnimplementedMsgServer) WithdrawFromOutpostFunding(ctx context.Context, req *MsgWithdrawFromOutpostFunding) (*MsgWithdrawFromOutpostFundingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WithdrawFromOutpostFunding not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -428,20 +428,20 @@ func _Msg_DepositIntoOutpostFunding_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_WithdrawFromOutpotFunding_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgWithdrawFromOutpotFunding)
+func _Msg_WithdrawFromOutpostFunding_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgWithdrawFromOutpostFunding)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).WithdrawFromOutpotFunding(ctx, in)
+		return srv.(MsgServer).WithdrawFromOutpostFunding(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/cosmichorizon.qwoyn.stimulus.Msg/WithdrawFromOutpotFunding",
+		FullMethod: "/cosmichorizon.qwoyn.stimulus.Msg/WithdrawFromOutpostFunding",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).WithdrawFromOutpotFunding(ctx, req.(*MsgWithdrawFromOutpotFunding))
+		return srv.(MsgServer).WithdrawFromOutpostFunding(ctx, req.(*MsgWithdrawFromOutpostFunding))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -455,8 +455,8 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_DepositIntoOutpostFunding_Handler,
 		},
 		{
-			MethodName: "WithdrawFromOutpotFunding",
-			Handler:    _Msg_WithdrawFromOutpotFunding_Handler,
+			MethodName: "WithdrawFromOutpostFunding",
+			Handler:    _Msg_WithdrawFromOutpostFunding_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -526,7 +526,7 @@ func (m *MsgDepositIntoOutpostFundingResponse) MarshalToSizedBuffer(dAtA []byte)
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgWithdrawFromOutpotFunding) Marshal() (dAtA []byte, err error) {
+func (m *MsgWithdrawFromOutpostFunding) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -536,12 +536,12 @@ func (m *MsgWithdrawFromOutpotFunding) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgWithdrawFromOutpotFunding) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgWithdrawFromOutpostFunding) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgWithdrawFromOutpotFunding) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgWithdrawFromOutpostFunding) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -566,7 +566,7 @@ func (m *MsgWithdrawFromOutpotFunding) MarshalToSizedBuffer(dAtA []byte) (int, e
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgWithdrawFromOutpotFundingResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgWithdrawFromOutpostFundingResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -576,12 +576,12 @@ func (m *MsgWithdrawFromOutpotFundingResponse) Marshal() (dAtA []byte, err error
 	return dAtA[:n], nil
 }
 
-func (m *MsgWithdrawFromOutpotFundingResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgWithdrawFromOutpostFundingResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgWithdrawFromOutpotFundingResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgWithdrawFromOutpostFundingResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -626,7 +626,7 @@ func (m *EventDepositIntoOutpostFunding) MarshalToSizedBuffer(dAtA []byte) (int,
 	return len(dAtA) - i, nil
 }
 
-func (m *EventWithdrawFromOutpotFunding) Marshal() (dAtA []byte, err error) {
+func (m *EventWithdrawFromOutpostFunding) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -636,12 +636,12 @@ func (m *EventWithdrawFromOutpotFunding) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *EventWithdrawFromOutpotFunding) MarshalTo(dAtA []byte) (int, error) {
+func (m *EventWithdrawFromOutpostFunding) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *EventWithdrawFromOutpotFunding) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *EventWithdrawFromOutpostFunding) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -698,7 +698,7 @@ func (m *MsgDepositIntoOutpostFundingResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgWithdrawFromOutpotFunding) Size() (n int) {
+func (m *MsgWithdrawFromOutpostFunding) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -713,7 +713,7 @@ func (m *MsgWithdrawFromOutpotFunding) Size() (n int) {
 	return n
 }
 
-func (m *MsgWithdrawFromOutpotFundingResponse) Size() (n int) {
+func (m *MsgWithdrawFromOutpostFundingResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -739,7 +739,7 @@ func (m *EventDepositIntoOutpostFunding) Size() (n int) {
 	return n
 }
 
-func (m *EventWithdrawFromOutpotFunding) Size() (n int) {
+func (m *EventWithdrawFromOutpostFunding) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -927,7 +927,7 @@ func (m *MsgDepositIntoOutpostFundingResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgWithdrawFromOutpotFunding) Unmarshal(dAtA []byte) error {
+func (m *MsgWithdrawFromOutpostFunding) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -950,10 +950,10 @@ func (m *MsgWithdrawFromOutpotFunding) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgWithdrawFromOutpotFunding: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgWithdrawFromOutpostFunding: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgWithdrawFromOutpotFunding: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgWithdrawFromOutpostFunding: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1042,7 +1042,7 @@ func (m *MsgWithdrawFromOutpotFunding) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgWithdrawFromOutpotFundingResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgWithdrawFromOutpostFundingResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1065,10 +1065,10 @@ func (m *MsgWithdrawFromOutpotFundingResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgWithdrawFromOutpotFundingResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgWithdrawFromOutpostFundingResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgWithdrawFromOutpotFundingResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgWithdrawFromOutpostFundingResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -1206,7 +1206,7 @@ func (m *EventDepositIntoOutpostFunding) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *EventWithdrawFromOutpotFunding) Unmarshal(dAtA []byte) error {
+func (m *EventWithdrawFromOutpostFunding) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1229,10 +1229,10 @@ func (m *EventWithdrawFromOutpotFunding) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: EventWithdrawFromOutpotFunding: wiretype end group for non-group")
+			return fmt.Errorf("proto: EventWithdrawFromOutpostFunding: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: EventWithdrawFromOutpotFunding: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: EventWithdrawFromOutpostFunding: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

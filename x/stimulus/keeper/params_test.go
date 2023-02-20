@@ -1,18 +1,15 @@
 package keeper_test
 
 import (
-	"testing"
-
-	testkeeper "github.com/cosmic-horizon/qwoyn/testutil/keeper"
 	"github.com/cosmic-horizon/qwoyn/x/stimulus/types"
-	"github.com/stretchr/testify/require"
 )
 
-func TestGetParams(t *testing.T) {
-	k, ctx := testkeeper.CohoKeeper(t)
-	params := types.DefaultParams()
+func (suite *KeeperTestSuite) TestParamsGetSet() {
+	params := suite.app.StimulusKeeper.GetParams(suite.ctx)
 
-	k.SetParams(ctx, params)
+	params = types.Params{}
 
-	require.EqualValues(t, params, k.GetParams(ctx))
+	suite.app.StimulusKeeper.SetParams(suite.ctx, params)
+	newParams := suite.app.StimulusKeeper.GetParams(suite.ctx)
+	suite.Require().Equal(params, newParams)
 }
