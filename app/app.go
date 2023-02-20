@@ -200,6 +200,7 @@ var (
 		wasm.AppModuleBasic{},
 		stimulus.AppModuleBasic{},
 		game.AppModuleBasic{},
+		ica.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -313,6 +314,7 @@ func New(
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey,
 		feegrant.StoreKey, authzkeeper.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		icahosttypes.StoreKey,
 		wasm.StoreKey,
 		stimulustypes.StoreKey,
 		gametypes.StoreKey,
