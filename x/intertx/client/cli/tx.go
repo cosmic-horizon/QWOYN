@@ -48,8 +48,8 @@ func getRegisterAccountCmd() *cobra.Command {
 		Short: "register an interchain account",
 		Long:  "register an interchain account for the chain corresponding to the connection-id.",
 		Example: `
-		regen tx intertx register --connection-id channel-10
-		regen tx intertx register --connection-id channel-10 --version '{"version":"ics27-1","tx_type":"sdk_multi_msg","encoding":"proto3","host_connection_id":"connection-0","controller_connection_id":"connection-0","address":"regen14zs2x38lmkw4eqvl3lpml5l8crzaxn6mpvh79z"}'
+		qwoynd tx intertx register --connection-id channel-10
+		qwoynd tx intertx register --connection-id channel-10 --version '{"version":"ics27-1","tx_type":"sdk_multi_msg","encoding":"proto3","host_connection_id":"connection-0","controller_connection_id":"connection-0","address":"regen14zs2x38lmkw4eqvl3lpml5l8crzaxn6mpvh79z"}'
 		`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -130,7 +130,7 @@ module in order for it to succeed on the host chain. Example of transaction in J
   ]
 }
 `),
-		Example: "regen tx intertx submit-tx channel-5 tx.json",
+		Example: "qwoynd tx intertx submit-tx channel-5 tx.json",
 		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
