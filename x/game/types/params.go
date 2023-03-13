@@ -27,7 +27,7 @@ func ParamKeyTable() paramtypes.KeyTable {
 }
 
 // NewParams creates a new Params instance
-func NewParams(owner, depositDenom string, stakingInflation uint64, unstakingTime time.Duration, swapFeeCollector string, swapFee sdk.Coin) Params {
+func NewParams(owner, depositDenom string, stakingInflation sdk.Dec, unstakingTime time.Duration, swapFeeCollector string, swapFee sdk.Dec) Params {
 	return Params{
 		Owner:            owner,
 		DepositDenom:     depositDenom,
@@ -43,10 +43,10 @@ func DefaultParams() Params {
 	return NewParams(
 		"qwoyn1x0fha27pejg5ajg8vnrqm33ck8tq6raa64qw6h",
 		"stake",
-		1,
+		sdk.NewDec(1),
 		time.Second*30,
 		"qwoyn1x0fha27pejg5ajg8vnrqm33ck8tq6raa64qw6h",
-		sdk.NewInt64Coin("uqwoyn", 0),
+		sdk.ZeroDec(),
 	)
 }
 
@@ -129,7 +129,7 @@ func validateDenom(i interface{}) error {
 }
 
 func validateStakingInflation(i interface{}) error {
-	_, ok := i.(uint64)
+	_, ok := i.(sdk.Dec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
@@ -159,7 +159,7 @@ func validateFeeCollector(i interface{}) error {
 }
 
 func validateSwapFee(i interface{}) error {
-	_, ok := i.(sdk.Coin)
+	_, ok := i.(sdk.Dec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}

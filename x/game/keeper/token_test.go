@@ -406,7 +406,7 @@ func (suite *KeeperTestSuite) TestClaimInGameStakingReward() {
 	// check reward amount is correctly inreased on deposit object
 	params := suite.app.GameKeeper.GetParamSet(suite.ctx)
 	deposit := suite.app.GameKeeper.GetDeposit(suite.ctx, addr1)
-	increaseAmount := sdk.NewInt(int64(params.StakingInflation * 1000))
+	increaseAmount := params.StakingInflation.MulInt64(1000).RoundInt()
 	suite.Require().Equal(deposit.Amount, sdk.NewInt(1000).Add(increaseAmount))
 
 	// check reward claim time is set correctly

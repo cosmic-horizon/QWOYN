@@ -170,7 +170,7 @@ func (suite *KeeperTestSuite) TestMsgServerStakeInGameToken() {
 
 	// check reward amount is correctly inreased on deposit object
 	deposit := suite.app.GameKeeper.GetDeposit(suite.ctx, addr1)
-	increaseAmount := sdk.NewInt(int64(params.StakingInflation * 1000))
+	increaseAmount := params.StakingInflation.MulInt64(1000).RoundInt()
 	suite.Require().Equal(deposit.Amount, sdk.NewInt(2000).Add(increaseAmount))
 
 	// check staking amount is increased
@@ -205,7 +205,7 @@ func (suite *KeeperTestSuite) TestMsgServerBeginUnstakeInGameToken() {
 
 	// check reward amount is correctly increased on deposit object
 	deposit := suite.app.GameKeeper.GetDeposit(suite.ctx, addr1)
-	increaseAmount := sdk.NewInt(int64(params.StakingInflation * 1000))
+	increaseAmount := params.StakingInflation.MulInt64(1000).RoundInt()
 	suite.Require().Equal(deposit.Amount, sdk.NewInt(2000).Add(increaseAmount))
 
 	// check staking not changed
