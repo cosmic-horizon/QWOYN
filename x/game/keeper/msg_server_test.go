@@ -413,6 +413,7 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 		desc         string
 		executor     sdk.AccAddress
 		liquidity    sdk.Coins
+		swapFee      sdk.Dec
 		inAmount     sdk.Coin
 		expPass      bool
 		expOutAmount sdk.Coin
@@ -421,6 +422,7 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 			desc:         "no liquidity available case",
 			executor:     addr1,
 			liquidity:    sdk.Coins{},
+			swapFee:      sdk.NewDec(0),
 			inAmount:     sdk.NewInt64Coin("qwoyn", 1000),
 			expPass:      false,
 			expOutAmount: sdk.NewInt64Coin("ucoho", 500),
@@ -429,6 +431,7 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 			desc:         "successful swap from qwoyn -> ucoho",
 			executor:     addr1,
 			liquidity:    sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			swapFee:      sdk.NewDec(0),
 			inAmount:     sdk.NewInt64Coin("qwoyn", 1000),
 			expPass:      true,
 			expOutAmount: sdk.NewInt64Coin("ucoho", 500),
@@ -437,9 +440,19 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 			desc:         "successful swap from ucoho -> qwoyn",
 			executor:     addr1,
 			liquidity:    sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			swapFee:      sdk.NewDec(0),
 			inAmount:     sdk.NewInt64Coin("ucoho", 1000),
 			expPass:      true,
 			expOutAmount: sdk.NewInt64Coin("qwoyn", 500),
+		},
+		{
+			desc:         "successful swap on positive swap fee",
+			executor:     addr1,
+			liquidity:    sdk.Coins{sdk.NewInt64Coin("qwoyn", 1000), sdk.NewInt64Coin("ucoho", 1000)},
+			swapFee:      sdk.NewDecWithPrec(1, 2), // 1%
+			inAmount:     sdk.NewInt64Coin("ucoho", 1000),
+			expPass:      true,
+			expOutAmount: sdk.NewInt64Coin("qwoyn", 498),
 		},
 	} {
 		suite.Run(tc.desc, func() {
@@ -449,6 +462,7 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 
 			params := suite.app.GameKeeper.GetParamSet(suite.ctx)
 			params.Owner = moduleOwner.String()
+			params.SwapFee = tc.swapFee
 			suite.app.GameKeeper.SetParamSet(suite.ctx, params)
 
 			// allocate coins to module owner
@@ -480,14 +494,14 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 			if tc.expPass {
 				suite.Require().NoError(err)
 
-				// check liquidity changes bi-directional by correct amount
-				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
-				expLiqRemaining := tc.liquidity.Add(tc.inAmount).Sub(sdk.Coins{tc.expOutAmount})
-				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), expLiqRemaining.String())
-
 				// check coin movement bi-directional by correct amount
 				bal := suite.app.BankKeeper.GetAllBalances(suite.ctx, tc.executor)
 				suite.Require().Equal(bal.String(), tc.expOutAmount.String())
+
+				// check liquidity changes bi-directional by correct amount
+				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
+				expLiqRemaining := tc.liquidity.Add(sdk.NewCoin(tc.inAmount.Denom, tc.inAmount.Amount.ToDec().Mul(sdk.OneDec().Sub(tc.swapFee)).RoundInt())).Sub(sdk.Coins{tc.expOutAmount})
+				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), expLiqRemaining.String())
 
 				// module address
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
