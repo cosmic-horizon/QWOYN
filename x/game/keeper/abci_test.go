@@ -40,7 +40,7 @@ func (suite *KeeperTestSuite) TestEndBlocker() {
 
 	suite.app.GameKeeper.EndBlocker(suite.ctx)
 	deposit := suite.app.GameKeeper.GetDeposit(suite.ctx, addr1)
-	increaseAmount := sdk.NewInt(int64(params.StakingInflation * 1000))
+	increaseAmount := params.StakingInflation.MulInt64(1000).RoundInt()
 	suite.Require().Equal(deposit, types.Deposit{
 		Address:         addr1.String(),
 		Amount:          sdk.NewInt(2000).Add(increaseAmount),
