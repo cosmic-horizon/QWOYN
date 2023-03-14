@@ -15,10 +15,10 @@ func (suite *KeeperTestSuite) TestParamsGetSet() {
 	params = types.Params{
 		Owner:            addr.String(),
 		DepositDenom:     "stake",
-		StakingInflation: 10,
+		StakingInflation: sdk.NewDec(10),
 		UnstakingTime:    time.Hour * 24,
 		SwapFeeCollector: addr.String(),
-		SwapFee:          sdk.NewInt64Coin("stake", 1000_000),
+		SwapFee:          sdk.NewDecWithPrec(1, 1),
 	}
 
 	suite.app.GameKeeper.SetParamSet(suite.ctx, params)
