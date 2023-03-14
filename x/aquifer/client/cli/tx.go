@@ -34,20 +34,19 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetCmdDepositIntoOutpostFundingPool(),
-		GetCmdWithdrawFromOutpostFundingPool(),
+		GetCmdDeposit(),
 	)
 
 	return cmd
 }
 
-func GetCmdDepositIntoOutpostFundingPool() *cobra.Command {
+func GetCmdDeposit() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "deposit-outpost-funding [coin] [flags]",
-		Long: "Deposit token into the outpost funding pool",
+		Use:  "deposit [coin] [flags]",
+		Long: "Deposit token into aquifer pool",
 		Args: cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
-			`$ %s tx deposit-outpost-funding [coin]`,
+			`$ %s tx deposit [coin]`,
 			version.AppName,
 		),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -61,45 +60,7 @@ func GetCmdDepositIntoOutpostFundingPool() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgDepositIntoOutpostFunding(
-				clientCtx.GetFromAddress(),
-				coin,
-			)
-
-			if err := msg.ValidateBasic(); err != nil {
-				return err
-			}
-
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
-		},
-	}
-
-	flags.AddTxFlagsToCmd(cmd)
-
-	return cmd
-}
-
-func GetCmdWithdrawFromOutpostFundingPool() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:  "withdraw-outpost-funding [coin] [flags]",
-		Long: "Withdraw token from the outpost funding pool",
-		Args: cobra.ExactArgs(1),
-		Example: fmt.Sprintf(
-			`$ %s tx withdraw-outpost-funding [coin]`,
-			version.AppName,
-		),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCtx, err := client.GetClientTxContext(cmd)
-			if err != nil {
-				return err
-			}
-
-			coin, err := sdk.ParseCoinNormalized(args[0])
-			if err != nil {
-				return err
-			}
-
-			msg := types.NewMsgWithdrawFromOutpostFunding(
+			msg := types.NewMsgDeposit(
 				clientCtx.GetFromAddress(),
 				coin,
 			)

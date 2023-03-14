@@ -45,34 +45,3 @@ func (m msgServer) DepositIntoOutpostFunding(goCtx context.Context, msg *types.M
 
 	return &types.MsgDepositIntoOutpostFundingResponse{}, nil
 }
-
-func (m msgServer) WithdrawFromOutpostFunding(goCtx context.Context, msg *types.MsgWithdrawFromOutpostFunding) (*types.MsgWithdrawFromOutpostFundingResponse, error) {
-	ctx := sdk.UnwrapSDKContext(goCtx)
-	params := m.gk.GetParamSet(ctx)
-	if msg.Amount.Denom != params.DepositDenom {
-		return nil, gametypes.ErrInvalidWithdrawDenom
-	}
-
-	// withdraw is only enabled by game module owner
-	if msg.Sender != params.Owner {
-		return nil, gametypes.ErrNotModuleOwner
-	}
-
-	sender, err := sdk.AccAddressFromBech32(msg.Sender)
-	if err != nil {
-		return nil, err
-	}
-
-	err = m.bk.SendCoinsFromModuleToAccount(ctx, types.OutpostFundingPoolName, sender, sdk.Coins{msg.Amount})
-	if err != nil {
-		return nil, err
-	}
-
-	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventWithdrawFromOutpostFunding{
-		Sender: msg.Sender,
-		Amount: msg.Amount.String(),
-	})
-
-	return &types.MsgWithdrawFromOutpostFundingResponse{}, nil
-}
