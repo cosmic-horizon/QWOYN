@@ -20,4 +20,4 @@ The Qwoyn Aquifer is a revolutionary liquidity bootstrapping tool designed by Qw
 - BuyAllocationToken (USDC -> QWOYN)
 - SetDepositEndTime
 - Initiate ICA account (auto?)
-- Execute Add Liquidity (auto?)
+- Execute Add Liquidity (auto?) - ensure that OSMO fee (100 OSMO) exists on the ICA
