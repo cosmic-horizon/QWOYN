@@ -5,6 +5,7 @@ package types
 
 import (
 	fmt "fmt"
+	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
@@ -25,6 +26,14 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // Params defines the parameters for the module.
 type Params struct {
+	DepositToken           string                                 `protobuf:"bytes,1,opt,name=deposit_token,json=depositToken,proto3" json:"deposit_token,omitempty"`
+	AllocationToken        string                                 `protobuf:"bytes,2,opt,name=allocation_token,json=allocationToken,proto3" json:"allocation_token,omitempty"`
+	VestingDuration        uint64                                 `protobuf:"varint,3,opt,name=vesting_duration,json=vestingDuration,proto3" json:"vesting_duration,omitempty"`
+	DepositEndTime         uint64                                 `protobuf:"varint,4,opt,name=deposit_end_time,json=depositEndTime,proto3" json:"deposit_end_time,omitempty"`
+	InitLiquidityPrice     github_com_cosmos_cosmos_sdk_types.Dec `protobuf:"bytes,5,opt,name=init_liquidity_price,json=initLiquidityPrice,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Dec" json:"init_liquidity_price"`
+	LiquidityBootstrapping bool                                   `protobuf:"varint,6,opt,name=liquidity_bootstrapping,json=liquidityBootstrapping,proto3" json:"liquidity_bootstrapping,omitempty"`
+	LiquidityBootstrapped  bool                                   `protobuf:"varint,7,opt,name=liquidity_bootstrapped,json=liquidityBootstrapped,proto3" json:"liquidity_bootstrapped,omitempty"`
+	IcsAccount             string                                 `protobuf:"bytes,8,opt,name=ics_account,json=icsAccount,proto3" json:"ics_account,omitempty"`
 }
 
 func (m *Params) Reset()      { *m = Params{} }
@@ -59,6 +68,55 @@ func (m *Params) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Params proto.InternalMessageInfo
 
+func (m *Params) GetDepositToken() string {
+	if m != nil {
+		return m.DepositToken
+	}
+	return ""
+}
+
+func (m *Params) GetAllocationToken() string {
+	if m != nil {
+		return m.AllocationToken
+	}
+	return ""
+}
+
+func (m *Params) GetVestingDuration() uint64 {
+	if m != nil {
+		return m.VestingDuration
+	}
+	return 0
+}
+
+func (m *Params) GetDepositEndTime() uint64 {
+	if m != nil {
+		return m.DepositEndTime
+	}
+	return 0
+}
+
+func (m *Params) GetLiquidityBootstrapping() bool {
+	if m != nil {
+		return m.LiquidityBootstrapping
+	}
+	return false
+}
+
+func (m *Params) GetLiquidityBootstrapped() bool {
+	if m != nil {
+		return m.LiquidityBootstrapped
+	}
+	return false
+}
+
+func (m *Params) GetIcsAccount() string {
+	if m != nil {
+		return m.IcsAccount
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*Params)(nil), "cosmichorizon.qwoyn.aquifer.Params")
 }
@@ -66,17 +124,33 @@ func init() {
 func init() { proto.RegisterFile("aquifer/params.proto", fileDescriptor_587cd22d4fba9cdf) }
 
 var fileDescriptor_587cd22d4fba9cdf = []byte{
-	// 160 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x49, 0x2c, 0x2c, 0xcd,
-	0x4c, 0x4b, 0x2d, 0xd2, 0x2f, 0x48, 0x2c, 0x4a, 0xcc, 0x2d, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9,
-	0x17, 0x92, 0x4e, 0xce, 0x2f, 0xce, 0xcd, 0x4c, 0xce, 0xc8, 0x2f, 0xca, 0xac, 0xca, 0xcf, 0xd3,
-	0x2b, 0x2c, 0xcf, 0xaf, 0xcc, 0xd3, 0x83, 0xaa, 0x94, 0x12, 0x49, 0xcf, 0x4f, 0xcf, 0x07, 0xab,
-	0xd3, 0x07, 0xb1, 0x20, 0x5a, 0x94, 0xf8, 0xb8, 0xd8, 0x02, 0xc0, 0x46, 0x58, 0xb1, 0xcc, 0x58,
-	0x20, 0xcf, 0xe0, 0xe4, 0x79, 0xe2, 0x91, 0x1c, 0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9,
-	0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x51, 0xfa,
-	0xe9, 0x99, 0x25, 0x19, 0xa5, 0x49, 0x7a, 0xc9, 0xf9, 0xb9, 0xfa, 0x10, 0x7b, 0x74, 0xa1, 0x16,
-	0xe9, 0x83, 0x2d, 0xd2, 0xaf, 0xd0, 0x87, 0x39, 0xaa, 0xa4, 0xb2, 0x20, 0xb5, 0x38, 0x89, 0x0d,
-	0x6c, 0x83, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0xf9, 0x60, 0x89, 0xfe, 0xac, 0x00, 0x00, 0x00,
+	// 402 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x92, 0xbf, 0x8e, 0xd3, 0x40,
+	0x10, 0xc6, 0x6d, 0x2e, 0x84, 0x63, 0xf9, 0x73, 0xa7, 0x55, 0x38, 0x2c, 0x90, 0xec, 0x08, 0x24,
+	0x64, 0x8a, 0xf3, 0x16, 0x08, 0x21, 0xd1, 0x11, 0x1d, 0x05, 0x12, 0xc5, 0xc9, 0xba, 0x8a, 0xc6,
+	0x38, 0xbb, 0x8b, 0x33, 0x4a, 0xbc, 0xe3, 0x78, 0xd7, 0x40, 0x78, 0x0a, 0x4a, 0x4a, 0x2a, 0x9e,
+	0x25, 0x65, 0x4a, 0x44, 0x11, 0xa1, 0xe4, 0x45, 0x90, 0x37, 0x9b, 0x04, 0x9d, 0x52, 0xd9, 0xfa,
+	0xcd, 0xf7, 0x7d, 0xbb, 0x33, 0x3b, 0xa4, 0x97, 0x4f, 0x1b, 0xf8, 0x24, 0x6b, 0x56, 0xe5, 0x75,
+	0x5e, 0xea, 0xa4, 0xaa, 0xd1, 0x20, 0x7d, 0xcc, 0x51, 0x97, 0xc0, 0x47, 0x58, 0xc3, 0x37, 0x54,
+	0xc9, 0xf4, 0x0b, 0xce, 0x54, 0xe2, 0x94, 0x8f, 0x7a, 0x05, 0x16, 0x68, 0x75, 0xac, 0xfd, 0xdb,
+	0x58, 0x9e, 0xfc, 0x3a, 0x22, 0xdd, 0x4b, 0x9b, 0x41, 0x9f, 0x92, 0x7b, 0x42, 0x56, 0xa8, 0xc1,
+	0x64, 0x06, 0xc7, 0x52, 0x05, 0x7e, 0xdf, 0x8f, 0x6f, 0xa7, 0x77, 0x1d, 0xbc, 0x6a, 0x19, 0x7d,
+	0x4e, 0x4e, 0xf3, 0xc9, 0x04, 0x79, 0x6e, 0x00, 0x95, 0xd3, 0xdd, 0xb0, 0xba, 0x93, 0x3d, 0xdf,
+	0x49, 0x3f, 0x4b, 0x6d, 0x40, 0x15, 0x99, 0x68, 0x6a, 0x5b, 0x08, 0x8e, 0xfa, 0x7e, 0xdc, 0x49,
+	0x4f, 0x1c, 0xbf, 0x70, 0x98, 0xc6, 0xe4, 0x74, 0x7b, 0xb4, 0x54, 0x22, 0x33, 0x50, 0xca, 0xa0,
+	0x63, 0xa5, 0xf7, 0x1d, 0x7f, 0xab, 0xc4, 0x15, 0x94, 0x92, 0x7e, 0x24, 0x3d, 0x50, 0x60, 0xb2,
+	0x09, 0x4c, 0x1b, 0x10, 0x60, 0x66, 0x59, 0x55, 0x03, 0x97, 0xc1, 0xcd, 0xf6, 0x0e, 0x83, 0x64,
+	0xbe, 0x8c, 0xbc, 0x3f, 0xcb, 0xe8, 0x59, 0x01, 0x66, 0xd4, 0x0c, 0x13, 0x8e, 0x25, 0x6b, 0x67,
+	0x82, 0xda, 0x7d, 0xce, 0xb5, 0x18, 0x33, 0x33, 0xab, 0xa4, 0x4e, 0x2e, 0x24, 0x4f, 0x69, 0x9b,
+	0xf5, 0x7e, 0x1b, 0x75, 0xd9, 0x26, 0xd1, 0x57, 0xe4, 0xe1, 0x3e, 0x7c, 0x88, 0x68, 0xb4, 0xa9,
+	0xf3, 0xaa, 0x02, 0x55, 0x04, 0xdd, 0xbe, 0x1f, 0x1f, 0xa7, 0x67, 0xbb, 0xf2, 0xe0, 0xff, 0x2a,
+	0x7d, 0x49, 0xce, 0x0e, 0x19, 0xa5, 0x08, 0x6e, 0x59, 0xdf, 0x83, 0x03, 0x3e, 0x29, 0x68, 0x44,
+	0xee, 0x00, 0xd7, 0x59, 0xce, 0x39, 0x36, 0xca, 0x04, 0xc7, 0x76, 0x98, 0x04, 0xb8, 0x7e, 0xb3,
+	0x21, 0xaf, 0x3b, 0x3f, 0x7e, 0x46, 0xde, 0xe0, 0xdd, 0x7c, 0x15, 0xfa, 0x8b, 0x55, 0xe8, 0xff,
+	0x5d, 0x85, 0xfe, 0xf7, 0x75, 0xe8, 0x2d, 0xd6, 0xa1, 0xf7, 0x7b, 0x1d, 0x7a, 0x1f, 0xd8, 0xb5,
+	0x66, 0x81, 0x9f, 0xbb, 0x0d, 0x60, 0x76, 0x03, 0xd8, 0x57, 0xb6, 0xdd, 0x16, 0xdb, 0xf9, 0xb0,
+	0x6b, 0x9f, 0xfe, 0xc5, 0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x34, 0xe1, 0x7b, 0x24, 0x45, 0x02,
+	0x00, 0x00,
 }
 
 func (m *Params) Marshal() (dAtA []byte, err error) {
@@ -99,6 +173,67 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.IcsAccount) > 0 {
+		i -= len(m.IcsAccount)
+		copy(dAtA[i:], m.IcsAccount)
+		i = encodeVarintParams(dAtA, i, uint64(len(m.IcsAccount)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if m.LiquidityBootstrapped {
+		i--
+		if m.LiquidityBootstrapped {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x38
+	}
+	if m.LiquidityBootstrapping {
+		i--
+		if m.LiquidityBootstrapping {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x30
+	}
+	{
+		size := m.InitLiquidityPrice.Size()
+		i -= size
+		if _, err := m.InitLiquidityPrice.MarshalTo(dAtA[i:]); err != nil {
+			return 0, err
+		}
+		i = encodeVarintParams(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x2a
+	if m.DepositEndTime != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.DepositEndTime))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.VestingDuration != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.VestingDuration))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.AllocationToken) > 0 {
+		i -= len(m.AllocationToken)
+		copy(dAtA[i:], m.AllocationToken)
+		i = encodeVarintParams(dAtA, i, uint64(len(m.AllocationToken)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.DepositToken) > 0 {
+		i -= len(m.DepositToken)
+		copy(dAtA[i:], m.DepositToken)
+		i = encodeVarintParams(dAtA, i, uint64(len(m.DepositToken)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -119,6 +254,32 @@ func (m *Params) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.DepositToken)
+	if l > 0 {
+		n += 1 + l + sovParams(uint64(l))
+	}
+	l = len(m.AllocationToken)
+	if l > 0 {
+		n += 1 + l + sovParams(uint64(l))
+	}
+	if m.VestingDuration != 0 {
+		n += 1 + sovParams(uint64(m.VestingDuration))
+	}
+	if m.DepositEndTime != 0 {
+		n += 1 + sovParams(uint64(m.DepositEndTime))
+	}
+	l = m.InitLiquidityPrice.Size()
+	n += 1 + l + sovParams(uint64(l))
+	if m.LiquidityBootstrapping {
+		n += 2
+	}
+	if m.LiquidityBootstrapped {
+		n += 2
+	}
+	l = len(m.IcsAccount)
+	if l > 0 {
+		n += 1 + l + sovParams(uint64(l))
+	}
 	return n
 }
 
@@ -157,6 +318,214 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: Params: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DepositToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DepositToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AllocationToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AllocationToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VestingDuration", wireType)
+			}
+			m.VestingDuration = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.VestingDuration |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DepositEndTime", wireType)
+			}
+			m.DepositEndTime = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.DepositEndTime |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InitLiquidityPrice", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.InitLiquidityPrice.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LiquidityBootstrapping", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.LiquidityBootstrapping = bool(v != 0)
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LiquidityBootstrapped", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.LiquidityBootstrapped = bool(v != 0)
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IcsAccount", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.IcsAccount = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipParams(dAtA[iNdEx:])

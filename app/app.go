@@ -110,6 +110,10 @@ import (
 	stimuluskeeper "github.com/cosmic-horizon/qwoyn/x/stimulus/keeper"
 	stimulustypes "github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 
+	aquifer "github.com/cosmic-horizon/qwoyn/x/aquifer"
+	aquiferkeeper "github.com/cosmic-horizon/qwoyn/x/aquifer/keeper"
+	aquifertypes "github.com/cosmic-horizon/qwoyn/x/aquifer/types"
+
 	"github.com/cosmic-horizon/qwoyn/x/game"
 	gamekeeper "github.com/cosmic-horizon/qwoyn/x/game/keeper"
 	gametypes "github.com/cosmic-horizon/qwoyn/x/game/types"
@@ -205,6 +209,7 @@ var (
 		vesting.AppModuleBasic{},
 		wasm.AppModuleBasic{},
 		stimulus.AppModuleBasic{},
+		aquifer.AppModuleBasic{},
 		game.AppModuleBasic{},
 		ica.AppModuleBasic{},
 		intertx.AppModule{},
@@ -223,6 +228,7 @@ var (
 		wasm.ModuleName:                      {authtypes.Burner},
 		gametypes.ModuleName:                 {authtypes.Minter, authtypes.Burner},
 		stimulustypes.OutpostFundingPoolName: nil,
+		aquifertypes.ModuleName:              nil,
 	}
 )
 
@@ -288,6 +294,7 @@ type App struct {
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
 
 	StimulusKeeper stimuluskeeper.Keeper
+	AquiferKeeper  aquiferkeeper.Keeper
 	GameKeeper     gamekeeper.Keeper
 
 	// mm is the module manager
@@ -329,6 +336,7 @@ func New(
 		icahosttypes.StoreKey,
 		wasm.StoreKey,
 		stimulustypes.StoreKey,
+		aquifertypes.StoreKey,
 		gametypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -527,12 +535,20 @@ func New(
 	app.StimulusKeeper = *stimuluskeeper.NewKeeper(
 		appCodec,
 		keys[stimulustypes.StoreKey],
-		keys[stimulustypes.MemStoreKey],
 		app.GetSubspace(stimulustypes.ModuleName),
 		app.AccountKeeper,
 		app.BankKeeper,
 		app.GameKeeper,
 		app.MintKeeper,
+	)
+
+	app.AquiferKeeper = *aquiferkeeper.NewKeeper(
+		appCodec,
+		keys[aquifertypes.StoreKey],
+		app.GetSubspace(aquifertypes.ModuleName),
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.GameKeeper,
 	)
 	/****  Module Options ****/
 
@@ -569,6 +585,7 @@ func New(
 		interTxModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
+		aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper),
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
@@ -590,6 +607,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		stimulustypes.ModuleName,
+		aquifertypes.ModuleName,
 		gametypes.ModuleName,
 		intertxtypes.ModuleName,
 	)
@@ -606,6 +624,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		stimulustypes.ModuleName,
+		aquifertypes.ModuleName,
 		gametypes.ModuleName,
 		intertxtypes.ModuleName,
 	)
@@ -637,6 +656,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		stimulustypes.ModuleName,
+		aquifertypes.ModuleName,
 		gametypes.ModuleName,
 		intertxtypes.ModuleName,
 	)
@@ -663,6 +683,7 @@ func New(
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
+		aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper),
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 	app.sm.RegisterStoreDecoders()
@@ -875,6 +896,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	paramsKeeper.Subspace(stimulustypes.ModuleName)
+	paramsKeeper.Subspace(aquifertypes.ModuleName)
 	paramsKeeper.Subspace(gametypes.ModuleName)
 	paramsKeeper.Subspace(wasm.ModuleName)
 

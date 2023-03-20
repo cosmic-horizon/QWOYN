@@ -14,7 +14,17 @@ func ParamKeyTable() paramtypes.KeyTable {
 
 // NewParams creates a new Params instance
 func NewParams() Params {
-	return Params{}
+	return Params{
+		// TODO:
+		// DepositToken           string
+		// AllocationToken        string
+		// VestingDuration        uint64
+		// DepositEndTime         uint64
+		// InitLiquidityPrice     sdk.Dec
+		// LiquidityBootstrapping bool
+		// LiquidityBootstrapped  bool
+		// IcsAccount             string
+	}
 }
 
 // DefaultParams returns a default set of parameters
@@ -24,7 +34,17 @@ func DefaultParams() Params {
 
 // ParamSetPairs get the params.ParamSet
 func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
-	return paramtypes.ParamSetPairs{}
+	return paramtypes.ParamSetPairs{
+		// TODO:
+		// DepositToken           string
+		// AllocationToken        string
+		// VestingDuration        uint64
+		// DepositEndTime         uint64
+		// InitLiquidityPrice     sdk.Dec
+		// LiquidityBootstrapping bool
+		// LiquidityBootstrapped  bool
+		// IcsAccount             string
+	}
 }
 
 // Validate validates the set of params
