@@ -12,6 +12,7 @@ service Msg {
   rpc BuyAllocationToken(MsgBuyAllocationToken) returns (MsgBuyAllocationTokenResponse);
   rpc SetDepositEndTime(MsgSetDepositEndTime) returns (MsgSetDepositEndTimeResponse);
   rpc InitICA(MsgInitICA) returns (MsgInitICAResponse);
+  rpc ExecTransfer(MsgExecTransfer) returns (MsgExecTransferResponse);
   rpc ExecAddLiquidity(MsgExecAddLiquidity) returns (MsgExecAddLiquidityResponse);
 }
 
@@ -35,11 +36,23 @@ message MsgSetDepositEndTimeResponse {}
 
 message MsgInitICA {
   string sender = 1;
+  string connection_id = 2;
 }
 message MsgInitICAResponse {}
 
+message MsgExecTransfer {
+  string sender =  1;
+  uint64 timeout_nano_second = 2;
+  string transfer_channel_id = 3;
+}
+message MsgExecTransferResponse {}
+
 message MsgExecAddLiquidity {
   string sender = 1;
+  bytes msg = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.customtype) = "github.com/cosmic-horizon/qwoyn/osmosis/balancer.MsgCreateBalancerPool"
+  ];
 }
 message MsgExecAddLiquidityResponse {}
 

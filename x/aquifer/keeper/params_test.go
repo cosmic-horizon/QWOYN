@@ -1,15 +1,21 @@
 package keeper_test
 
 import (
-	"github.com/cosmic-horizon/qwoyn/x/aquifer/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (suite *KeeperTestSuite) TestParamsGetSet() {
-	params := suite.app.aquiferKeeper.GetParams(suite.ctx)
+	params := suite.app.AquiferKeeper.GetParams(suite.ctx)
+	params.DepositToken = "uusdc"
+	params.AllocationToken = "nqwoyn"
+	params.VestingDuration = 86400
+	params.DepositEndTime = 10000
+	params.InitLiquidityPrice = sdk.NewDecWithPrec(2, 1)
+	params.LiquidityBootstrapping = true
+	params.LiquidityBootstrapped = true
+	params.IcsConnectionId = "connection-1"
 
-	params = types.Params{}
-
-	suite.app.aquiferKeeper.SetParams(suite.ctx, params)
-	newParams := suite.app.aquiferKeeper.GetParams(suite.ctx)
+	suite.app.AquiferKeeper.SetParams(suite.ctx, params)
+	newParams := suite.app.AquiferKeeper.GetParams(suite.ctx)
 	suite.Require().Equal(params, newParams)
 }

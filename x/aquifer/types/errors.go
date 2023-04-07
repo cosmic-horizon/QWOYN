@@ -8,5 +8,5 @@ import (
 
 // x/aquifer module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrNotBaseAccount = sdkerrors.Register(ModuleName, 1, "account type should be base account")
 )

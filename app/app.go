@@ -289,6 +289,7 @@ type App struct {
 	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedInterTxKeeper       capabilitykeeper.ScopedKeeper
+	ScopedAquiferKeeper       capabilitykeeper.ScopedKeeper
 
 	WasmKeeper       wasm.Keeper
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
@@ -368,6 +369,7 @@ func New(
 	app.ScopedICAControllerKeeper = app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	app.ScopedInterTxKeeper = app.CapabilityKeeper.ScopeToModule(intertxtypes.ModuleName)
 	app.scopedWasmKeeper = app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
+	app.ScopedAquiferKeeper = app.CapabilityKeeper.ScopeToModule(aquifertypes.ModuleName)
 
 	// add keepers
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
@@ -459,7 +461,19 @@ func New(
 	interTxModule := intertx.NewAppModule(appCodec, app.InterTxKeeper)
 	interTxIBCModule := intertx.NewIBCModule(app.InterTxKeeper)
 
-	icaControllerIBCModule := icacontroller.NewIBCModule(app.ICAControllerKeeper, interTxIBCModule)
+	app.AquiferKeeper = *aquiferkeeper.NewKeeper(
+		appCodec,
+		keys[aquifertypes.StoreKey],
+		app.GetSubspace(aquifertypes.ModuleName),
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.GameKeeper,
+		app.ICAControllerKeeper,
+		app.TransferKeeper,
+		app.ScopedAquiferKeeper,
+	)
+	aquiferModule := aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper)
+	aquiferIBCModule := aquifer.NewIBCModule(app.AquiferKeeper)
 
 	icaModule := ica.NewAppModule(&app.ICAControllerKeeper, &app.ICAHostKeeper)
 	icaHostIBCModule := icahost.NewIBCModule(app.ICAHostKeeper)
@@ -507,9 +521,13 @@ func New(
 	if len(enabledProposals) != 0 {
 		govRouter.AddRoute(wasm.RouterKey, wasm.NewWasmProposalHandler(app.WasmKeeper, enabledProposals))
 	}
+
+	icaControllerIBCModule := icacontroller.NewIBCModule(app.ICAControllerKeeper, aquiferIBCModule)
+
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := porttypes.NewRouter()
-	ibcRouter.AddRoute(intertxtypes.ModuleName, icaControllerIBCModule)
+	ibcRouter.AddRoute(aquifertypes.ModuleName, icaControllerIBCModule)
+	ibcRouter.AddRoute(intertxtypes.ModuleName, interTxIBCModule)
 	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, icaControllerIBCModule)
 	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule)
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
@@ -542,14 +560,6 @@ func New(
 		app.MintKeeper,
 	)
 
-	app.AquiferKeeper = *aquiferkeeper.NewKeeper(
-		appCodec,
-		keys[aquifertypes.StoreKey],
-		app.GetSubspace(aquifertypes.ModuleName),
-		app.AccountKeeper,
-		app.BankKeeper,
-		app.GameKeeper,
-	)
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
@@ -585,7 +595,7 @@ func New(
 		interTxModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
-		aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper),
+		aquiferModule,
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
@@ -683,7 +693,7 @@ func New(
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
-		aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper),
+		aquiferModule,
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 	app.sm.RegisterStoreDecoders()
@@ -772,6 +782,9 @@ func (app *App) LoadHeight(height int64) error {
 func (app *App) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
 	for acc := range maccPerms {
+		if acc == aquifertypes.ModuleName {
+			continue
+		}
 		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
 	}
 

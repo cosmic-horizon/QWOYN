@@ -19,7 +19,7 @@ message MsgRegisterAccount {
   // owner is the address of the interchain account owner.
   string owner = 1;
 
-  // connection_id is the connection id string (i.e. channel-5).
+  // connection_id is the connection id string
   string connection_id = 2;
 
   // version is the application version string. For example, this could be an
