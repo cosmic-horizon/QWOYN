@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# osmosis version v13.1.0
 rm -rf $HOME/.osmosisd/
 
 cd $HOME

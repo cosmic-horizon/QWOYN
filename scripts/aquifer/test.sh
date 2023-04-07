@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# hermes 0.13.0-rc.0
 hermes -c ./hermes/config.toml keys restore qwoyn-1 -m "weather leader certain hard busy blouse click patient balcony return elephant hire mule gather danger curious visual boy estate army marine cinnamon snake flight"
 hermes -c ./hermes/config.toml keys restore osmo-test -m "weather leader certain hard busy blouse click patient balcony return elephant hire mule gather danger curious visual boy estate army marine cinnamon snake flight"
 
