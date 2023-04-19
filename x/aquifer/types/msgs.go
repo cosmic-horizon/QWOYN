@@ -34,6 +34,34 @@ func (msg MsgPutAllocationToken) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sender}
 }
 
+var _ sdk.Msg = &MsgTakeOutAllocationToken{}
+
+func NewMsgTakeOutAllocationToken(sender sdk.AccAddress, coin sdk.Coin,
+) *MsgTakeOutAllocationToken {
+	return &MsgTakeOutAllocationToken{
+		Sender: sender.String(),
+		Amount: coin,
+	}
+}
+
+func (msg MsgTakeOutAllocationToken) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid sender address (%s)", err)
+	}
+
+	return nil
+}
+
+// GetSigners Implements Msg.
+func (msg MsgTakeOutAllocationToken) GetSigners() []sdk.AccAddress {
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{sender}
+}
+
 var _ sdk.Msg = &MsgBuyAllocationToken{}
 
 func NewMsgBuyAllocationToken(sender sdk.AccAddress, coin sdk.Coin,

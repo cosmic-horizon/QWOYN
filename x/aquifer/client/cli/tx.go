@@ -38,6 +38,7 @@ func GetTxCmd() *cobra.Command {
 
 	cmd.AddCommand(
 		GetCmdPutAllocationToken(),
+		GetCmdTakeOutAllocationToken(),
 		GetCmdBuyAllocationToken(),
 		GetCmdSetDepositEndTime(),
 		GetCmdInitICA(),
@@ -69,6 +70,44 @@ func GetCmdPutAllocationToken() *cobra.Command {
 			}
 
 			msg := types.NewMsgPutAllocationToken(
+				clientCtx.GetFromAddress(),
+				coin,
+			)
+
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func GetCmdTakeOutAllocationToken() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:  "take-out-allocation-token [coin] [flags]",
+		Long: "Take out allocation token from aquifer pool",
+		Args: cobra.ExactArgs(1),
+		Example: fmt.Sprintf(
+			`$ %s tx take-out-allocation-token [coin]`,
+			version.AppName,
+		),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			coin, err := sdk.ParseCoinNormalized(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgTakeOutAllocationToken(
 				clientCtx.GetFromAddress(),
 				coin,
 			)
@@ -352,7 +391,6 @@ func NewBuildCreateBalancerPoolMsg(clientCtx client.Context, txf tx.Factory, fs 
 			targetPoolAssets = append(targetPoolAssets, balancer.PoolAsset{
 				Weight: targetPoolAssetCoins[i].Amount.RoundInt(),
 				Token:  deposit[i],
-				// TODO: This doesn't make sense. Should only use denom, not an sdk.Coin
 			})
 		}
 

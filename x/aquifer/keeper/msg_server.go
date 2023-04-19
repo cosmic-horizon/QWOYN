@@ -56,11 +56,51 @@ func (m msgServer) PutAllocationToken(goCtx context.Context, msg *types.MsgPutAl
 	return &types.MsgPutAllocationTokenResponse{}, nil
 }
 
+func (m msgServer) TakeOutAllocationToken(goCtx context.Context, msg *types.MsgTakeOutAllocationToken) (*types.MsgTakeOutAllocationTokenResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	params := m.GetParams(ctx)
+	if msg.Amount.Denom != params.AllocationToken {
+		return nil, gametypes.ErrInvalidDepositDenom
+	}
+
+	if msg.Sender != params.Maintainer {
+		return nil, types.ErrNotMaintainer
+	}
+
+	// check deposit end time
+	if ctx.BlockTime().Unix() < int64(params.DepositEndTime) {
+		return nil, types.ErrDepositTimeNotEnded
+	}
+
+	sender, err := sdk.AccAddressFromBech32(msg.Sender)
+	if err != nil {
+		return nil, err
+	}
+
+	err = m.bk.SendCoinsFromModuleToAccount(ctx, types.ModuleName, sender, sdk.Coins{msg.Amount})
+	if err != nil {
+		return nil, err
+	}
+
+	// emit event
+	ctx.EventManager().EmitTypedEvent(&types.EventTakeOutAllocationToken{
+		Sender: msg.Sender,
+		Amount: msg.Amount.String(),
+	})
+
+	return &types.MsgTakeOutAllocationTokenResponse{}, nil
+}
+
 func (m msgServer) BuyAllocationToken(goCtx context.Context, msg *types.MsgBuyAllocationToken) (*types.MsgBuyAllocationTokenResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	params := m.GetParams(ctx)
 	if msg.Amount.Denom != params.DepositToken {
 		return nil, gametypes.ErrInvalidDepositDenom
+	}
+
+	// check deposit end time
+	if ctx.BlockTime().Unix() > int64(params.DepositEndTime) {
+		return nil, types.ErrDepositTimeEnded
 	}
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -73,8 +113,8 @@ func (m msgServer) BuyAllocationToken(goCtx context.Context, msg *types.MsgBuyAl
 		return nil, err
 	}
 
-	// TODO: set discount on allocation amount
-	allocationAmount := msg.Amount.Amount.ToDec().Quo(params.InitLiquidityPrice).RoundInt()
+	discountedPrice := params.InitLiquidityPrice.Mul(sdk.OneDec().Sub(params.Discount))
+	allocationAmount := msg.Amount.Amount.ToDec().Quo(discountedPrice).RoundInt()
 	allocationCoins := sdk.Coins{sdk.NewCoin(params.AllocationToken, allocationAmount)}
 	account := m.ak.GetAccount(ctx, sender)
 	switch account.(type) {
@@ -101,9 +141,11 @@ func (m msgServer) BuyAllocationToken(goCtx context.Context, msg *types.MsgBuyAl
 func (m msgServer) SetDepositEndTime(goCtx context.Context, msg *types.MsgSetDepositEndTime) (*types.MsgSetDepositEndTimeResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	params := m.GetParams(ctx)
+	if msg.Sender != params.Maintainer {
+		return nil, types.ErrNotMaintainer
+	}
 	params.DepositEndTime = msg.EndTime
-
-	// TODO: owner verification
+	m.SetParams(ctx, params)
 
 	// emit event
 	ctx.EventManager().EmitTypedEvent(&types.EventSetDepositEndTime{
@@ -116,6 +158,10 @@ func (m msgServer) SetDepositEndTime(goCtx context.Context, msg *types.MsgSetDep
 func (m msgServer) InitICA(goCtx context.Context, msg *types.MsgInitICA) (*types.MsgInitICAResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	params := m.GetParams(ctx)
+	if msg.Sender != params.Maintainer {
+		return nil, types.ErrNotMaintainer
+	}
+
 	params.IcsConnectionId = msg.ConnectionId
 	m.SetParams(ctx, params)
 
@@ -129,6 +175,9 @@ func (m msgServer) InitICA(goCtx context.Context, msg *types.MsgInitICA) (*types
 func (m msgServer) ExecTransfer(goCtx context.Context, msg *types.MsgExecTransfer) (*types.MsgExecTransferResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	params := m.GetParams(ctx)
+	if msg.Sender != params.Maintainer {
+		return nil, types.ErrNotMaintainer
+	}
 
 	portID, err := icatypes.NewControllerPortID(types.ModuleName)
 	if err != nil {
@@ -143,7 +192,7 @@ func (m msgServer) ExecTransfer(goCtx context.Context, msg *types.MsgExecTransfe
 	moduleAddr := authtypes.NewModuleAddress(types.ModuleName)
 	depositAmount := m.bk.GetBalance(ctx, moduleAddr, params.DepositToken)
 
-	// TODO: transfer tokens to Osmosis network (this won't be direct IBC transfer in case it's USDC from Axelar)
+	// transfer tokens to Osmosis network
 	timeoutTimestamp := uint64(ctx.BlockTime().UnixNano()) + msg.TimeoutNanoSecond
 	_, err = m.TransferKeeper.Transfer(goCtx, ibctransfertypes.NewMsgTransfer(
 		ibctransfertypes.PortID,
@@ -162,6 +211,9 @@ func (m msgServer) ExecTransfer(goCtx context.Context, msg *types.MsgExecTransfe
 func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAddLiquidity) (*types.MsgExecAddLiquidityResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	params := m.GetParams(ctx)
+	if msg.Sender != params.Maintainer {
+		return nil, types.ErrNotMaintainer
+	}
 
 	portID, err := icatypes.NewControllerPortID(types.ModuleName)
 	if err != nil {

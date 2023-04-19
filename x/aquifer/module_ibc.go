@@ -1,10 +1,9 @@
 package aquifer
 
 import (
-	"fmt"
-
 	proto "github.com/gogo/protobuf/proto"
 
+	"github.com/cosmic-horizon/qwoyn/osmosis/balancer"
 	"github.com/cosmic-horizon/qwoyn/x/aquifer/keeper"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -115,35 +114,27 @@ func (im IBCModule) OnAcknowledgementPacket(
 	acknowledgement []byte,
 	relayer sdk.AccAddress,
 ) error {
-	fmt.Println("aquifer.OnAcknowledgementPacket", packet, relayer.String())
 	var ack channeltypes.Acknowledgement
 	if err := channeltypes.SubModuleCdc.UnmarshalJSON(acknowledgement, &ack); err != nil {
-		fmt.Println("aquifer.OnAcknowledgementPacket1", err)
 		return sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "cannot unmarshal ICS-27 packet acknowledgement: %v", err)
 	}
 
-	fmt.Println("aquifer.OnAcknowledgementPacket2", ack.String())
 	txMsgData := &sdk.TxMsgData{}
 	if err := proto.Unmarshal(ack.GetResult(), txMsgData); err != nil {
-		fmt.Println("aquifer.OnAcknowledgementPacket3", err)
 		return sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "cannot unmarshal ICS-27 tx message data: %v", err)
 	}
 
-	fmt.Println("aquifer.OnAcknowledgementPacket4", txMsgData, txMsgData.Data)
 	switch len(txMsgData.Data) {
 	case 0:
-		fmt.Println("aquifer.OnAcknowledgementPacket5")
 		// TODO: handle for sdk 0.46.x
 		return nil
 	default:
 		for _, msgData := range txMsgData.Data {
-			fmt.Println("aquifer.OnAcknowledgementPacket6", msgData)
-			response, err := handleMsgData(ctx, msgData)
+			response, err := handleMsgData(ctx, im.keeper, msgData)
 			if err != nil {
 				return err
 			}
 
-			fmt.Println("aquifer.OnAcknowledgementPacket7", response)
 			im.keeper.Logger(ctx).Info("message response in ICS-27 packet response", "response", response)
 		}
 		return nil
@@ -171,7 +162,7 @@ func (im IBCModule) NegotiateAppVersion(
 	return "", nil
 }
 
-func handleMsgData(ctx sdk.Context, msgData *sdk.MsgData) (string, error) {
+func handleMsgData(ctx sdk.Context, k keeper.Keeper, msgData *sdk.MsgData) (string, error) {
 	switch msgData.MsgType {
 	case sdk.MsgTypeURL(&banktypes.MsgSend{}):
 		msgResponse := &banktypes.MsgSendResponse{}
@@ -180,9 +171,18 @@ func handleMsgData(ctx sdk.Context, msgData *sdk.MsgData) (string, error) {
 		}
 
 		return msgResponse.String(), nil
+	case sdk.MsgTypeURL(&balancer.MsgCreateBalancerPool{}):
+		msgResponse := &balancer.MsgCreateBalancerPoolResponse{}
+		if err := proto.Unmarshal(msgData.Data, msgResponse); err != nil {
+			return "", sdkerrors.Wrapf(sdkerrors.ErrJSONUnmarshal, "cannot unmarshal send response message: %s", err.Error())
+		}
 
-	// TODO: handle other messages
+		params := k.GetParams(ctx)
+		params.LiquidityBootstrapping = false
+		params.LiquidityBootstrapped = true
+		k.SetParams(ctx, params)
 
+		return msgResponse.String(), nil
 	default:
 		return "", nil
 	}

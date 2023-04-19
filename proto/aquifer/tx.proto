@@ -9,6 +9,7 @@ option go_package = "github.com/cosmic-horizon/qwoyn/x/aquifer/types";
 // Msg defines the Msg service.
 service Msg {
   rpc PutAllocationToken(MsgPutAllocationToken) returns (MsgPutAllocationTokenResponse);
+  rpc TakeOutAllocationToken(MsgTakeOutAllocationToken) returns (MsgTakeOutAllocationTokenResponse);
   rpc BuyAllocationToken(MsgBuyAllocationToken) returns (MsgBuyAllocationTokenResponse);
   rpc SetDepositEndTime(MsgSetDepositEndTime) returns (MsgSetDepositEndTimeResponse);
   rpc InitICA(MsgInitICA) returns (MsgInitICAResponse);
@@ -21,6 +22,12 @@ message MsgPutAllocationToken {
   cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
 }
 message MsgPutAllocationTokenResponse {}
+
+message MsgTakeOutAllocationToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgTakeOutAllocationTokenResponse {}
 
 message MsgBuyAllocationToken {
   string sender = 1;
@@ -57,6 +64,11 @@ message MsgExecAddLiquidity {
 message MsgExecAddLiquidityResponse {}
 
 message EventPutAllocationToken {
+  string sender = 1;
+  string amount = 2;
+}
+
+message EventTakeOutAllocationToken {
   string sender = 1;
   string amount = 2;
 }

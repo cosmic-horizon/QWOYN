@@ -118,6 +118,94 @@ func (m *MsgPutAllocationTokenResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgPutAllocationTokenResponse proto.InternalMessageInfo
 
+type MsgTakeOutAllocationToken struct {
+	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
+}
+
+func (m *MsgTakeOutAllocationToken) Reset()         { *m = MsgTakeOutAllocationToken{} }
+func (m *MsgTakeOutAllocationToken) String() string { return proto.CompactTextString(m) }
+func (*MsgTakeOutAllocationToken) ProtoMessage()    {}
+func (*MsgTakeOutAllocationToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_29346906793f3475, []int{2}
+}
+func (m *MsgTakeOutAllocationToken) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgTakeOutAllocationToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgTakeOutAllocationToken.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgTakeOutAllocationToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTakeOutAllocationToken.Merge(m, src)
+}
+func (m *MsgTakeOutAllocationToken) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgTakeOutAllocationToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTakeOutAllocationToken.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgTakeOutAllocationToken proto.InternalMessageInfo
+
+func (m *MsgTakeOutAllocationToken) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgTakeOutAllocationToken) GetAmount() types.Coin {
+	if m != nil {
+		return m.Amount
+	}
+	return types.Coin{}
+}
+
+type MsgTakeOutAllocationTokenResponse struct {
+}
+
+func (m *MsgTakeOutAllocationTokenResponse) Reset()         { *m = MsgTakeOutAllocationTokenResponse{} }
+func (m *MsgTakeOutAllocationTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTakeOutAllocationTokenResponse) ProtoMessage()    {}
+func (*MsgTakeOutAllocationTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_29346906793f3475, []int{3}
+}
+func (m *MsgTakeOutAllocationTokenResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgTakeOutAllocationTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgTakeOutAllocationTokenResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgTakeOutAllocationTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTakeOutAllocationTokenResponse.Merge(m, src)
+}
+func (m *MsgTakeOutAllocationTokenResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgTakeOutAllocationTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTakeOutAllocationTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgTakeOutAllocationTokenResponse proto.InternalMessageInfo
+
 type MsgBuyAllocationToken struct {
 	Sender string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount"`
@@ -127,7 +215,7 @@ func (m *MsgBuyAllocationToken) Reset()         { *m = MsgBuyAllocationToken{} }
 func (m *MsgBuyAllocationToken) String() string { return proto.CompactTextString(m) }
 func (*MsgBuyAllocationToken) ProtoMessage()    {}
 func (*MsgBuyAllocationToken) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{2}
+	return fileDescriptor_29346906793f3475, []int{4}
 }
 func (m *MsgBuyAllocationToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -177,7 +265,7 @@ func (m *MsgBuyAllocationTokenResponse) Reset()         { *m = MsgBuyAllocationT
 func (m *MsgBuyAllocationTokenResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgBuyAllocationTokenResponse) ProtoMessage()    {}
 func (*MsgBuyAllocationTokenResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{3}
+	return fileDescriptor_29346906793f3475, []int{5}
 }
 func (m *MsgBuyAllocationTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -215,7 +303,7 @@ func (m *MsgSetDepositEndTime) Reset()         { *m = MsgSetDepositEndTime{} }
 func (m *MsgSetDepositEndTime) String() string { return proto.CompactTextString(m) }
 func (*MsgSetDepositEndTime) ProtoMessage()    {}
 func (*MsgSetDepositEndTime) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{4}
+	return fileDescriptor_29346906793f3475, []int{6}
 }
 func (m *MsgSetDepositEndTime) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -265,7 +353,7 @@ func (m *MsgSetDepositEndTimeResponse) Reset()         { *m = MsgSetDepositEndTi
 func (m *MsgSetDepositEndTimeResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgSetDepositEndTimeResponse) ProtoMessage()    {}
 func (*MsgSetDepositEndTimeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{5}
+	return fileDescriptor_29346906793f3475, []int{7}
 }
 func (m *MsgSetDepositEndTimeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -303,7 +391,7 @@ func (m *MsgInitICA) Reset()         { *m = MsgInitICA{} }
 func (m *MsgInitICA) String() string { return proto.CompactTextString(m) }
 func (*MsgInitICA) ProtoMessage()    {}
 func (*MsgInitICA) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{6}
+	return fileDescriptor_29346906793f3475, []int{8}
 }
 func (m *MsgInitICA) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -353,7 +441,7 @@ func (m *MsgInitICAResponse) Reset()         { *m = MsgInitICAResponse{} }
 func (m *MsgInitICAResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgInitICAResponse) ProtoMessage()    {}
 func (*MsgInitICAResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{7}
+	return fileDescriptor_29346906793f3475, []int{9}
 }
 func (m *MsgInitICAResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -392,7 +480,7 @@ func (m *MsgExecTransfer) Reset()         { *m = MsgExecTransfer{} }
 func (m *MsgExecTransfer) String() string { return proto.CompactTextString(m) }
 func (*MsgExecTransfer) ProtoMessage()    {}
 func (*MsgExecTransfer) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{8}
+	return fileDescriptor_29346906793f3475, []int{10}
 }
 func (m *MsgExecTransfer) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -449,7 +537,7 @@ func (m *MsgExecTransferResponse) Reset()         { *m = MsgExecTransferResponse
 func (m *MsgExecTransferResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgExecTransferResponse) ProtoMessage()    {}
 func (*MsgExecTransferResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{9}
+	return fileDescriptor_29346906793f3475, []int{11}
 }
 func (m *MsgExecTransferResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -487,7 +575,7 @@ func (m *MsgExecAddLiquidity) Reset()         { *m = MsgExecAddLiquidity{} }
 func (m *MsgExecAddLiquidity) String() string { return proto.CompactTextString(m) }
 func (*MsgExecAddLiquidity) ProtoMessage()    {}
 func (*MsgExecAddLiquidity) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{10}
+	return fileDescriptor_29346906793f3475, []int{12}
 }
 func (m *MsgExecAddLiquidity) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -530,7 +618,7 @@ func (m *MsgExecAddLiquidityResponse) Reset()         { *m = MsgExecAddLiquidity
 func (m *MsgExecAddLiquidityResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgExecAddLiquidityResponse) ProtoMessage()    {}
 func (*MsgExecAddLiquidityResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{11}
+	return fileDescriptor_29346906793f3475, []int{13}
 }
 func (m *MsgExecAddLiquidityResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -568,7 +656,7 @@ func (m *EventPutAllocationToken) Reset()         { *m = EventPutAllocationToken
 func (m *EventPutAllocationToken) String() string { return proto.CompactTextString(m) }
 func (*EventPutAllocationToken) ProtoMessage()    {}
 func (*EventPutAllocationToken) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{12}
+	return fileDescriptor_29346906793f3475, []int{14}
 }
 func (m *EventPutAllocationToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -611,6 +699,58 @@ func (m *EventPutAllocationToken) GetAmount() string {
 	return ""
 }
 
+type EventTakeOutAllocationToken struct {
+	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Amount string `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
+}
+
+func (m *EventTakeOutAllocationToken) Reset()         { *m = EventTakeOutAllocationToken{} }
+func (m *EventTakeOutAllocationToken) String() string { return proto.CompactTextString(m) }
+func (*EventTakeOutAllocationToken) ProtoMessage()    {}
+func (*EventTakeOutAllocationToken) Descriptor() ([]byte, []int) {
+	return fileDescriptor_29346906793f3475, []int{15}
+}
+func (m *EventTakeOutAllocationToken) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *EventTakeOutAllocationToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_EventTakeOutAllocationToken.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *EventTakeOutAllocationToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventTakeOutAllocationToken.Merge(m, src)
+}
+func (m *EventTakeOutAllocationToken) XXX_Size() int {
+	return m.Size()
+}
+func (m *EventTakeOutAllocationToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventTakeOutAllocationToken.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventTakeOutAllocationToken proto.InternalMessageInfo
+
+func (m *EventTakeOutAllocationToken) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *EventTakeOutAllocationToken) GetAmount() string {
+	if m != nil {
+		return m.Amount
+	}
+	return ""
+}
+
 type EventBuyAllocationToken struct {
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	Amount string `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
@@ -620,7 +760,7 @@ func (m *EventBuyAllocationToken) Reset()         { *m = EventBuyAllocationToken
 func (m *EventBuyAllocationToken) String() string { return proto.CompactTextString(m) }
 func (*EventBuyAllocationToken) ProtoMessage()    {}
 func (*EventBuyAllocationToken) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{13}
+	return fileDescriptor_29346906793f3475, []int{16}
 }
 func (m *EventBuyAllocationToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -671,7 +811,7 @@ func (m *EventSetDepositEndTime) Reset()         { *m = EventSetDepositEndTime{}
 func (m *EventSetDepositEndTime) String() string { return proto.CompactTextString(m) }
 func (*EventSetDepositEndTime) ProtoMessage()    {}
 func (*EventSetDepositEndTime) Descriptor() ([]byte, []int) {
-	return fileDescriptor_29346906793f3475, []int{14}
+	return fileDescriptor_29346906793f3475, []int{17}
 }
 func (m *EventSetDepositEndTime) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -710,6 +850,8 @@ func (m *EventSetDepositEndTime) GetTime() uint64 {
 func init() {
 	proto.RegisterType((*MsgPutAllocationToken)(nil), "cosmichorizon.qwoyn.aquifer.MsgPutAllocationToken")
 	proto.RegisterType((*MsgPutAllocationTokenResponse)(nil), "cosmichorizon.qwoyn.aquifer.MsgPutAllocationTokenResponse")
+	proto.RegisterType((*MsgTakeOutAllocationToken)(nil), "cosmichorizon.qwoyn.aquifer.MsgTakeOutAllocationToken")
+	proto.RegisterType((*MsgTakeOutAllocationTokenResponse)(nil), "cosmichorizon.qwoyn.aquifer.MsgTakeOutAllocationTokenResponse")
 	proto.RegisterType((*MsgBuyAllocationToken)(nil), "cosmichorizon.qwoyn.aquifer.MsgBuyAllocationToken")
 	proto.RegisterType((*MsgBuyAllocationTokenResponse)(nil), "cosmichorizon.qwoyn.aquifer.MsgBuyAllocationTokenResponse")
 	proto.RegisterType((*MsgSetDepositEndTime)(nil), "cosmichorizon.qwoyn.aquifer.MsgSetDepositEndTime")
@@ -721,6 +863,7 @@ func init() {
 	proto.RegisterType((*MsgExecAddLiquidity)(nil), "cosmichorizon.qwoyn.aquifer.MsgExecAddLiquidity")
 	proto.RegisterType((*MsgExecAddLiquidityResponse)(nil), "cosmichorizon.qwoyn.aquifer.MsgExecAddLiquidityResponse")
 	proto.RegisterType((*EventPutAllocationToken)(nil), "cosmichorizon.qwoyn.aquifer.EventPutAllocationToken")
+	proto.RegisterType((*EventTakeOutAllocationToken)(nil), "cosmichorizon.qwoyn.aquifer.EventTakeOutAllocationToken")
 	proto.RegisterType((*EventBuyAllocationToken)(nil), "cosmichorizon.qwoyn.aquifer.EventBuyAllocationToken")
 	proto.RegisterType((*EventSetDepositEndTime)(nil), "cosmichorizon.qwoyn.aquifer.EventSetDepositEndTime")
 }
@@ -728,49 +871,52 @@ func init() {
 func init() { proto.RegisterFile("aquifer/tx.proto", fileDescriptor_29346906793f3475) }
 
 var fileDescriptor_29346906793f3475 = []byte{
-	// 669 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x55, 0xcf, 0x4f, 0x13, 0x41,
-	0x14, 0xee, 0x0a, 0x82, 0x3c, 0x31, 0xc2, 0x82, 0xfc, 0x58, 0x64, 0x21, 0xf5, 0x20, 0x07, 0xdc,
-	0x15, 0x34, 0xf1, 0xc7, 0x8d, 0x56, 0x4c, 0x9a, 0x58, 0x42, 0x0a, 0x27, 0x2f, 0x75, 0xbb, 0xfb,
-	0xd8, 0x4e, 0x6c, 0xe7, 0x95, 0x9d, 0x59, 0xa4, 0x1e, 0x4c, 0x4c, 0xbc, 0x78, 0xd2, 0x3f, 0x8b,
-	0x23, 0x47, 0xe3, 0x81, 0x18, 0xf8, 0x07, 0xfc, 0x13, 0xcc, 0x4e, 0xa7, 0x4b, 0xb1, 0xad, 0xa5,
-	0x17, 0x6f, 0xb3, 0xf3, 0xde, 0xfb, 0xbe, 0x6f, 0x66, 0xde, 0xf7, 0x16, 0xa6, 0xbc, 0xc3, 0x98,
-	0x1d, 0x60, 0xe4, 0xca, 0x63, 0xa7, 0x11, 0x91, 0x24, 0x73, 0xc9, 0x27, 0x51, 0x67, 0x7e, 0x95,
-	0x22, 0xf6, 0x91, 0xb8, 0x73, 0xf8, 0x81, 0x9a, 0xdc, 0xd1, 0x59, 0x96, 0x9d, 0x04, 0x49, 0xb8,
-	0x15, 0x4f, 0xa0, 0x7b, 0xb4, 0x51, 0x41, 0xe9, 0x6d, 0xb8, 0x3e, 0x31, 0xde, 0x2a, 0xb6, 0x66,
-	0x43, 0x0a, 0x49, 0x2d, 0xdd, 0x64, 0xd5, 0xda, 0xcd, 0x56, 0xe1, 0x5e, 0x51, 0x84, 0xbb, 0xb1,
-	0xdc, 0xaa, 0xd5, 0xc8, 0xf7, 0x24, 0x23, 0xbe, 0x4f, 0xef, 0x91, 0x9b, 0x73, 0x30, 0x26, 0x90,
-	0x07, 0x18, 0x2d, 0x18, 0xab, 0xc6, 0xda, 0x44, 0x49, 0x7f, 0x99, 0xcf, 0x60, 0xcc, 0xab, 0x53,
-	0xcc, 0xe5, 0xc2, 0x8d, 0x55, 0x63, 0xed, 0xf6, 0xe6, 0xa2, 0xd3, 0xe2, 0x75, 0x12, 0x5e, 0x47,
-	0xf3, 0x3a, 0x79, 0x62, 0x3c, 0x37, 0x7a, 0x72, 0xb6, 0x92, 0x29, 0xe9, 0xf4, 0xec, 0x0a, 0x2c,
-	0xf7, 0x64, 0x2a, 0xa1, 0x68, 0x10, 0x17, 0xa8, 0xa5, 0xe4, 0xe2, 0xe6, 0x7f, 0x92, 0xd2, 0xcd,
-	0x94, 0x4a, 0x29, 0xc0, 0x6c, 0x51, 0x84, 0x7b, 0x28, 0x5f, 0x61, 0x83, 0x04, 0x93, 0xdb, 0x3c,
-	0xd8, 0x67, 0x75, 0xec, 0xab, 0x64, 0x11, 0x6e, 0x21, 0x0f, 0xca, 0x92, 0xd5, 0x51, 0x69, 0x19,
-	0x2d, 0x8d, 0x63, 0xab, 0x24, 0x6b, 0xc3, 0xfd, 0x5e, 0x50, 0x1d, 0x54, 0x50, 0x14, 0x61, 0x81,
-	0x33, 0x59, 0xc8, 0x6f, 0xf5, 0x25, 0x78, 0x00, 0x77, 0x7c, 0xe2, 0x1c, 0xfd, 0x44, 0x6b, 0x99,
-	0x05, 0x8a, 0x65, 0xa2, 0x34, 0x79, 0xb9, 0x59, 0x08, 0xb2, 0xb3, 0x60, 0x5e, 0x42, 0xa5, 0x04,
-	0x5f, 0x0d, 0xb8, 0x5b, 0x14, 0xe1, 0xf6, 0x31, 0xfa, 0xfb, 0x91, 0xc7, 0xc5, 0x01, 0x46, 0x7d,
-	0x69, 0x1c, 0x98, 0x49, 0xce, 0x40, 0xb1, 0x2c, 0x73, 0x8f, 0x53, 0x59, 0xa0, 0x4f, 0x3c, 0xd0,
-	0x47, 0x9a, 0xd6, 0xa1, 0x1d, 0x8f, 0xd3, 0x9e, 0x0a, 0xa8, 0x7c, 0x8d, 0x59, 0xf6, 0xab, 0x1e,
-	0xe7, 0x58, 0x4b, 0xc4, 0x8d, 0x28, 0xd0, 0xe9, 0x76, 0x28, 0xdf, 0x8a, 0x14, 0x82, 0xec, 0x22,
-	0xcc, 0xff, 0x25, 0x25, 0x95, 0xf9, 0xcd, 0x80, 0x19, 0x1d, 0xdb, 0x0a, 0x82, 0x37, 0xec, 0x30,
-	0x66, 0x01, 0x93, 0xcd, 0xbe, 0x52, 0xdf, 0xc1, 0x48, 0x5d, 0x84, 0x4a, 0xda, 0x64, 0x6e, 0x27,
-	0x79, 0xde, 0x9f, 0x67, 0x2b, 0xaf, 0x43, 0x26, 0xab, 0x71, 0xc5, 0xf1, 0xa9, 0xee, 0xb6, 0xbc,
-	0xf2, 0x48, 0x9b, 0xc5, 0x55, 0x66, 0x71, 0x55, 0x7f, 0xb0, 0xc4, 0x24, 0x35, 0x8f, 0xfb, 0x18,
-	0x39, 0x45, 0x11, 0xe6, 0x23, 0xf4, 0x24, 0xe6, 0xf4, 0xce, 0x2e, 0x51, 0xad, 0x94, 0x40, 0x67,
-	0x97, 0x61, 0xa9, 0x87, 0xa0, 0x8e, 0x87, 0x9b, 0xdf, 0x3e, 0x42, 0x2e, 0x87, 0xf0, 0xce, 0xdc,
-	0x95, 0x86, 0x9d, 0x48, 0xfb, 0xb1, 0x0d, 0x35, 0x44, 0xef, 0xf7, 0x83, 0x5a, 0x87, 0x39, 0x05,
-	0xd5, 0xdd, 0xbb, 0x26, 0x8c, 0xaa, 0xfe, 0x34, 0xd4, 0x63, 0xaa, 0xf5, 0xe6, 0xef, 0x9b, 0x30,
-	0x52, 0x14, 0xa1, 0xf9, 0xc5, 0x00, 0xb3, 0xc7, 0x39, 0x36, 0x9d, 0x7f, 0x0c, 0x1c, 0xa7, 0xa7,
-	0x9b, 0xad, 0x97, 0xc3, 0xd7, 0xb4, 0xaf, 0x54, 0xc9, 0xe8, 0x71, 0x07, 0x03, 0x65, 0x74, 0xd7,
-	0x0c, 0x96, 0xd1, 0xdf, 0xfd, 0xe6, 0x67, 0x03, 0xa6, 0xbb, 0xef, 0x6f, 0x63, 0x10, 0x62, 0x57,
-	0x89, 0xf5, 0x62, 0xe8, 0x92, 0x54, 0x83, 0x0f, 0xe3, 0xed, 0x99, 0xf0, 0x70, 0x10, 0x8a, 0x4e,
-	0xb4, 0xdc, 0x6b, 0x26, 0xa6, 0x24, 0x11, 0x4c, 0x5e, 0x19, 0x0b, 0xeb, 0x83, 0x00, 0x3a, 0xb3,
-	0xad, 0xa7, 0xc3, 0x64, 0xa7, 0x9c, 0x9f, 0x60, 0xaa, 0xcb, 0xe3, 0x8f, 0xaf, 0x83, 0xd4, 0x59,
-	0x61, 0x3d, 0x1f, 0xb6, 0xa2, 0xcd, 0x9f, 0x2b, 0x9c, 0x9c, 0xdb, 0xc6, 0xe9, 0xb9, 0x6d, 0xfc,
-	0x3a, 0xb7, 0x8d, 0xef, 0x17, 0x76, 0xe6, 0xf4, 0xc2, 0xce, 0xfc, 0xb8, 0xb0, 0x33, 0x6f, 0xdd,
-	0x41, 0xc3, 0xe3, 0xd8, 0x4d, 0xff, 0xc8, 0xcd, 0x06, 0x8a, 0xca, 0x98, 0xfa, 0x85, 0x3e, 0xf9,
-	0x13, 0x00, 0x00, 0xff, 0xff, 0x79, 0xe3, 0x83, 0x0b, 0xa9, 0x07, 0x00, 0x00,
+	// 718 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x56, 0x4f, 0x4f, 0xdb, 0x4a,
+	0x10, 0x8f, 0x1f, 0x08, 0x1e, 0xf3, 0x78, 0x2a, 0x18, 0x1a, 0x88, 0x29, 0x86, 0x9a, 0x43, 0x39,
+	0x50, 0xbb, 0xd0, 0xaa, 0xff, 0x0e, 0x95, 0x48, 0x4a, 0xa5, 0x48, 0x35, 0x45, 0x21, 0xa7, 0x5e,
+	0x52, 0xc7, 0x5e, 0x9c, 0x15, 0xc9, 0x6e, 0xf0, 0xae, 0x29, 0xe9, 0xa1, 0x52, 0xd5, 0x5e, 0x7a,
+	0x2a, 0x1f, 0x8b, 0x23, 0xc7, 0xaa, 0x07, 0x54, 0xc1, 0x17, 0xa9, 0xbc, 0x76, 0x4c, 0x68, 0xec,
+	0x1a, 0xf7, 0xc0, 0x6d, 0xb3, 0x33, 0xbf, 0x3f, 0x99, 0x9d, 0x19, 0x19, 0xa6, 0xac, 0x03, 0x1f,
+	0xef, 0x21, 0xcf, 0xe0, 0x47, 0x7a, 0xd7, 0xa3, 0x9c, 0xca, 0x0b, 0x36, 0x65, 0x1d, 0x6c, 0xb7,
+	0xa8, 0x87, 0x3f, 0x50, 0xa2, 0x1f, 0xbc, 0xa7, 0x3d, 0xa2, 0x47, 0x59, 0x8a, 0x1a, 0x04, 0x29,
+	0x33, 0x9a, 0x16, 0x43, 0xc6, 0xe1, 0x7a, 0x13, 0x71, 0x6b, 0xdd, 0xb0, 0x29, 0x26, 0x21, 0x58,
+	0x99, 0x75, 0xa9, 0x4b, 0xc5, 0xd1, 0x08, 0x4e, 0xe1, 0xad, 0xd6, 0x82, 0xdb, 0x26, 0x73, 0x77,
+	0x7c, 0xbe, 0xd9, 0x6e, 0x53, 0xdb, 0xe2, 0x98, 0x92, 0x3a, 0xdd, 0x47, 0x44, 0x2e, 0xc2, 0x18,
+	0x43, 0xc4, 0x41, 0xde, 0xbc, 0xb4, 0x2c, 0xad, 0x4e, 0xd4, 0xa2, 0x5f, 0xf2, 0x13, 0x18, 0xb3,
+	0x3a, 0xd4, 0x27, 0x7c, 0xfe, 0x9f, 0x65, 0x69, 0xf5, 0xbf, 0x8d, 0x92, 0x1e, 0xea, 0xea, 0x81,
+	0xae, 0x1e, 0xe9, 0xea, 0x15, 0x8a, 0x49, 0x79, 0xf4, 0xe4, 0x6c, 0xa9, 0x50, 0x8b, 0xd2, 0xb5,
+	0x25, 0x58, 0x4c, 0x54, 0xaa, 0x21, 0xd6, 0xa5, 0x84, 0x21, 0xad, 0x0d, 0x25, 0x93, 0xb9, 0x75,
+	0x6b, 0x1f, 0xbd, 0xb9, 0x01, 0x3b, 0x2b, 0x70, 0x37, 0x55, 0x2d, 0xb6, 0x14, 0x56, 0xa7, 0xec,
+	0xf7, 0x6e, 0xa8, 0x3a, 0xc3, 0x4a, 0xb1, 0x95, 0x2a, 0xcc, 0x9a, 0xcc, 0xdd, 0x45, 0xfc, 0x25,
+	0xea, 0x52, 0x86, 0xf9, 0x16, 0x71, 0xea, 0xb8, 0x83, 0x52, 0x9d, 0x94, 0xe0, 0x5f, 0x44, 0x9c,
+	0x06, 0xc7, 0x1d, 0x24, 0xbc, 0x8c, 0xd6, 0xc6, 0x51, 0x08, 0xd1, 0x54, 0xb8, 0x93, 0x44, 0x35,
+	0x20, 0x05, 0x26, 0x73, 0xab, 0x04, 0xf3, 0x6a, 0x65, 0x33, 0x55, 0x60, 0x05, 0xfe, 0xb7, 0x29,
+	0x21, 0xc8, 0x0e, 0xbc, 0x36, 0xb0, 0x23, 0x54, 0x26, 0x6a, 0x93, 0x97, 0x97, 0x55, 0x47, 0x9b,
+	0x05, 0xf9, 0x92, 0x2a, 0x16, 0xf8, 0x2a, 0xc1, 0x2d, 0x93, 0xb9, 0x5b, 0x47, 0xc8, 0xae, 0x7b,
+	0x16, 0x61, 0x7b, 0xc8, 0x4b, 0x95, 0xd1, 0x61, 0x26, 0xf8, 0x0f, 0xd4, 0xe7, 0x0d, 0x62, 0x11,
+	0xda, 0x60, 0xc8, 0xa6, 0xc4, 0x89, 0xfe, 0xd2, 0x74, 0x14, 0xda, 0xb6, 0x08, 0xdd, 0x15, 0x01,
+	0x91, 0x1f, 0x71, 0x36, 0xec, 0x96, 0x45, 0x08, 0x6a, 0x07, 0xe6, 0x46, 0x04, 0xe9, 0x74, 0x3f,
+	0x54, 0x09, 0x23, 0x55, 0x47, 0x2b, 0xc1, 0xdc, 0x6f, 0x56, 0x62, 0x9b, 0xdf, 0x24, 0x98, 0x89,
+	0x62, 0x9b, 0x8e, 0xf3, 0x1a, 0x1f, 0xf8, 0xd8, 0xc1, 0xbc, 0x97, 0x6a, 0xf5, 0x1d, 0x8c, 0x74,
+	0x98, 0x2b, 0xac, 0x4d, 0x96, 0xb7, 0x83, 0xe7, 0xfd, 0x71, 0xb6, 0xf4, 0xca, 0xc5, 0xbc, 0xe5,
+	0x37, 0x75, 0x9b, 0x76, 0x8c, 0x70, 0x7c, 0xef, 0x47, 0xf3, 0x6b, 0x88, 0xf9, 0x35, 0x44, 0x7f,
+	0xe0, 0x60, 0x6e, 0xdb, 0x16, 0xb1, 0x91, 0xa7, 0x9b, 0xcc, 0xad, 0x78, 0xc8, 0xe2, 0xa8, 0x1c,
+	0xdd, 0xec, 0x50, 0xda, 0xae, 0x05, 0xd4, 0xda, 0x22, 0x2c, 0x24, 0x18, 0x1a, 0x78, 0xb8, 0xb9,
+	0xad, 0x43, 0x44, 0x78, 0x8e, 0x71, 0x2e, 0x5e, 0x69, 0xd8, 0x89, 0xb8, 0x1f, 0x4d, 0x58, 0x10,
+	0x54, 0x39, 0xc7, 0x31, 0x8d, 0xae, 0xef, 0x2c, 0xc7, 0x28, 0xa5, 0x51, 0xad, 0x41, 0x51, 0x50,
+	0x0d, 0x8f, 0x82, 0x0c, 0xa3, 0xa2, 0xdd, 0x25, 0xd1, 0x1b, 0xe2, 0xbc, 0xf1, 0x79, 0x1c, 0x46,
+	0x4c, 0xe6, 0xca, 0x5f, 0x24, 0x90, 0x13, 0xca, 0xb2, 0xa1, 0xff, 0x61, 0xa5, 0xea, 0x89, 0xfb,
+	0x4a, 0x79, 0x9e, 0x1f, 0xd3, 0x7f, 0x21, 0xf9, 0x58, 0x82, 0x62, 0x4a, 0x49, 0x1f, 0x67, 0xd1,
+	0x26, 0xe3, 0x94, 0x17, 0x7f, 0x87, 0x8b, 0x2d, 0x05, 0x95, 0x49, 0x78, 0x96, 0xcc, 0xca, 0x0c,
+	0x63, 0xb2, 0x2b, 0x93, 0xbe, 0xdf, 0xe4, 0x4f, 0x12, 0x4c, 0x0f, 0x3f, 0xe9, 0x7a, 0x16, 0xe3,
+	0x10, 0x44, 0x79, 0x96, 0x1b, 0x12, 0x7b, 0xb0, 0x61, 0xbc, 0xbf, 0xf5, 0xee, 0x65, 0xb1, 0x44,
+	0x89, 0x8a, 0x71, 0xcd, 0xc4, 0x58, 0xc4, 0x83, 0xc9, 0x2b, 0x8b, 0x6f, 0x2d, 0x8b, 0x60, 0x30,
+	0x5b, 0x79, 0x94, 0x27, 0x3b, 0xd6, 0xfc, 0x08, 0x53, 0x43, 0x5b, 0xec, 0xc1, 0x75, 0x98, 0x06,
+	0x11, 0xca, 0xd3, 0xbc, 0x88, 0xbe, 0x7e, 0xb9, 0x7a, 0x72, 0xae, 0x4a, 0xa7, 0xe7, 0xaa, 0xf4,
+	0xf3, 0x5c, 0x95, 0x8e, 0x2f, 0xd4, 0xc2, 0xe9, 0x85, 0x5a, 0xf8, 0x7e, 0xa1, 0x16, 0xde, 0x1a,
+	0x59, 0xeb, 0xf1, 0xc8, 0x88, 0x3f, 0x83, 0x7a, 0x5d, 0xc4, 0x9a, 0x63, 0xe2, 0xbb, 0xe5, 0xe1,
+	0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x81, 0xc5, 0xb6, 0x06, 0x1e, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -786,6 +932,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
 	PutAllocationToken(ctx context.Context, in *MsgPutAllocationToken, opts ...grpc.CallOption) (*MsgPutAllocationTokenResponse, error)
+	TakeOutAllocationToken(ctx context.Context, in *MsgTakeOutAllocationToken, opts ...grpc.CallOption) (*MsgTakeOutAllocationTokenResponse, error)
 	BuyAllocationToken(ctx context.Context, in *MsgBuyAllocationToken, opts ...grpc.CallOption) (*MsgBuyAllocationTokenResponse, error)
 	SetDepositEndTime(ctx context.Context, in *MsgSetDepositEndTime, opts ...grpc.CallOption) (*MsgSetDepositEndTimeResponse, error)
 	InitICA(ctx context.Context, in *MsgInitICA, opts ...grpc.CallOption) (*MsgInitICAResponse, error)
@@ -804,6 +951,15 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 func (c *msgClient) PutAllocationToken(ctx context.Context, in *MsgPutAllocationToken, opts ...grpc.CallOption) (*MsgPutAllocationTokenResponse, error) {
 	out := new(MsgPutAllocationTokenResponse)
 	err := c.cc.Invoke(ctx, "/cosmichorizon.qwoyn.aquifer.Msg/PutAllocationToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) TakeOutAllocationToken(ctx context.Context, in *MsgTakeOutAllocationToken, opts ...grpc.CallOption) (*MsgTakeOutAllocationTokenResponse, error) {
+	out := new(MsgTakeOutAllocationTokenResponse)
+	err := c.cc.Invoke(ctx, "/cosmichorizon.qwoyn.aquifer.Msg/TakeOutAllocationToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -858,6 +1014,7 @@ func (c *msgClient) ExecAddLiquidity(ctx context.Context, in *MsgExecAddLiquidit
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	PutAllocationToken(context.Context, *MsgPutAllocationToken) (*MsgPutAllocationTokenResponse, error)
+	TakeOutAllocationToken(context.Context, *MsgTakeOutAllocationToken) (*MsgTakeOutAllocationTokenResponse, error)
 	BuyAllocationToken(context.Context, *MsgBuyAllocationToken) (*MsgBuyAllocationTokenResponse, error)
 	SetDepositEndTime(context.Context, *MsgSetDepositEndTime) (*MsgSetDepositEndTimeResponse, error)
 	InitICA(context.Context, *MsgInitICA) (*MsgInitICAResponse, error)
@@ -871,6 +1028,9 @@ type UnimplementedMsgServer struct {
 
 func (*UnimplementedMsgServer) PutAllocationToken(ctx context.Context, req *MsgPutAllocationToken) (*MsgPutAllocationTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutAllocationToken not implemented")
+}
+func (*UnimplementedMsgServer) TakeOutAllocationToken(ctx context.Context, req *MsgTakeOutAllocationToken) (*MsgTakeOutAllocationTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TakeOutAllocationToken not implemented")
 }
 func (*UnimplementedMsgServer) BuyAllocationToken(ctx context.Context, req *MsgBuyAllocationToken) (*MsgBuyAllocationTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BuyAllocationToken not implemented")
@@ -906,6 +1066,24 @@ func _Msg_PutAllocationToken_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).PutAllocationToken(ctx, req.(*MsgPutAllocationToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_TakeOutAllocationToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgTakeOutAllocationToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).TakeOutAllocationToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cosmichorizon.qwoyn.aquifer.Msg/TakeOutAllocationToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).TakeOutAllocationToken(ctx, req.(*MsgTakeOutAllocationToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1009,6 +1187,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_PutAllocationToken_Handler,
 		},
 		{
+			MethodName: "TakeOutAllocationToken",
+			Handler:    _Msg_TakeOutAllocationToken_Handler,
+		},
+		{
 			MethodName: "BuyAllocationToken",
 			Handler:    _Msg_BuyAllocationToken_Handler,
 		},
@@ -1089,6 +1271,69 @@ func (m *MsgPutAllocationTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 }
 
 func (m *MsgPutAllocationTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgTakeOutAllocationToken) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgTakeOutAllocationToken) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgTakeOutAllocationToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.Amount.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgTakeOutAllocationTokenResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgTakeOutAllocationTokenResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgTakeOutAllocationTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1442,6 +1687,43 @@ func (m *EventPutAllocationToken) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *EventTakeOutAllocationToken) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *EventTakeOutAllocationToken) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *EventTakeOutAllocationToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Amount) > 0 {
+		i -= len(m.Amount)
+		copy(dAtA[i:], m.Amount)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Amount)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *EventBuyAllocationToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1534,6 +1816,30 @@ func (m *MsgPutAllocationToken) Size() (n int) {
 }
 
 func (m *MsgPutAllocationTokenResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgTakeOutAllocationToken) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.Amount.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgTakeOutAllocationTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1671,6 +1977,23 @@ func (m *MsgExecAddLiquidityResponse) Size() (n int) {
 }
 
 func (m *EventPutAllocationToken) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Amount)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *EventTakeOutAllocationToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1864,6 +2187,171 @@ func (m *MsgPutAllocationTokenResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgPutAllocationTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgTakeOutAllocationToken) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgTakeOutAllocationToken: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgTakeOutAllocationToken: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Amount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgTakeOutAllocationTokenResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgTakeOutAllocationTokenResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgTakeOutAllocationTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2742,6 +3230,120 @@ func (m *EventPutAllocationToken) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: EventPutAllocationToken: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Amount = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *EventTakeOutAllocationToken) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: EventTakeOutAllocationToken: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: EventTakeOutAllocationToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

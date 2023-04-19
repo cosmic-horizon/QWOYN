@@ -9,19 +9,20 @@ option go_package = "github.com/cosmic-horizon/qwoyn/x/aquifer/types";
 message Params {
   option (gogoproto.goproto_stringer) = false;
   
-  string deposit_token = 1; // usdc
-  string allocation_token = 2; // qwoyn
-  uint64 vesting_duration = 3; // 1 year in seconds
-  uint64 deposit_end_time = 4;
-  string init_liquidity_price = 5 [
+  string maintainer = 1;
+  string deposit_token = 2; // axlUSDC.osmo
+  string allocation_token = 3; // qwoyn
+  uint64 vesting_duration = 4; // 1 year in seconds
+  uint64 deposit_end_time = 5;
+  string init_liquidity_price = 6 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
     (gogoproto.nullable) = false
   ]; // price without considering decimal
-  string discount = 6 [
+  string discount = 7 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
     (gogoproto.nullable) = false
   ]; // discount from initial liquidity price
-  bool liquidity_bootstrapping = 7; // broadcasted ICA tx to bootstrap Osmosis LP
-  bool liquidity_bootstrapped = 8; // set as true once Osmosis liquidity created
-  string ics_connection_id = 9;
+  bool liquidity_bootstrapping = 8; // broadcasted ICA tx to bootstrap Osmosis LP
+  bool liquidity_bootstrapped = 9; // set as true once Osmosis liquidity created
+  string ics_connection_id = 10;
 }
