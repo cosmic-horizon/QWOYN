@@ -13,7 +13,7 @@ func (suite *KeeperTestSuite) TestParamsGetSet() {
 	params.InitLiquidityPrice = sdk.NewDecWithPrec(2, 1)
 	params.LiquidityBootstrapping = true
 	params.LiquidityBootstrapped = true
-	params.IcsConnectionId = "connection-1"
+	params.IcaConnectionId = "connection-1"
 
 	suite.app.AquiferKeeper.SetParams(suite.ctx, params)
 	newParams := suite.app.AquiferKeeper.GetParams(suite.ctx)

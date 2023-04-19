@@ -24,5 +24,5 @@ message Params {
   ]; // discount from initial liquidity price
   bool liquidity_bootstrapping = 8; // broadcasted ICA tx to bootstrap Osmosis LP
   bool liquidity_bootstrapped = 9; // set as true once Osmosis liquidity created
-  string ics_connection_id = 10;
+  string ica_connection_id = 10;
 }

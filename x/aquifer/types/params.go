@@ -39,7 +39,7 @@ func NewParams(
 	discount sdk.Dec,
 	liquidityBootstrapping bool,
 	liquidityBootstrapped bool,
-	icsConnectionId string,
+	icaConnectionId string,
 ) Params {
 	return Params{
 		Maintainer:             maintainer,
@@ -51,7 +51,7 @@ func NewParams(
 		Discount:               discount,
 		LiquidityBootstrapping: liquidityBootstrapping,
 		LiquidityBootstrapped:  liquidityBootstrapped,
-		IcsConnectionId:        icsConnectionId,
+		IcaConnectionId:        icaConnectionId,
 	}
 }
 
@@ -73,7 +73,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 		paramtypes.NewParamSetPair(KeyDiscount, &p.Discount, validateDiscount),
 		paramtypes.NewParamSetPair(KeyLiquidityBootstrapping, &p.LiquidityBootstrapping, validateBool),
 		paramtypes.NewParamSetPair(KeyLiquidityBootstrapped, &p.LiquidityBootstrapped, validateBool),
-		paramtypes.NewParamSetPair(KeyIcsAccount, &p.IcsConnectionId, validateIcsConnectionId),
+		paramtypes.NewParamSetPair(KeyIcsAccount, &p.IcaConnectionId, validateIcaConnectionId),
 	}
 }
 
@@ -115,7 +115,7 @@ func (p Params) Validate() error {
 		return err
 	}
 
-	if err := validateIcsConnectionId(p.IcsConnectionId); err != nil {
+	if err := validateIcaConnectionId(p.IcaConnectionId); err != nil {
 		return err
 	}
 
@@ -213,7 +213,7 @@ func validateBool(i interface{}) error {
 	return nil
 }
 
-func validateIcsConnectionId(i interface{}) error {
+func validateIcaConnectionId(i interface{}) error {
 	_, ok := i.(string)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)

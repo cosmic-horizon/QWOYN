@@ -35,7 +35,7 @@ type Params struct {
 	Discount               github_com_cosmos_cosmos_sdk_types.Dec `protobuf:"bytes,7,opt,name=discount,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Dec" json:"discount"`
 	LiquidityBootstrapping bool                                   `protobuf:"varint,8,opt,name=liquidity_bootstrapping,json=liquidityBootstrapping,proto3" json:"liquidity_bootstrapping,omitempty"`
 	LiquidityBootstrapped  bool                                   `protobuf:"varint,9,opt,name=liquidity_bootstrapped,json=liquidityBootstrapped,proto3" json:"liquidity_bootstrapped,omitempty"`
-	IcsConnectionId        string                                 `protobuf:"bytes,10,opt,name=ics_connection_id,json=icsConnectionId,proto3" json:"ics_connection_id,omitempty"`
+	IcaConnectionId        string                                 `protobuf:"bytes,10,opt,name=ica_connection_id,json=icaConnectionId,proto3" json:"ica_connection_id,omitempty"`
 }
 
 func (m *Params) Reset()      { *m = Params{} }
@@ -119,9 +119,9 @@ func (m *Params) GetLiquidityBootstrapped() bool {
 	return false
 }
 
-func (m *Params) GetIcsConnectionId() string {
+func (m *Params) GetIcaConnectionId() string {
 	if m != nil {
-		return m.IcsConnectionId
+		return m.IcaConnectionId
 	}
 	return ""
 }
@@ -155,12 +155,12 @@ var fileDescriptor_587cd22d4fba9cdf = []byte{
 	0xb7, 0x8e, 0x3a, 0x6c, 0x92, 0xe8, 0x5b, 0xd2, 0x93, 0x60, 0x05, 0xd6, 0xda, 0xb1, 0x9b, 0xff,
 	0x95, 0xda, 0xfa, 0xe9, 0x4b, 0x72, 0xff, 0xf2, 0xa0, 0x53, 0x44, 0x67, 0x9d, 0xe1, 0x55, 0x05,
 	0xba, 0x60, 0xbd, 0x61, 0x3c, 0xea, 0x4d, 0x76, 0xdb, 0xf1, 0xf8, 0xea, 0x94, 0xbe, 0x20, 0xbb,
-	0x9b, 0x8c, 0x4a, 0xb2, 0x2d, 0xef, 0xbb, 0xb7, 0xc1, 0xa7, 0x24, 0x7d, 0x46, 0xee, 0x82, 0xb0,
-	0xb9, 0x40, 0xad, 0x95, 0xf0, 0x1b, 0x02, 0xc9, 0xc8, 0xc5, 0x7a, 0x40, 0xd8, 0xd7, 0x2d, 0x3f,
+	0x9b, 0x8c, 0x4a, 0xb2, 0x2d, 0xef, 0xbb, 0xb7, 0xc1, 0xa7, 0x24, 0x7d, 0x46, 0xee, 0x82, 0xe0,
+	0xb9, 0x40, 0xad, 0x95, 0xf0, 0x1b, 0x02, 0xc9, 0xc8, 0xc5, 0x7a, 0x40, 0xf0, 0xd7, 0x2d, 0x3f,
 	0x90, 0xaf, 0x3a, 0xdf, 0x7f, 0x0e, 0xa2, 0xf1, 0xc1, 0xe9, 0x32, 0x89, 0xcf, 0x96, 0x49, 0xfc,
 	0x67, 0x99, 0xc4, 0xdf, 0x56, 0x49, 0x74, 0xb6, 0x4a, 0xa2, 0x5f, 0xab, 0x24, 0x7a, 0x9f, 0xfd,
 	0x73, 0x5b, 0x10, 0x7b, 0xa1, 0x78, 0x99, 0x2f, 0x5e, 0xf6, 0x25, 0x5b, 0x97, 0xd4, 0x5f, 0x7d,
-	0xda, 0xf5, 0x8d, 0x7b, 0xfe, 0x37, 0x00, 0x00, 0xff, 0xff, 0xad, 0x35, 0x86, 0xc6, 0xbc, 0x02,
+	0xda, 0xf5, 0x8d, 0x7b, 0xfe, 0x37, 0x00, 0x00, 0xff, 0xff, 0x6b, 0x42, 0xa3, 0x29, 0xbc, 0x02,
 	0x00, 0x00,
 }
 
@@ -184,10 +184,10 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.IcsConnectionId) > 0 {
-		i -= len(m.IcsConnectionId)
-		copy(dAtA[i:], m.IcsConnectionId)
-		i = encodeVarintParams(dAtA, i, uint64(len(m.IcsConnectionId)))
+	if len(m.IcaConnectionId) > 0 {
+		i -= len(m.IcaConnectionId)
+		copy(dAtA[i:], m.IcaConnectionId)
+		i = encodeVarintParams(dAtA, i, uint64(len(m.IcaConnectionId)))
 		i--
 		dAtA[i] = 0x52
 	}
@@ -310,7 +310,7 @@ func (m *Params) Size() (n int) {
 	if m.LiquidityBootstrapped {
 		n += 2
 	}
-	l = len(m.IcsConnectionId)
+	l = len(m.IcaConnectionId)
 	if l > 0 {
 		n += 1 + l + sovParams(uint64(l))
 	}
@@ -596,7 +596,7 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			m.LiquidityBootstrapped = bool(v != 0)
 		case 10:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IcsConnectionId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IcaConnectionId", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -624,7 +624,7 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.IcsConnectionId = string(dAtA[iNdEx:postIndex])
+			m.IcaConnectionId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

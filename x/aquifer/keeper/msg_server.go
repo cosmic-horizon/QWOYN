@@ -162,7 +162,7 @@ func (m msgServer) InitICA(goCtx context.Context, msg *types.MsgInitICA) (*types
 		return nil, types.ErrNotMaintainer
 	}
 
-	params.IcsConnectionId = msg.ConnectionId
+	params.IcaConnectionId = msg.ConnectionId
 	m.SetParams(ctx, params)
 
 	if err := m.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, types.ModuleName); err != nil {
@@ -184,7 +184,7 @@ func (m msgServer) ExecTransfer(goCtx context.Context, msg *types.MsgExecTransfe
 		return nil, status.Errorf(codes.InvalidArgument, "could not find account: %s", err)
 	}
 
-	icaAddr, found := m.icaControllerKeeper.GetInterchainAccountAddress(ctx, params.IcsConnectionId, portID)
+	icaAddr, found := m.icaControllerKeeper.GetInterchainAccountAddress(ctx, params.IcaConnectionId, portID)
 	if !found {
 		return nil, status.Errorf(codes.NotFound, "no account found for portID %s", portID)
 	}
@@ -220,7 +220,7 @@ func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAdd
 		return nil, status.Errorf(codes.InvalidArgument, "could not find account: %s", err)
 	}
 
-	channelID, found := m.icaControllerKeeper.GetActiveChannelID(ctx, params.IcsConnectionId, portID)
+	channelID, found := m.icaControllerKeeper.GetActiveChannelID(ctx, params.IcaConnectionId, portID)
 	if !found {
 		return nil, icatypes.ErrActiveChannelNotFound.Wrapf("failed to retrieve active channel for port %s", portID)
 	}
@@ -230,7 +230,7 @@ func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAdd
 		return nil, channeltypes.ErrChannelCapabilityNotFound.Wrap("module does not own channel capability")
 	}
 
-	addr, found := m.icaControllerKeeper.GetInterchainAccountAddress(ctx, params.IcsConnectionId, portID)
+	addr, found := m.icaControllerKeeper.GetInterchainAccountAddress(ctx, params.IcaConnectionId, portID)
 	if !found {
 		return nil, status.Errorf(codes.NotFound, "no account found for portID %s", portID)
 	}
@@ -248,7 +248,7 @@ func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAdd
 	}
 
 	timeoutTimestamp := ctx.BlockTime().Add(time.Minute).UnixNano()
-	_, err = m.icaControllerKeeper.SendTx(ctx, chanCap, params.IcsConnectionId, portID, packetData, uint64(timeoutTimestamp))
+	_, err = m.icaControllerKeeper.SendTx(ctx, chanCap, params.IcaConnectionId, portID, packetData, uint64(timeoutTimestamp))
 	if err != nil {
 		return nil, err
 	}
