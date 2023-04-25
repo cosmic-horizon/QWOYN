@@ -48,10 +48,13 @@ func (m msgServer) PutAllocationToken(goCtx context.Context, msg *types.MsgPutAl
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventPutAllocationToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventPutAllocationToken{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgPutAllocationTokenResponse{}, nil
 }
@@ -83,10 +86,13 @@ func (m msgServer) TakeOutAllocationToken(goCtx context.Context, msg *types.MsgT
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventTakeOutAllocationToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventTakeOutAllocationToken{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgTakeOutAllocationTokenResponse{}, nil
 }
@@ -130,10 +136,13 @@ func (m msgServer) BuyAllocationToken(goCtx context.Context, msg *types.MsgBuyAl
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventBuyAllocationToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventBuyAllocationToken{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgBuyAllocationTokenResponse{}, nil
 }
@@ -148,9 +157,12 @@ func (m msgServer) SetDepositEndTime(goCtx context.Context, msg *types.MsgSetDep
 	m.SetParams(ctx, params)
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventSetDepositEndTime{
+	err := ctx.EventManager().EmitTypedEvent(&types.EventSetDepositEndTime{
 		Time: msg.EndTime,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgSetDepositEndTimeResponse{}, nil
 }

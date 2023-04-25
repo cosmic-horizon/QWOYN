@@ -38,10 +38,13 @@ func (m msgServer) DepositIntoOutpostFunding(goCtx context.Context, msg *types.M
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventDepositIntoOutpostFunding{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventDepositIntoOutpostFunding{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgDepositIntoOutpostFundingResponse{}, nil
 }
@@ -69,10 +72,13 @@ func (m msgServer) WithdrawFromOutpostFunding(goCtx context.Context, msg *types.
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventWithdrawFromOutpostFunding{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventWithdrawFromOutpostFunding{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgWithdrawFromOutpostFundingResponse{}, nil
 }
