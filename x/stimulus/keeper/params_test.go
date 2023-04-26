@@ -5,9 +5,7 @@ import (
 )
 
 func (suite *KeeperTestSuite) TestParamsGetSet() {
-	params := suite.app.StimulusKeeper.GetParams(suite.ctx)
-
-	params = types.Params{}
+	params := types.Params{}
 
 	suite.app.StimulusKeeper.SetParams(suite.ctx, params)
 	newParams := suite.app.StimulusKeeper.GetParams(suite.ctx)

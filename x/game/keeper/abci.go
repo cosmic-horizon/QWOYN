@@ -20,14 +20,16 @@ func (k Keeper) EndBlocker(ctx sdk.Context) {
 		if err != nil {
 			continue
 		}
-		k.DeleteUnbonding(ctx, unbonding)
-
 		// emit event
-		ctx.EventManager().EmitTypedEvent(&types.EventCompleteUnstakeInGameToken{
+		err = ctx.EventManager().EmitTypedEvent(&types.EventCompleteUnstakeInGameToken{
 			User:           unbonding.StakerAddress,
 			Amount:         unbonding.Amount.String(),
 			CompletionTime: uint64(ctx.BlockTime().Unix()),
 			UnbondingId:    unbonding.Id,
 		})
+		if err != nil {
+			continue
+		}
+		k.DeleteUnbonding(ctx, unbonding)
 	}
 }

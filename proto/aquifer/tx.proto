@@ -1,0 +1,83 @@
+syntax = "proto3";
+package cosmichorizon.qwoyn.aquifer;
+
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/cosmic-horizon/qwoyn/x/aquifer/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc PutAllocationToken(MsgPutAllocationToken) returns (MsgPutAllocationTokenResponse);
+  rpc TakeOutAllocationToken(MsgTakeOutAllocationToken) returns (MsgTakeOutAllocationTokenResponse);
+  rpc BuyAllocationToken(MsgBuyAllocationToken) returns (MsgBuyAllocationTokenResponse);
+  rpc SetDepositEndTime(MsgSetDepositEndTime) returns (MsgSetDepositEndTimeResponse);
+  rpc InitICA(MsgInitICA) returns (MsgInitICAResponse);
+  rpc ExecTransfer(MsgExecTransfer) returns (MsgExecTransferResponse);
+  rpc ExecAddLiquidity(MsgExecAddLiquidity) returns (MsgExecAddLiquidityResponse);
+}
+
+message MsgPutAllocationToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgPutAllocationTokenResponse {}
+
+message MsgTakeOutAllocationToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgTakeOutAllocationTokenResponse {}
+
+message MsgBuyAllocationToken {
+  string sender = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [ (gogoproto.nullable) = false ];
+}
+message MsgBuyAllocationTokenResponse {}
+
+message MsgSetDepositEndTime {
+  string sender = 1;
+  uint64 end_time = 2;
+}
+message MsgSetDepositEndTimeResponse {}
+
+message MsgInitICA {
+  string sender = 1;
+  string connection_id = 2;
+}
+message MsgInitICAResponse {}
+
+message MsgExecTransfer {
+  string sender =  1;
+  uint64 timeout_nano_second = 2;
+  string transfer_channel_id = 3;
+}
+message MsgExecTransferResponse {}
+
+message MsgExecAddLiquidity {
+  string sender = 1;
+  bytes msg = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.customtype) = "github.com/cosmic-horizon/qwoyn/osmosis/balancer.MsgCreateBalancerPool"
+  ];
+}
+message MsgExecAddLiquidityResponse {}
+
+message EventPutAllocationToken {
+  string sender = 1;
+  string amount = 2;
+}
+
+message EventTakeOutAllocationToken {
+  string sender = 1;
+  string amount = 2;
+}
+
+message EventBuyAllocationToken {
+  string sender = 1;
+  string amount = 2;
+}
+
+message EventSetDepositEndTime {
+  uint64 time = 1;
+}

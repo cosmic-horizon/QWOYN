@@ -32,7 +32,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type MsgRegisterAccount struct {
 	// owner is the address of the interchain account owner.
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	// connection_id is the connection id string (i.e. channel-5).
+	// connection_id is the connection id string
 	ConnectionId string `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
 	// version is the application version string. For example, this could be an
 	// ICS27 encoded metadata type or an ICS29 encoded metadata type with a nested

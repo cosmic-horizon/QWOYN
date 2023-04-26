@@ -31,10 +31,13 @@ func (m msgServer) TransferModuleOwnership(goCtx context.Context, msg *types.Msg
 	m.SetParamSet(ctx, params)
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventTransferModuleOwnership{
+	err := ctx.EventManager().EmitTypedEvent(&types.EventTransferModuleOwnership{
 		OriginOwner: msg.Sender,
 		NewOwner:    msg.NewOwner,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgTransferModuleOwnershipResponse{}, nil
 }
@@ -54,6 +57,9 @@ func (m msgServer) WhitelistNftContracts(goCtx context.Context, msg *types.MsgWh
 		}
 
 		minterJSON, err := m.WasmViewer.QuerySmart(ctx, contractAddr, []byte(`{"minter": {}}`))
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed map[string]string
 		err = json.Unmarshal(minterJSON, &parsed)
@@ -66,6 +72,9 @@ func (m msgServer) WhitelistNftContracts(goCtx context.Context, msg *types.MsgWh
 		}
 
 		contractInfoJSON, err := m.WasmViewer.QuerySmart(ctx, contractAddr, []byte(`{"contract_info": {}}`))
+		if err != nil {
+			return nil, err
+		}
 		err = json.Unmarshal(contractInfoJSON, &parsed)
 		if err != nil {
 			return nil, err
@@ -78,9 +87,12 @@ func (m msgServer) WhitelistNftContracts(goCtx context.Context, msg *types.MsgWh
 		m.SetWhitelistedContract(ctx, contract)
 
 		// emit event
-		ctx.EventManager().EmitTypedEvent(&types.EventNftContractAddWhitelist{
+		err = ctx.EventManager().EmitTypedEvent(&types.EventNftContractAddWhitelist{
 			Contract: contract,
 		})
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &types.MsgWhitelistNftContractsResponse{}, nil
 }
@@ -95,9 +107,12 @@ func (m msgServer) RemoveWhitelistedNftContracts(goCtx context.Context, msg *typ
 		m.DeleteWhitelistedContract(ctx, contract)
 
 		// emit event
-		ctx.EventManager().EmitTypedEvent(&types.EventNftContractRemoveWhitelist{
+		err := ctx.EventManager().EmitTypedEvent(&types.EventNftContractRemoveWhitelist{
 			Contract: contract,
 		})
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &types.MsgRemoveWhitelistedNftContractsResponse{}, nil
 }
@@ -110,11 +125,14 @@ func (m msgServer) DepositNft(goCtx context.Context, msg *types.MsgDepositNft) (
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventDepositNft{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventDepositNft{
 		Owner:    msg.Sender,
 		Contract: msg.Contract,
 		TokenId:  msg.TokenId,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgDepositNftResponse{}, nil
 }
@@ -127,12 +145,15 @@ func (m msgServer) WithdrawUpdatedNft(goCtx context.Context, msg *types.MsgWithd
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventWithdrawNft{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventWithdrawNft{
 		Sender:   msg.Sender,
 		Contract: msg.Contract,
 		TokenId:  msg.TokenId,
 		ExecMsg:  msg.ExecMsg,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgWithdrawUpdatedNftResponse{}, nil
 }
@@ -157,10 +178,13 @@ func (m msgServer) DepositToken(goCtx context.Context, msg *types.MsgDepositToke
 	m.IncreaseDeposit(ctx, sender, msg.Amount.Amount)
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventDepositToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventDepositToken{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgDepositTokenResponse{}, nil
 }
@@ -182,13 +206,19 @@ func (m msgServer) WithdrawToken(goCtx context.Context, msg *types.MsgWithdrawTo
 		return nil, err
 	}
 
-	m.DecreaseDeposit(ctx, sender, msg.Amount.Amount)
+	err = m.DecreaseDeposit(ctx, sender, msg.Amount.Amount)
+	if err != nil {
+		return nil, err
+	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventWithdrawToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventWithdrawToken{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgWithdrawTokenResponse{}, nil
 }
@@ -216,10 +246,13 @@ func (m msgServer) StakeInGameToken(goCtx context.Context, msg *types.MsgStakeIn
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventStakeInGameToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventStakeInGameToken{
 		Sender: msg.Sender,
 		Amount: msg.Amount.String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 	return &types.MsgStakeInGameTokenResponse{}, nil
 }
 
@@ -258,11 +291,14 @@ func (m msgServer) BeginUnstakeInGameToken(goCtx context.Context, msg *types.Msg
 	})
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventBeginUnstakeInGameToken{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventBeginUnstakeInGameToken{
 		Sender:         msg.Sender,
 		Amount:         msg.Amount.String(),
 		CompletionTime: uint64(ctx.BlockTime().Add(params.UnstakingTime).Unix()),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgBeginUnstakeInGameTokenResponse{}, nil
 }
@@ -308,10 +344,13 @@ func (m msgServer) AddLiquidity(goCtx context.Context, msg *types.MsgAddLiquidit
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventAddLiquidity{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventAddLiquidity{
 		Sender:  msg.Sender,
 		Amounts: sdk.Coins(msg.Amounts).String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgAddLiquidityResponse{}, nil
 }
@@ -340,10 +379,13 @@ func (m msgServer) RemoveLiquidity(goCtx context.Context, msg *types.MsgRemoveLi
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventRemoveLiquidity{
+	err = ctx.EventManager().EmitTypedEvent(&types.EventRemoveLiquidity{
 		Sender:  msg.Sender,
 		Amounts: sdk.Coins(msg.Amounts).String(),
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &types.MsgRemoveLiquidityResponse{}, nil
 }

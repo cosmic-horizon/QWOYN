@@ -91,12 +91,11 @@ func (k Keeper) Swap(ctx sdk.Context, sender sdk.AccAddress, amount sdk.Coin) er
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventSwap{
+	return ctx.EventManager().EmitTypedEvent(&types.EventSwap{
 		Sender:    sender.String(),
 		InAmount:  amount.String(),
 		OutAmount: tarCoin.String(),
 	})
-	return nil
 }
 
 func (k Keeper) SwapFromModule(ctx sdk.Context, moduleName string, amount sdk.Coin) error {
@@ -125,10 +124,9 @@ func (k Keeper) SwapFromModule(ctx sdk.Context, moduleName string, amount sdk.Co
 	}
 
 	// emit event
-	ctx.EventManager().EmitTypedEvent(&types.EventSwap{
+	return ctx.EventManager().EmitTypedEvent(&types.EventSwap{
 		Sender:    moduleName,
 		InAmount:  amount.String(),
 		OutAmount: tarCoin.String(),
 	})
-	return nil
 }

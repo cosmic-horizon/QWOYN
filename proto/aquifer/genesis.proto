@@ -1,0 +1,12 @@
+syntax = "proto3";
+package cosmichorizon.qwoyn.aquifer;
+
+import "gogoproto/gogo.proto";
+import "aquifer/params.proto";
+
+option go_package = "github.com/cosmic-horizon/qwoyn/x/aquifer/types";
+
+// GenesisState defines the aquifer module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

@@ -55,6 +55,7 @@ func (suite *KeeperTestSuite) TestBeginBlocker() {
 					Sender:  addr.String(),
 					Amounts: tc.liquidity,
 				})
+				suite.Require().NoError(err)
 			}
 
 			if tc.balance.IsPositive() {
