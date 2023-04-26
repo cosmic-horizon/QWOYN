@@ -110,6 +110,10 @@ import (
 	stimuluskeeper "github.com/cosmic-horizon/qwoyn/x/stimulus/keeper"
 	stimulustypes "github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 
+	aquifer "github.com/cosmic-horizon/qwoyn/x/aquifer"
+	aquiferkeeper "github.com/cosmic-horizon/qwoyn/x/aquifer/keeper"
+	aquifertypes "github.com/cosmic-horizon/qwoyn/x/aquifer/types"
+
 	"github.com/cosmic-horizon/qwoyn/x/game"
 	gamekeeper "github.com/cosmic-horizon/qwoyn/x/game/keeper"
 	gametypes "github.com/cosmic-horizon/qwoyn/x/game/types"
@@ -205,6 +209,7 @@ var (
 		vesting.AppModuleBasic{},
 		wasm.AppModuleBasic{},
 		stimulus.AppModuleBasic{},
+		aquifer.AppModuleBasic{},
 		game.AppModuleBasic{},
 		ica.AppModuleBasic{},
 		intertx.AppModule{},
@@ -223,6 +228,7 @@ var (
 		wasm.ModuleName:                      {authtypes.Burner},
 		gametypes.ModuleName:                 {authtypes.Minter, authtypes.Burner},
 		stimulustypes.OutpostFundingPoolName: nil,
+		aquifertypes.ModuleName:              nil,
 	}
 )
 
@@ -283,11 +289,13 @@ type App struct {
 	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedInterTxKeeper       capabilitykeeper.ScopedKeeper
+	ScopedAquiferKeeper       capabilitykeeper.ScopedKeeper
 
 	WasmKeeper       wasm.Keeper
 	scopedWasmKeeper capabilitykeeper.ScopedKeeper
 
 	StimulusKeeper stimuluskeeper.Keeper
+	AquiferKeeper  aquiferkeeper.Keeper
 	GameKeeper     gamekeeper.Keeper
 
 	// mm is the module manager
@@ -329,6 +337,7 @@ func New(
 		icahosttypes.StoreKey,
 		wasm.StoreKey,
 		stimulustypes.StoreKey,
+		aquifertypes.StoreKey,
 		gametypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -360,6 +369,7 @@ func New(
 	app.ScopedICAControllerKeeper = app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	app.ScopedInterTxKeeper = app.CapabilityKeeper.ScopeToModule(intertxtypes.ModuleName)
 	app.scopedWasmKeeper = app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
+	app.ScopedAquiferKeeper = app.CapabilityKeeper.ScopeToModule(aquifertypes.ModuleName)
 
 	// add keepers
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
@@ -451,7 +461,19 @@ func New(
 	interTxModule := intertx.NewAppModule(appCodec, app.InterTxKeeper)
 	interTxIBCModule := intertx.NewIBCModule(app.InterTxKeeper)
 
-	icaControllerIBCModule := icacontroller.NewIBCModule(app.ICAControllerKeeper, interTxIBCModule)
+	app.AquiferKeeper = *aquiferkeeper.NewKeeper(
+		appCodec,
+		keys[aquifertypes.StoreKey],
+		app.GetSubspace(aquifertypes.ModuleName),
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.GameKeeper,
+		app.ICAControllerKeeper,
+		app.TransferKeeper,
+		app.ScopedAquiferKeeper,
+	)
+	aquiferModule := aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper)
+	aquiferIBCModule := aquifer.NewIBCModule(app.AquiferKeeper)
 
 	icaModule := ica.NewAppModule(&app.ICAControllerKeeper, &app.ICAHostKeeper)
 	icaHostIBCModule := icahost.NewIBCModule(app.ICAHostKeeper)
@@ -499,9 +521,13 @@ func New(
 	if len(enabledProposals) != 0 {
 		govRouter.AddRoute(wasm.RouterKey, wasm.NewWasmProposalHandler(app.WasmKeeper, enabledProposals))
 	}
+
+	icaControllerIBCModule := icacontroller.NewIBCModule(app.ICAControllerKeeper, aquiferIBCModule)
+
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := porttypes.NewRouter()
-	ibcRouter.AddRoute(intertxtypes.ModuleName, icaControllerIBCModule)
+	ibcRouter.AddRoute(aquifertypes.ModuleName, icaControllerIBCModule)
+	ibcRouter.AddRoute(intertxtypes.ModuleName, interTxIBCModule)
 	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, icaControllerIBCModule)
 	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule)
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
@@ -527,13 +553,13 @@ func New(
 	app.StimulusKeeper = *stimuluskeeper.NewKeeper(
 		appCodec,
 		keys[stimulustypes.StoreKey],
-		keys[stimulustypes.MemStoreKey],
 		app.GetSubspace(stimulustypes.ModuleName),
 		app.AccountKeeper,
 		app.BankKeeper,
 		app.GameKeeper,
 		app.MintKeeper,
 	)
+
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
@@ -569,6 +595,7 @@ func New(
 		interTxModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
+		aquiferModule,
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
@@ -590,6 +617,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		stimulustypes.ModuleName,
+		aquifertypes.ModuleName,
 		gametypes.ModuleName,
 		intertxtypes.ModuleName,
 	)
@@ -606,6 +634,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		stimulustypes.ModuleName,
+		aquifertypes.ModuleName,
 		gametypes.ModuleName,
 		intertxtypes.ModuleName,
 	)
@@ -637,6 +666,7 @@ func New(
 		authz.ModuleName,
 		wasm.ModuleName,
 		stimulustypes.ModuleName,
+		aquifertypes.ModuleName,
 		gametypes.ModuleName,
 		intertxtypes.ModuleName,
 	)
@@ -663,6 +693,7 @@ func New(
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		stimulus.NewAppModule(appCodec, app.StimulusKeeper, app.AccountKeeper, app.BankKeeper),
+		aquiferModule,
 		game.NewAppModule(appCodec, app.GameKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 	app.sm.RegisterStoreDecoders()
@@ -751,6 +782,9 @@ func (app *App) LoadHeight(height int64) error {
 func (app *App) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
 	for acc := range maccPerms {
+		if acc == aquifertypes.ModuleName {
+			continue
+		}
 		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
 	}
 
@@ -875,6 +909,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	paramsKeeper.Subspace(stimulustypes.ModuleName)
+	paramsKeeper.Subspace(aquifertypes.ModuleName)
 	paramsKeeper.Subspace(gametypes.ModuleName)
 	paramsKeeper.Subspace(wasm.ModuleName)
 

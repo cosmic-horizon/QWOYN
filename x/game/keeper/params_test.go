@@ -9,10 +9,8 @@ import (
 )
 
 func (suite *KeeperTestSuite) TestParamsGetSet() {
-	params := suite.app.GameKeeper.GetParamSet(suite.ctx)
-
 	addr := sdk.AccAddress(ed25519.GenPrivKey().PubKey().Address().Bytes())
-	params = types.Params{
+	params := types.Params{
 		Owner:            addr.String(),
 		DepositDenom:     "stake",
 		StakingInflation: sdk.NewDec(10),

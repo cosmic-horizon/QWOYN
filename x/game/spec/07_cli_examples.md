@@ -1,3 +1,5 @@
+# CLI examples for game
+
 ```sh
 qwoynd query game params
 qwoynd query game whitelisted-contracts

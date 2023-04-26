@@ -32,7 +32,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryEstimatedSwapOut() {
 	suite.ctx = suite.ctx.WithBlockTime(now)
 
 	// get not available liquidity
-	resp, err := suite.app.GameKeeper.EstimatedSwapOut(sdk.WrapSDKContext(suite.ctx), &types.QueryEstimatedSwapOutRequest{})
+	_, err := suite.app.GameKeeper.EstimatedSwapOut(sdk.WrapSDKContext(suite.ctx), &types.QueryEstimatedSwapOutRequest{})
 	suite.Require().Error(err)
 
 	// set liquidity
@@ -41,7 +41,7 @@ func (suite *KeeperTestSuite) TestGRPCQueryEstimatedSwapOut() {
 	}
 	suite.app.GameKeeper.SetLiquidity(suite.ctx, liquidity)
 
-	resp, err = suite.app.GameKeeper.EstimatedSwapOut(sdk.WrapSDKContext(suite.ctx), &types.QueryEstimatedSwapOutRequest{
+	resp, err := suite.app.GameKeeper.EstimatedSwapOut(sdk.WrapSDKContext(suite.ctx), &types.QueryEstimatedSwapOutRequest{
 		Amount: "1000ucoho",
 	})
 	suite.Require().NoError(err)
@@ -59,7 +59,7 @@ func (suite *KeeperTestSuite) TestGRPCQuerySwapRate() {
 	suite.ctx = suite.ctx.WithBlockTime(now)
 
 	// get not available liquidity
-	resp, err := suite.app.GameKeeper.SwapRate(sdk.WrapSDKContext(suite.ctx), &types.QuerySwapRateRequest{})
+	_, err := suite.app.GameKeeper.SwapRate(sdk.WrapSDKContext(suite.ctx), &types.QuerySwapRateRequest{})
 	suite.Require().Error(err)
 
 	// set liquidity
@@ -68,7 +68,7 @@ func (suite *KeeperTestSuite) TestGRPCQuerySwapRate() {
 	}
 	suite.app.GameKeeper.SetLiquidity(suite.ctx, liquidity)
 
-	resp, err = suite.app.GameKeeper.SwapRate(sdk.WrapSDKContext(suite.ctx), &types.QuerySwapRateRequest{})
+	resp, err := suite.app.GameKeeper.SwapRate(sdk.WrapSDKContext(suite.ctx), &types.QuerySwapRateRequest{})
 	suite.Require().NoError(err)
 	suite.Require().Equal(resp.Rate, sdk.OneDec())
 	suite.Require().Equal(resp.SrcDenom, "ucoho")
