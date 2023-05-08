@@ -1,18 +1,28 @@
 #!/bin/sh
 
-# hermes 0.13.0-rc.0
+# start osmosis and qwoyn single nodes on different terminals
+sh start_osmosis.sh
+sh start.sh
+
+# create connection with and start (hermes 0.13.0-rc.0)
 hermes -c ./hermes/config.toml keys restore qwoyn-1 -m "weather leader certain hard busy blouse click patient balcony return elephant hire mule gather danger curious visual boy estate army marine cinnamon snake flight"
 hermes -c ./hermes/config.toml keys restore osmo-test -m "weather leader certain hard busy blouse click patient balcony return elephant hire mule gather danger curious visual boy estate army marine cinnamon snake flight"
 
 hermes -c ./hermes/config.toml create connection osmo-test qwoyn-1
 hermes -c ./hermes/config.toml start
+
+# create transfer channel
 hermes -c ./hermes/config.toml create channel osmo-test qwoyn-1 --port-a transfer --port-b transfer
 
-qwoynd keys show -a user1 --keyring-backend=test
+# check accounts to be managed on test
+qwoynd keys show -a maintainer --keyring-backend=test
 qwoyn1h9krsew6kpg9huzcqgmgmns0n48jx9yd5vr0n5
+qwoynd keys show -a user1 --keyring-backend=test
+qwoyn13tqzdukugulllnk3p5js3w7hzw8gclkeenzp6e
 osmosisd keys show -a user1 --keyring-backend=test
 osmo1h9krsew6kpg9huzcqgmgmns0n48jx9ydph3pz8
 
+# check channels
 qwoynd q ibc channel channels
 - channel_id: channel-0
   connection_hops:
@@ -20,37 +30,47 @@ qwoynd q ibc channel channels
   counterparty:
     channel_id: channel-0
 
-osmosisd tx ibc-transfer transfer transfer channel-0 qwoyn1h9krsew6kpg9huzcqgmgmns0n48jx9yd5vr0n5 1000000stake --chain-id=osmo-test --from=user1 --keyring-backend=test -y --broadcast-mode=block --node=http://localhost:16657
-qwoynd query bank balances qwoyn1h9krsew6kpg9huzcqgmgmns0n48jx9yd5vr0n5 
+# transfer tokens to QWOYN from Osmosis to buy QWOYN through aquifer module
+osmosisd tx ibc-transfer transfer transfer channel-0 qwoyn13tqzdukugulllnk3p5js3w7hzw8gclkeenzp6e 1000000stake --chain-id=osmo-test --from=user1 --keyring-backend=test -y --broadcast-mode=block --node=http://localhost:16657
+qwoynd query bank balances qwoyn13tqzdukugulllnk3p5js3w7hzw8gclkeenzp6e 
 - amount: "1000000"
   denom: ibc/C053D637CCA2A2BA030E2C5EE1B28A16F71CCB0E45E8BE52766DC1B241B77878
 
 IBC_OSMO=ibc/C053D637CCA2A2BA030E2C5EE1B28A16F71CCB0E45E8BE52766DC1B241B77878
-qwoynd tx aquifer put-allocation-token 100000000uqwoyn --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
-qwoynd tx aquifer set-deposit-endtime $(($(date -u +%s) + 300)) --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
-qwoynd tx aquifer buy-allocation-token 100000000stake --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
+
+# deposit tokens to be sold
+qwoynd tx aquifer put-allocation-token 100000000uqwoyn --chain-id=qwoyn-1 --from=maintainer --keyring-backend=test -y --broadcast-mode=block
+
+# set deposit end time by maintainer
+qwoynd tx aquifer set-deposit-endtime $(($(date -u +%s) + 300)) --chain-id=qwoyn-1 --from=maintainer --keyring-backend=test -y --broadcast-mode=block
+# qwoynd tx aquifer buy-allocation-token 100000000stake --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
+
+# buy allocation token by user
 qwoynd tx aquifer buy-allocation-token 200000$IBC_OSMO --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
-qwoynd tx aquifer init-ica connection-1 --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
+
+# init interchain account by maintainer
+qwoynd tx aquifer init-ica connection-1 --chain-id=qwoyn-1 --from=maintainer --keyring-backend=test -y --broadcast-mode=block --gas=1000000
 
 qwoynd query intertx ica aquifer connection-1
-interchain_account_address: osmo12pfj79vt84pmxrwjc6sh4pawq8ltz028xprne80rgqzvxtj2tryq6zke9y
+interchain_account_address: osmo1cfp8w03etsn4qz3a7eycjex24wfur6pe03u6lczxk8edw38srl6qvg8nnh
+
+ICA_ACCOUNT=osmo1cfp8w03etsn4qz3a7eycjex24wfur6pe03u6lczxk8edw38srl6qvg8nnh
 
 qwoynd query aquifer params
-qwoynd tx aquifer exec-transfer channel-0 60000000000 --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
-osmosisd tx bank send user1 osmo12pfj79vt84pmxrwjc6sh4pawq8ltz028xprne80rgqzvxtj2tryq6zke9y 1000000stake,10000000000uosmo --chain-id=osmo-test --keyring-backend=test -y --broadcast-mode=block --node=http://localhost:16657
-qwoynd tx ibc-transfer transfer transfer channel-0 osmo12pfj79vt84pmxrwjc6sh4pawq8ltz028xprne80rgqzvxtj2tryq6zke9y 100000000uqwoyn --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
-osmosisd query bank balances osmo12pfj79vt84pmxrwjc6sh4pawq8ltz028xprne80rgqzvxtj2tryq6zke9y --node=http://localhost:16657
+# transfer required tokens to ICA account (it requires uosmo to pay fees for pool creation)
+qwoynd tx aquifer exec-transfer channel-0 60000000000 --chain-id=qwoyn-1 --from=maintainer --keyring-backend=test -y --broadcast-mode=block
+osmosisd tx bank send user1 $ICA_ACCOUNT 1000000stake,10000000000uosmo --chain-id=osmo-test --keyring-backend=test -y --broadcast-mode=block --node=http://localhost:16657
+qwoynd tx ibc-transfer transfer transfer channel-0 $ICA_ACCOUNT 100000000uqwoyn --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
+osmosisd query bank balances $ICA_ACCOUNT --node=http://localhost:16657
 
-qwoynd tx aquifer exec-add-liquidity --pool-file="pool.json" --chain-id=qwoyn-1 --from=user1 --keyring-backend=test -y --broadcast-mode=block
-osmosisd query gamm pools --node=http://localhost:16657
-
-osmosisd tx gamm create-pool --pool-file=pool1.json --from=user1 --keyring-backend=test -y --broadcast-mode=block --node=http://localhost:16657 --chain-id=osmo-test
-
+# ensure that pool creation is allowed through IBC message on Osmosis
 osmosisd query interchain-accounts host params --node=http://0.0.0.0:16657
 # allow_messages:
 # - /osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool
 # host_enabled: true
 
+# create pool on Osmosis
+qwoynd tx aquifer exec-add-liquidity --pool-file="pool.json" --chain-id=qwoyn-1 --from=maintainer --keyring-backend=test -y --broadcast-mode=block
 pool.json
 ```
 {
@@ -61,6 +81,11 @@ pool.json
     "future-governor": "168h"
 }
 ```
+# ensure gamm pool created after the operation
+osmosisd query gamm pools --node=http://localhost:16657
+
+# create osmosis pool as test without ICA
+# osmosisd tx gamm create-pool --pool-file=pool1.json --from=user1 --keyring-backend=test -y --broadcast-mode=block --node=http://localhost:16657 --chain-id=osmo-test
 pool1.json
 ```
 {
