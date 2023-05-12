@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	tmcli "github.com/cometbft/cometbft/libs/cli"
 	"github.com/stretchr/testify/suite"
-	tmcli "github.com/tendermint/tendermint/libs/cli"
 
 	"github.com/cosmic-horizon/qwoyn/x/mint/client/cli"
 	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"

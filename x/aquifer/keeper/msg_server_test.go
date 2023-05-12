@@ -3,12 +3,12 @@ package keeper_test
 import (
 	"time"
 
+	"github.com/cometbft/cometbft/crypto/ed25519"
 	"github.com/cosmic-horizon/qwoyn/osmosis/balancer"
 	"github.com/cosmic-horizon/qwoyn/x/aquifer/keeper"
 	"github.com/cosmic-horizon/qwoyn/x/aquifer/types"
 	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/crypto/ed25519"
 )
 
 func (suite *KeeperTestSuite) TestMsgServerBuyAllocationToken() {

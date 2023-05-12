@@ -1,11 +1,11 @@
 package keeper_test
 
 import (
+	"github.com/cometbft/cometbft/crypto/ed25519"
 	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	"github.com/cosmic-horizon/qwoyn/x/stimulus/keeper"
 	"github.com/cosmic-horizon/qwoyn/x/stimulus/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/crypto/ed25519"
 )
 
 func (suite *KeeperTestSuite) TestMsgServerDepositIntoOutpostFunding() {

@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/cosmic-horizon/qwoyn/x/mint/types"
 	stimulustypes "github.com/cosmic-horizon/qwoyn/x/stimulus/types"

@@ -12,7 +12,6 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 
 	"github.com/cosmic-horizon/qwoyn/x/mint/client/cli"
-	"github.com/cosmic-horizon/qwoyn/x/mint/client/rest"
 	"github.com/cosmic-horizon/qwoyn/x/mint/keeper"
 	"github.com/cosmic-horizon/qwoyn/x/mint/simulation"
 	"github.com/cosmic-horizon/qwoyn/x/mint/types"
@@ -66,7 +65,6 @@ func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncod
 
 // RegisterRESTRoutes registers the REST routes for the mint module.
 func (AppModuleBasic) RegisterRESTRoutes(clientCtx client.Context, rtr *mux.Router) {
-	rest.RegisterRoutes(clientCtx, rtr)
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the mint module.

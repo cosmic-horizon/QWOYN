@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/cosmic-horizon/qwoyn/x/game/types"
 	"github.com/cosmos/cosmos-sdk/codec"

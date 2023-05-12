@@ -5,7 +5,7 @@ import (
 
 	types "github.com/cosmic-horizon/qwoyn/x/intertx/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	icatypes "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/types"
+	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
