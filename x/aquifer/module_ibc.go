@@ -1,6 +1,8 @@
 package aquifer
 
 import (
+	"fmt"
+
 	proto "github.com/gogo/protobuf/proto"
 
 	"github.com/cosmic-horizon/qwoyn/osmosis/balancer"
@@ -104,7 +106,7 @@ func (im IBCModule) OnRecvPacket(
 	packet channeltypes.Packet,
 	relayer sdk.AccAddress,
 ) ibcexported.Acknowledgement {
-	return channeltypes.NewErrorAcknowledgement("cannot receive packet via interchain accounts authentication module")
+	return channeltypes.NewErrorAcknowledgement(fmt.Errorf("cannot receive packet via interchain accounts authentication module"))
 }
 
 // OnAcknowledgementPacket implements the IBCModule interface

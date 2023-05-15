@@ -7,6 +7,7 @@ import (
 
 	"github.com/cosmic-horizon/qwoyn/x/aquifer/types"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
@@ -17,7 +18,7 @@ import (
 
 type Keeper struct {
 	cdc                 codec.BinaryCodec
-	storeKey            sdk.StoreKey
+	storeKey            storetypes.StoreKey
 	paramstore          paramtypes.Subspace
 	ak                  types.AccountKeeper
 	bk                  types.BankKeeper
@@ -25,12 +26,12 @@ type Keeper struct {
 	icaControllerKeeper icacontrollerkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 
-	scopedKeeper capabilitykeeper.ScopedKeeper
+	ScopedKeeper capabilitykeeper.ScopedKeeper
 }
 
 func NewKeeper(
 	cdc codec.BinaryCodec,
-	storeKey sdk.StoreKey,
+	storeKey storetypes.StoreKey,
 	ps paramtypes.Subspace,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
@@ -53,7 +54,7 @@ func NewKeeper(
 		gk:                  gk,
 		icaControllerKeeper: iaKeeper,
 		TransferKeeper:      TransferKeeper,
-		scopedKeeper:        scopedKeeper,
+		ScopedKeeper:        scopedKeeper,
 	}
 }
 
@@ -63,5 +64,5 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 
 // ClaimCapability claims the channel capability passed via the OnOpenChanInit callback
 func (k *Keeper) ClaimCapability(ctx sdk.Context, cap *capabilitytypes.Capability, name string) error {
-	return k.scopedKeeper.ClaimCapability(ctx, cap, name)
+	return k.ScopedKeeper.ClaimCapability(ctx, cap, name)
 }

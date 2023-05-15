@@ -63,7 +63,7 @@ func (suite *KeeperTestSuite) TestMsgServerBuyAllocationToken() {
 
 				// check balance has decreased
 				balance := suite.app.BankKeeper.GetBalance(suite.ctx, addr, params.DepositToken)
-				suite.Require().Equal(balance.Amount, tc.balance.Sub(sdk.Coins{tc.deposit}).AmountOf(params.DepositToken))
+				suite.Require().Equal(balance.Amount, tc.balance.Sub(tc.deposit).AmountOf(params.DepositToken))
 
 				// check module balance has increased
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
@@ -122,7 +122,7 @@ func (suite *KeeperTestSuite) TestMsgServerPutAllocationToken() {
 
 				// check balance has decreased
 				balance := suite.app.BankKeeper.GetBalance(suite.ctx, addr, params.AllocationToken)
-				suite.Require().Equal(balance.Amount, tc.balance.Sub(sdk.Coins{tc.deposit}).AmountOf(params.AllocationToken))
+				suite.Require().Equal(balance.Amount, tc.balance.Sub(tc.deposit).AmountOf(params.AllocationToken))
 
 				// check module balance has increased
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)

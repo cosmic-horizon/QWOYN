@@ -54,7 +54,7 @@ func (suite *KeeperTestSuite) TestMsgServerDepositIntoOutpostFunding() {
 
 				// check balance has decreased
 				balance := suite.app.BankKeeper.GetBalance(suite.ctx, addr, params.DepositDenom)
-				suite.Require().Equal(balance.Amount, tc.balance.Sub(sdk.Coins{tc.deposit}).AmountOf(params.DepositDenom))
+				suite.Require().Equal(balance.Amount, tc.balance.Sub(tc.deposit).AmountOf(params.DepositDenom))
 
 				// check module balance has increased
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.OutpostFundingPoolName)
@@ -127,7 +127,7 @@ func (suite *KeeperTestSuite) TestMsgServerWithdrawFromOutpostFunding() {
 				// check module balance has decreased
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.OutpostFundingPoolName)
 				balance = suite.app.BankKeeper.GetBalance(suite.ctx, moduleAddr, params.DepositDenom)
-				suite.Require().Equal(balance.Amount, tc.deposit.Sub(sdk.Coins{tc.withdraw}).AmountOf(params.DepositDenom))
+				suite.Require().Equal(balance.Amount, tc.deposit.Sub(tc.withdraw).AmountOf(params.DepositDenom))
 			} else {
 				suite.Require().Error(err)
 			}

@@ -7,6 +7,7 @@ import (
 	types "github.com/cosmic-horizon/qwoyn/x/intertx/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/gogoproto/proto"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v7/modules/core/24-host"
@@ -27,7 +28,7 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 func (k msgServer) RegisterAccount(goCtx context.Context, msg *types.MsgRegisterAccount) (*types.MsgRegisterAccountResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	if err := k.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, msg.Owner); err != nil {
+	if err := k.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, msg.Owner, msg.Version); err != nil {
 		return nil, err
 	}
 
@@ -58,7 +59,7 @@ func (k Keeper) SubmitTx(goCtx context.Context, msg *types.MsgSubmitTx) (*types.
 		return nil, sdkerrors.ErrInvalidType.Wrapf("%T is not a valid sdk.Msg", msg.Msg.GetCachedValue())
 	}
 
-	data, err := icatypes.SerializeCosmosTx(k.cdc, []sdk.Msg{m})
+	data, err := icatypes.SerializeCosmosTx(k.cdc, []proto.Message{m})
 	if err != nil {
 		return nil, err
 	}

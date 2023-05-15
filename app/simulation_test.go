@@ -6,7 +6,7 @@ package app_test
 // 	"time"
 
 // 	"cosmossdk.io/simapp"
-// 	abci "github.com/tendermint/tendermint/abci/types"
+// 	abci "github.com/cometbft/cometbft/abci/types"
 // 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 // 	tmtypes "github.com/cometbft/cometbft/types"
 // 	"github.com/cosmic-horizon/qwoyn/app"
