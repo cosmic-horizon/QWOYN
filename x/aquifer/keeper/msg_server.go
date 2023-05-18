@@ -181,7 +181,7 @@ func (m msgServer) InitICA(goCtx context.Context, msg *types.MsgInitICA) (*types
 	m.SetParams(ctx, params)
 
 	// Get ConnectionEnd (for counterparty connection)
-	connectionEnd, found := m.Keeper.ScopedKeeper.ConnectionKeeper.GetConnection(ctx, msg.ConnectionId)
+	connectionEnd, found := m.Keeper.IBCKeeper.ConnectionKeeper.GetConnection(ctx, msg.ConnectionId)
 	if !found {
 		errMsg := fmt.Sprintf("invalid connection id, %s not found", msg.ConnectionId)
 		return nil, errorsmod.Wrapf(types.ErrConnectionNotFound, errMsg)

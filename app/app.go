@@ -529,6 +529,7 @@ func New(
 		app.BankKeeper,
 		app.GameKeeper,
 		app.ICAControllerKeeper,
+		*app.IBCKeeper,
 		app.TransferKeeper,
 		app.ScopedAquiferKeeper,
 		app.ScopedIBCKeeper,

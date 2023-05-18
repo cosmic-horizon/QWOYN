@@ -14,6 +14,7 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v7/modules/apps/transfer/keeper"
+	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 )
 
 type Keeper struct {
@@ -24,6 +25,7 @@ type Keeper struct {
 	bk                  types.BankKeeper
 	gk                  types.GameKeeper
 	icaControllerKeeper icacontrollerkeeper.Keeper
+	IBCKeeper           ibckeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 
 	ScopedKeeper     capabilitykeeper.ScopedKeeper
@@ -37,7 +39,8 @@ func NewKeeper(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	gk types.GameKeeper,
-	iaKeeper icacontrollerkeeper.Keeper,
+	icacontrollerKeeper icacontrollerkeeper.Keeper,
+	ibcKeeper ibckeeper.Keeper,
 	TransferKeeper ibctransferkeeper.Keeper,
 	scopedKeeper capabilitykeeper.ScopedKeeper,
 	IBCScopperKeeper capabilitykeeper.ScopedKeeper,
@@ -54,7 +57,8 @@ func NewKeeper(
 		ak:                  ak,
 		bk:                  bk,
 		gk:                  gk,
-		icaControllerKeeper: iaKeeper,
+		icaControllerKeeper: icacontrollerKeeper,
+		IBCKeeper:           ibcKeeper,
 		TransferKeeper:      TransferKeeper,
 		ScopedKeeper:        scopedKeeper,
 		IBCScopperKeeper:    IBCScopperKeeper,
