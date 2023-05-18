@@ -26,7 +26,8 @@ type Keeper struct {
 	icaControllerKeeper icacontrollerkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 
-	ScopedKeeper capabilitykeeper.ScopedKeeper
+	ScopedKeeper     capabilitykeeper.ScopedKeeper
+	IBCScopperKeeper capabilitykeeper.ScopedKeeper
 }
 
 func NewKeeper(
@@ -39,6 +40,7 @@ func NewKeeper(
 	iaKeeper icacontrollerkeeper.Keeper,
 	TransferKeeper ibctransferkeeper.Keeper,
 	scopedKeeper capabilitykeeper.ScopedKeeper,
+	IBCScopperKeeper capabilitykeeper.ScopedKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -55,6 +57,7 @@ func NewKeeper(
 		icaControllerKeeper: iaKeeper,
 		TransferKeeper:      TransferKeeper,
 		ScopedKeeper:        scopedKeeper,
+		IBCScopperKeeper:    IBCScopperKeeper,
 	}
 }
 

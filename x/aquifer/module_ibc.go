@@ -39,11 +39,17 @@ func (im IBCModule) OnChanOpenInit(
 	connectionHops []string,
 	portID string,
 	channelID string,
-	chanCap *capabilitytypes.Capability,
+	channelCap *capabilitytypes.Capability,
 	counterparty channeltypes.Counterparty,
 	version string,
-) error {
-	return im.keeper.ClaimCapability(ctx, chanCap, host.ChannelCapabilityPath(portID, channelID))
+) (string, error) {
+	if channelCap == nil {
+		path := host.ChannelCapabilityPath(portID, channelID)
+		chanCap, _ := im.keeper.IBCScopperKeeper.GetCapability(ctx, path)
+
+		channelCap = chanCap
+	}
+	return version, im.keeper.ClaimCapability(ctx, channelCap, host.ChannelCapabilityPath(portID, channelID))
 }
 
 // OnChanOpenTry implements the IBCModule interface

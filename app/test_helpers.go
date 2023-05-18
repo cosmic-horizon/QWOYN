@@ -2,7 +2,9 @@ package app
 
 import (
 	"encoding/json"
+	"testing"
 
+	"github.com/CosmWasm/wasmd/x/wasm"
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -12,13 +14,14 @@ import (
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 )
 
-func Setup(isCheckTx bool) *App {
+func Setup(t *testing.T, isCheckTx bool, opts ...wasm.Option) *App {
 	db := dbm.NewMemDB()
 	appOptions := make(simtestutil.AppOptionsMap, 0)
+	nodeHome := t.TempDir()
 	appOptions[flags.FlagHome] = nodeHome // ensure unique folder
-	appOptions[server.FlagInvCheckPeriod] = invCheckPeriod
+	appOptions[server.FlagInvCheckPeriod] = 5
 
-	app := New(log.NewNopLogger(), db, nil, true, wasmtypes.EnableAllProposals, appOptions, opts, bam.SetChainID(chainID), bam.SetSnapshot(snapshotStore, snapshottypes.SnapshotOptions{KeepRecent: 2}))
+	app := New(log.NewNopLogger(), db, nil, true, wasmtypes.EnableAllProposals, appOptions, opts)
 	if !isCheckTx {
 		genesisState := NewDefaultGenesisState()
 		stateBytes, err := json.MarshalIndent(genesisState, "", " ")

@@ -7,6 +7,7 @@ import (
 	"github.com/cosmic-horizon/qwoyn/x/intertx/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
 )
@@ -14,11 +15,16 @@ import (
 type Keeper struct {
 	cdc codec.BinaryCodec
 
-	scopedKeeper        types.CapabilityKeeper
+	scopedKeeper        capabilitykeeper.ScopedKeeper
+	IBCScopperKeeper    capabilitykeeper.ScopedKeeper
 	icaControllerKeeper icacontrollerkeeper.Keeper
 }
 
-func NewKeeper(cdc codec.BinaryCodec, iaKeeper icacontrollerkeeper.Keeper, scopedKeeper types.CapabilityKeeper) Keeper {
+func NewKeeper(
+	cdc codec.BinaryCodec, iaKeeper icacontrollerkeeper.Keeper,
+	scopedKeeper capabilitykeeper.ScopedKeeper,
+	IBCScopperKeeper capabilitykeeper.ScopedKeeper,
+) Keeper {
 	return Keeper{
 		cdc:                 cdc,
 		scopedKeeper:        scopedKeeper,

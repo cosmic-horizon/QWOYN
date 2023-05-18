@@ -512,7 +512,12 @@ func New(
 		app.MsgServiceRouter(),
 	)
 
-	app.InterTxKeeper = intertxkeeper.NewKeeper(appCodec, app.ICAControllerKeeper, app.ScopedInterTxKeeper)
+	app.InterTxKeeper = intertxkeeper.NewKeeper(
+		appCodec,
+		app.ICAControllerKeeper,
+		app.ScopedInterTxKeeper,
+		app.ScopedIBCKeeper,
+	)
 	interTxModule := intertx.NewAppModule(appCodec, app.InterTxKeeper)
 	interTxIBCModule := intertx.NewIBCModule(app.InterTxKeeper)
 
@@ -526,6 +531,7 @@ func New(
 		app.ICAControllerKeeper,
 		app.TransferKeeper,
 		app.ScopedAquiferKeeper,
+		app.ScopedIBCKeeper,
 	)
 	aquiferModule := aquifer.NewAppModule(appCodec, app.AquiferKeeper, app.AccountKeeper, app.BankKeeper)
 	aquiferIBCModule := aquifer.NewIBCModule(app.AquiferKeeper)

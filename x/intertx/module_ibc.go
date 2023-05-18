@@ -1,6 +1,8 @@
 package intertx
 
 import (
+	"errors"
+
 	proto "github.com/gogo/protobuf/proto"
 
 	"github.com/cosmic-horizon/qwoyn/x/intertx/keeper"
@@ -36,11 +38,18 @@ func (im IBCModule) OnChanOpenInit(
 	connectionHops []string,
 	portID string,
 	channelID string,
-	chanCap *capabilitytypes.Capability,
+	channelCap *capabilitytypes.Capability,
 	counterparty channeltypes.Counterparty,
 	version string,
-) error {
-	return im.keeper.ClaimCapability(ctx, chanCap, host.ChannelCapabilityPath(portID, channelID))
+) (string, error) {
+	if channelCap == nil {
+		path := host.ChannelCapabilityPath(portID, channelID)
+		chanCap, _ := im.keeper.IBCScopperKeeper.GetCapability(ctx, path)
+
+		channelCap = chanCap
+	}
+
+	return version, im.keeper.ClaimCapability(ctx, channelCap, host.ChannelCapabilityPath(portID, channelID))
 }
 
 // OnChanOpenTry implements the IBCModule interface
@@ -103,7 +112,7 @@ func (im IBCModule) OnRecvPacket(
 	packet channeltypes.Packet,
 	relayer sdk.AccAddress,
 ) ibcexported.Acknowledgement {
-	return channeltypes.NewErrorAcknowledgement("cannot receive packet via interchain accounts authentication module")
+	return channeltypes.NewErrorAcknowledgement(errors.New("cannot receive packet via interchain accounts authentication module"))
 }
 
 // OnAcknowledgementPacket implements the IBCModule interface

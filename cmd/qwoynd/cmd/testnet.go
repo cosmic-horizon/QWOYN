@@ -41,6 +41,7 @@ import (
 	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 )
 
 var (
@@ -180,7 +181,7 @@ func InitTestnet(
 		memo := fmt.Sprintf("%s@%s:26656", nodeIDs[i], ip)
 		genFiles = append(genFiles, nodeConfig.GenesisFile())
 
-		kb, err := keyring.New(sdk.KeyringServiceName(), keyringBackend, nodeDir, inBuf)
+		kb, err := keyring.New(sdk.KeyringServiceName(), keyringBackend, nodeDir, inBuf, clientCtx.Codec)
 		if err != nil {
 			return err
 		}
@@ -313,7 +314,7 @@ func initGenFiles(
 	appGenState[stakingtypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&stakingGenState)
 
 	// set gov module deposit denom
-	var govGenState govtypes.GenesisState
+	var govGenState govtypesv1.GenesisState
 	clientCtx.Codec.MustUnmarshalJSON(appGenState[govtypes.ModuleName], &govGenState)
 	govGenState.DepositParams.MinDeposit = sdk.NewCoins(sdk.NewInt64Coin(params.BondDenom, 10000000))
 	appGenState[govtypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&govGenState)
@@ -381,7 +382,7 @@ func collectGenFiles(
 			return err
 		}
 
-		nodeAppState, err := genutil.GenAppStateFromConfig(clientCtx.Codec, clientCtx.TxConfig, nodeConfig, initCfg, *genDoc, genBalIterator)
+		nodeAppState, err := genutil.GenAppStateFromConfig(clientCtx.Codec, clientCtx.TxConfig, nodeConfig, initCfg, *genDoc, genBalIterator, genutiltypes.DefaultMessageValidator)
 		if err != nil {
 			return err
 		}
