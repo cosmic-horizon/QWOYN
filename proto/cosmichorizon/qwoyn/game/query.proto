@@ -3,10 +3,9 @@ package cosmichorizon.qwoyn.game;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
-import "cosmos/base/query/v1beta1/pagination.proto";
-import "game/params.proto";
-import "game/game.proto";
-import "game/liquidity.proto";
+import "cosmichorizon/qwoyn/game/params.proto";
+import "cosmichorizon/qwoyn/game/game.proto";
+import "cosmichorizon/qwoyn/game/liquidity.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/cosmic-horizon/qwoyn/x/game/types";

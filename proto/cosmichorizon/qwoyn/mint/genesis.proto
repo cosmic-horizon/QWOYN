@@ -2,7 +2,7 @@ syntax = "proto3";
 package cosmichorizon.qwoyn.mint;
 
 import "gogoproto/gogo.proto";
-import "mint/mint.proto";
+import "cosmichorizon/qwoyn/mint/mint.proto";
 
 option go_package = "github.com/cosmic-horizon/qwoyn/x/mint/types";
 

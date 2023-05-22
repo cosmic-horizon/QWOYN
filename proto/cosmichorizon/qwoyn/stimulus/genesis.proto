@@ -2,7 +2,7 @@ syntax = "proto3";
 package cosmichorizon.qwoyn.stimulus;
 
 import "gogoproto/gogo.proto";
-import "stimulus/params.proto";
+import "cosmichorizon/qwoyn/stimulus/params.proto";
 
 option go_package = "github.com/cosmic-horizon/qwoyn/x/stimulus/types";
 

@@ -4,9 +4,9 @@ package cosmichorizon.qwoyn.game;
 import "gogoproto/gogo.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "game/params.proto";
-import "game/game.proto";
-import "game/liquidity.proto";
+import "cosmichorizon/qwoyn/game/params.proto";
+import "cosmichorizon/qwoyn/game/game.proto";
+import "cosmichorizon/qwoyn/game/liquidity.proto";
 
 option go_package = "github.com/cosmic-horizon/qwoyn/x/game/types";
 

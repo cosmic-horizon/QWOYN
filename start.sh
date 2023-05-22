@@ -11,11 +11,11 @@ qwoynd keys add validator --keyring-backend="test"
 qwoynd keys add maintainer --recover --keyring-backend=test < mnemonic.txt;
 qwoynd keys add user1 --recover --keyring-backend=test < mnemonic2.txt;
 
-qwoynd add-genesis-account $(qwoynd keys show validator -a --keyring-backend="test") 1000000000000uqwoyn,1000000000000ucoho,1000000000000stake
-qwoynd add-genesis-account $(qwoynd keys show maintainer -a --keyring-backend="test") 1000000000000uqwoyn,1000000000000ucoho,1000000000000stake
-qwoynd add-genesis-account $(qwoynd keys show user1 -a --keyring-backend="test") 1000000000000uqwoyn,1000000000000ucoho,1000000000000stake
-qwoynd gentx validator 100000000stake --keyring-backend="test" --chain-id=qwoyn-1
-qwoynd collect-gentxs
+qwoynd genesis add-genesis-account $(qwoynd keys show validator -a --keyring-backend="test") 1000000000000uqwoyn,1000000000000ucoho,1000000000000stake
+qwoynd genesis add-genesis-account $(qwoynd keys show maintainer -a --keyring-backend="test") 1000000000000uqwoyn,1000000000000ucoho,1000000000000stake
+qwoynd genesis add-genesis-account $(qwoynd keys show user1 -a --keyring-backend="test") 1000000000000uqwoyn,1000000000000ucoho,1000000000000stake
+qwoynd genesis gentx validator 100000000stake --keyring-backend="test" --chain-id=qwoyn-1
+qwoynd genesis collect-gentxs
 
 # sed -i 's/stake/uqwoyn/g' $HOME/.qwoynd/config/genesis.json
 

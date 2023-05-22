@@ -22,7 +22,6 @@ func GetSignBytesCommand() *cobra.Command {
 	}
 
 	cmd.Flags().String(flags.FlagOutputDocument, "", "The document will be written to the given file instead of STDOUT")
-	cmd.Flags().String(flags.FlagChainID, "", "The network chain ID")
 	flags.AddTxFlagsToCmd(cmd)
 
 	cmd.MarkFlagRequired(flags.FlagFrom)

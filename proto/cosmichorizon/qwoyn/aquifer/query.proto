@@ -1,18 +1,17 @@
 syntax = "proto3";
-package cosmichorizon.qwoyn.stimulus;
+package cosmichorizon.qwoyn.aquifer;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
-import "cosmos/base/query/v1beta1/pagination.proto";
-import "stimulus/params.proto";
+import "cosmichorizon/qwoyn/aquifer/params.proto";
 
-option go_package = "github.com/cosmic-horizon/qwoyn/x/stimulus/types";
+option go_package = "github.com/cosmic-horizon/qwoyn/x/aquifer/types";
 
 // Query defines the gRPC querier service.
 service Query {
   // Parameters queries the parameters of the module.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/cosmichorizon/qwoyn/stimulus/params";
+    option (google.api.http).get = "/cosmichorizon/qwoyn/aquifer/params";
   }
 }
 
