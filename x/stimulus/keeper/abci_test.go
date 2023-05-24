@@ -44,6 +44,13 @@ func (suite *KeeperTestSuite) TestBeginBlocker() {
 			suite.SetupTest()
 			suite.app.GameKeeper.SetParamSet(suite.ctx, params)
 
+			moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.OutpostFundingPoolName)
+			balance := suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
+			if balance.IsAllPositive() {
+				err := suite.app.BankKeeper.SendCoinsFromModuleToModule(suite.ctx, types.OutpostFundingPoolName, minttypes.ModuleName, balance)
+				suite.Require().NoError(err)
+			}
+
 			if !tc.liquidity.IsZero() {
 				err := suite.app.BankKeeper.MintCoins(suite.ctx, minttypes.ModuleName, tc.liquidity)
 				suite.Require().NoError(err)
@@ -68,8 +75,7 @@ func (suite *KeeperTestSuite) TestBeginBlocker() {
 			suite.app.StimulusKeeper.BeginBlocker(suite.ctx)
 
 			// check balance has increased
-			moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.OutpostFundingPoolName)
-			balance := suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
+			balance = suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
 			suite.Require().Equal(balance.String(), tc.expBalance.String())
 		})
 	}
