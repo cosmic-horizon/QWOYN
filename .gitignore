@@ -103,6 +103,8 @@ dist
 # TernJS port file
 .tern-port
 
+validator.txt
 mnemonic.txt
+mnemonic2.txt
 pool.json
 pool1.json

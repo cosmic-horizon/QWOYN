@@ -219,7 +219,10 @@ func GetCmdSignWithdrawUpdatedNft() *cobra.Command {
 			}
 
 			from, _ := cmd.Flags().GetString(flags.FlagFrom)
-			txFactory := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+			txFactory, err := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+			if err != nil {
+				return err
+			}
 			sigBytes, _, err := txFactory.Keybase().Sign(from, bytesToSign)
 			if err != nil {
 				return err

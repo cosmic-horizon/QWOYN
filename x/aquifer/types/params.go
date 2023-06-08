@@ -57,7 +57,14 @@ func NewParams(
 
 // DefaultParams returns a default set of parameters
 func DefaultParams() Params {
-	return NewParams("", "ibc/C053D637CCA2A2BA030E2C5EE1B28A16F71CCB0E45E8BE52766DC1B241B77878", "uqwoyn", 86400*360, 1679578470, sdk.OneDec(), sdk.NewDecWithPrec(1, 1), false, false, "")
+	return NewParams(
+		"qwoyn1h9krsew6kpg9huzcqgmgmns0n48jx9yd5vr0n5",
+		"ibc/C053D637CCA2A2BA030E2C5EE1B28A16F71CCB0E45E8BE52766DC1B241B77878",
+		"uqwoyn",
+		86400*360,
+		1679578470,
+		sdk.OneDec(),
+		sdk.NewDecWithPrec(1, 1), false, false, "")
 	// return NewParams("", "stake", "uqwoyn", 86400*360, 1679578470, sdk.OneDec(), sdk.NewDecWithPrec(1, 1), false, false, "")
 }
 

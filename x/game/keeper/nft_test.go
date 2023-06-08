@@ -41,7 +41,7 @@ func (suite *KeeperTestSuite) TestNftDepositWithdraw() {
 	suite.app.WasmKeeper.SetParams(suite.ctx, wasmParams)
 
 	// store wasm code
-	codeID, err := suite.app.GameKeeper.WasmKeeper.Create(suite.ctx, addr1, shipNftContract, &wasmtypes.AllowEverybody)
+	codeID, _, err := suite.app.GameKeeper.WasmKeeper.Create(suite.ctx, addr1, shipNftContract, &wasmtypes.AllowEverybody)
 	suite.Require().NoError(err)
 
 	moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)

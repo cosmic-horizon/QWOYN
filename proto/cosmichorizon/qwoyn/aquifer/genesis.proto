@@ -2,7 +2,7 @@ syntax = "proto3";
 package cosmichorizon.qwoyn.aquifer;
 
 import "gogoproto/gogo.proto";
-import "aquifer/params.proto";
+import "cosmichorizon/qwoyn/aquifer/params.proto";
 
 option go_package = "github.com/cosmic-horizon/qwoyn/x/aquifer/types";
 

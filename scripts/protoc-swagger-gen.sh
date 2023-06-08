@@ -7,7 +7,7 @@ SWAGGER_DIR=./app/client/docs
 cd ./proto
 
 # find all proto directories
-proto_dirs=$(find ./regen -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
+proto_dirs=$(find ./ -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 
 # loop through proto directories
 for dir in $proto_dirs; do

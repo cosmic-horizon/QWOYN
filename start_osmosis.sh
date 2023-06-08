@@ -24,8 +24,10 @@ sed -i -e 's#"0.0.0.0:9091"#"0.0.0.0:9093"#g' $HOME/.osmosisd/config/app.toml
 sed -i -e 's#"0.0.0.0:9090"#"0.0.0.0:9092"#g' $HOME/.osmosisd/config/app.toml
 sed -i -e 's#"0.0.0.0:8080"#"0.0.0.0:8081"#g' $HOME/.osmosisd/config/app.toml
 sed -i -e 's#"0.0.0.0:1317"#"0.0.0.0:1316"#g' $HOME/.osmosisd/config/app.toml
-sed -i -r "325s/.*/          \"allow_messages\": \[\"\/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool\"\]/"  $HOME/.osmosisd/config/genesis.json
- 
+sed -i -r "430s/.*/          \"allow_messages\": \[\"\/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool\"\]/"  $HOME/.osmosisd/config/genesis.json
+sed -i -e 's#"voting_period": "172800s"#"voting_period": "20s"#g' $HOME/.osmosisd/config/genesis.json
+sed -i -e 's#"expedited_voting_period": "86400s"#"expedited_voting_period": "20s"#g' $HOME/.osmosisd/config/genesis.json
+
 osmosisd start --home=$HOME/.osmosisd
 
 

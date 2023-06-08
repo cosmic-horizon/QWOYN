@@ -3,41 +3,47 @@ package keeper
 import (
 	"fmt"
 
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/cosmic-horizon/qwoyn/x/aquifer/types"
 	"github.com/cosmos/cosmos-sdk/codec"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	icacontrollerkeeper "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/controller/keeper"
-	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
+	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v7/modules/apps/transfer/keeper"
+	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 )
 
 type Keeper struct {
 	cdc                 codec.BinaryCodec
-	storeKey            sdk.StoreKey
+	storeKey            storetypes.StoreKey
 	paramstore          paramtypes.Subspace
 	ak                  types.AccountKeeper
 	bk                  types.BankKeeper
 	gk                  types.GameKeeper
 	icaControllerKeeper icacontrollerkeeper.Keeper
+	IBCKeeper           ibckeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 
-	scopedKeeper capabilitykeeper.ScopedKeeper
+	ScopedKeeper     capabilitykeeper.ScopedKeeper
+	IBCScopperKeeper capabilitykeeper.ScopedKeeper
 }
 
 func NewKeeper(
 	cdc codec.BinaryCodec,
-	storeKey sdk.StoreKey,
+	storeKey storetypes.StoreKey,
 	ps paramtypes.Subspace,
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	gk types.GameKeeper,
-	iaKeeper icacontrollerkeeper.Keeper,
+	icacontrollerKeeper icacontrollerkeeper.Keeper,
+	ibcKeeper ibckeeper.Keeper,
 	TransferKeeper ibctransferkeeper.Keeper,
 	scopedKeeper capabilitykeeper.ScopedKeeper,
+	IBCScopperKeeper capabilitykeeper.ScopedKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -51,9 +57,11 @@ func NewKeeper(
 		ak:                  ak,
 		bk:                  bk,
 		gk:                  gk,
-		icaControllerKeeper: iaKeeper,
+		icaControllerKeeper: icacontrollerKeeper,
+		IBCKeeper:           ibcKeeper,
 		TransferKeeper:      TransferKeeper,
-		scopedKeeper:        scopedKeeper,
+		ScopedKeeper:        scopedKeeper,
+		IBCScopperKeeper:    IBCScopperKeeper,
 	}
 }
 
@@ -63,5 +71,5 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 
 // ClaimCapability claims the channel capability passed via the OnOpenChanInit callback
 func (k *Keeper) ClaimCapability(ctx sdk.Context, cap *capabilitytypes.Capability, name string) error {
-	return k.scopedKeeper.ClaimCapability(ctx, cap, name)
+	return k.ScopedKeeper.ClaimCapability(ctx, cap, name)
 }

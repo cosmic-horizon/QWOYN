@@ -3,11 +3,11 @@ package keeper_test
 import (
 	"time"
 
+	"github.com/cometbft/cometbft/crypto/ed25519"
 	"github.com/cosmic-horizon/qwoyn/x/game/keeper"
 	"github.com/cosmic-horizon/qwoyn/x/game/types"
 	minttypes "github.com/cosmic-horizon/qwoyn/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/crypto/ed25519"
 )
 
 func (suite *KeeperTestSuite) TestMsgServerDepositToken() {
@@ -56,7 +56,7 @@ func (suite *KeeperTestSuite) TestMsgServerDepositToken() {
 
 				// check balance has decreased
 				balance := suite.app.BankKeeper.GetBalance(suite.ctx, addr, params.DepositDenom)
-				suite.Require().Equal(balance.Amount, tc.balance.Sub(sdk.Coins{tc.deposit}).AmountOf(params.DepositDenom))
+				suite.Require().Equal(balance.Amount, tc.balance.Sub(tc.deposit).AmountOf(params.DepositDenom))
 
 				// check module balance has increased
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
@@ -130,11 +130,11 @@ func (suite *KeeperTestSuite) TestMsgServerWithdrawToken() {
 				// check module balance has decreased
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
 				balance = suite.app.BankKeeper.GetBalance(suite.ctx, moduleAddr, params.DepositDenom)
-				suite.Require().Equal(balance.Amount, tc.deposit.Sub(sdk.Coins{tc.withdraw}).AmountOf(params.DepositDenom))
+				suite.Require().Equal(balance.Amount, tc.deposit.Sub(tc.withdraw).AmountOf(params.DepositDenom))
 
 				// check deposit has decreased
 				deposit := suite.app.GameKeeper.GetDeposit(suite.ctx, addr)
-				suite.Require().Equal(deposit.Amount, tc.deposit.Sub(sdk.Coins{tc.withdraw}).AmountOf(params.DepositDenom))
+				suite.Require().Equal(deposit.Amount, tc.deposit.Sub(tc.withdraw).AmountOf(params.DepositDenom))
 			} else {
 				suite.Require().Error(err)
 			}
@@ -308,7 +308,7 @@ func (suite *KeeperTestSuite) TestMsgServerAddLiquidity() {
 
 				// check coin movement by correct amount
 				bal := suite.app.BankKeeper.GetAllBalances(suite.ctx, tc.executor)
-				suite.Require().Equal(bal.String(), tc.balance.Sub(tc.deposit).String())
+				suite.Require().Equal(bal.String(), tc.balance.Sub(tc.deposit...).String())
 
 				// module address
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
@@ -388,7 +388,7 @@ func (suite *KeeperTestSuite) TestMsgServerRemoveLiquidity() {
 
 				// check liquidity is decreased by correct amount
 				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
-				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), tc.liquidity.Sub(tc.withdraw).String())
+				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), tc.liquidity.Sub(tc.withdraw...).String())
 
 				// check coin movement by correct amount
 				bal := suite.app.BankKeeper.GetAllBalances(suite.ctx, tc.executor)
@@ -397,7 +397,7 @@ func (suite *KeeperTestSuite) TestMsgServerRemoveLiquidity() {
 				// module address
 				moduleAddr := suite.app.AccountKeeper.GetModuleAddress(types.ModuleName)
 				bal = suite.app.BankKeeper.GetAllBalances(suite.ctx, moduleAddr)
-				suite.Require().Equal(bal.String(), tc.liquidity.Sub(tc.withdraw).String())
+				suite.Require().Equal(bal.String(), tc.liquidity.Sub(tc.withdraw...).String())
 			} else {
 				suite.Require().Error(err)
 			}
@@ -500,7 +500,7 @@ func (suite *KeeperTestSuite) TestMsgServerSwap() {
 
 				// check liquidity changes bi-directional by correct amount
 				liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
-				expLiqRemaining := tc.liquidity.Add(sdk.NewCoin(tc.inAmount.Denom, tc.inAmount.Amount.ToDec().Mul(sdk.OneDec().Sub(tc.swapFee)).RoundInt())).Sub(sdk.Coins{tc.expOutAmount})
+				expLiqRemaining := tc.liquidity.Add(sdk.NewCoin(tc.inAmount.Denom, sdk.NewDecFromInt(tc.inAmount.Amount).Mul(sdk.OneDec().Sub(tc.swapFee)).RoundInt())).Sub(tc.expOutAmount)
 				suite.Require().Equal(sdk.Coins(liq.Amounts).String(), expLiqRemaining.String())
 
 				// module address

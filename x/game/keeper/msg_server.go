@@ -400,7 +400,7 @@ func (m msgServer) Swap(goCtx context.Context, msg *types.MsgSwap) (*types.MsgSw
 
 	// send swap fee to collector
 	params := m.Keeper.GetParamSet(ctx)
-	fee := msg.Amount.Amount.ToDec().Mul(params.SwapFee).RoundInt()
+	fee := sdk.NewDecFromInt(msg.Amount.Amount).Mul(params.SwapFee).RoundInt()
 	if fee.IsPositive() {
 		feeCollector := sdk.MustAccAddressFromBech32(params.SwapFeeCollector)
 		err = m.Keeper.BankKeeper.SendCoins(ctx, sender, feeCollector, sdk.Coins{sdk.NewCoin(msg.Amount.Denom, fee)})
