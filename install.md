@@ -26,7 +26,7 @@ sudo apt update
 sudo apt install build-essential jq wget git -y
 
 wget https://dl.google.com/go/go1.18.1.linux-amd64.tar.gz
-tar -xvf go1.18.1.linux-amd64.tar.gz
+tar -xvf go1.19.5.linux-amd64.tar.gz
 sudo mv go /usr/local
 ```
 
@@ -53,10 +53,10 @@ git clone https://github.com/cosmic-horizon/QWOYN.git
 
 # Install `qwoynd`
 cd QWOYN
-git checkout v1.0.0-beta
+git checkout v1.0.0
 make install
 
-# check version (1.0.0-beta)
+# check version (1.0.0)
 qwoynd version
 ```
 

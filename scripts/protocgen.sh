@@ -19,5 +19,9 @@ done
 cd ..
 
 # move proto files to the right places
-cp -r github.com/cosmic-horizon/qwoyn/* ./
+cp -r github.com/regen-network/regen-ledger/* ./
 rm -rf github.com
+
+go mod tidy
+
+./scripts/protocgen2.sh
