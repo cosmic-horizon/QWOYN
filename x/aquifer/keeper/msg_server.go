@@ -12,6 +12,8 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	"github.com/cosmos/gogoproto/proto"
+	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
+	icacontrollertypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
@@ -196,9 +198,20 @@ func (m msgServer) InitICA(goCtx context.Context, msg *types.MsgInitICA) (*types
 		TxType:                 icatypes.TxTypeSDKMultiMsg,
 	}))
 
-	if err := m.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, types.ModuleName, appVersion); err != nil {
+	msgServer := icacontrollerkeeper.NewMsgServerImpl(&m.icaControllerKeeper)
+	msgRegisterInterchainAccount := icacontrollertypes.NewMsgRegisterInterchainAccount(msg.ConnectionId, types.ModuleName, appVersion)
+
+	_, err := msgServer.RegisterInterchainAccount(sdk.WrapSDKContext(ctx), msgRegisterInterchainAccount)
+	if err != nil {
 		return nil, err
 	}
+
+	portID, err := icatypes.NewControllerPortID(types.ModuleName)
+	if err != nil {
+		return nil, err
+	}
+
+	m.icaControllerKeeper.SetMiddlewareEnabled(ctx, portID, msg.ConnectionId)
 
 	return &types.MsgInitICAResponse{}, nil
 }
@@ -257,7 +270,7 @@ func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAdd
 		return nil, icatypes.ErrActiveChannelNotFound.Wrapf("failed to retrieve active channel for port %s", portID)
 	}
 
-	chanCap, found := m.ScopedKeeper.GetCapability(ctx, host.ChannelCapabilityPath(portID, channelID))
+	chanCap, found := m.IBCScopperKeeper.GetCapability(ctx, host.ChannelCapabilityPath(portID, channelID))
 	if !found {
 		return nil, channeltypes.ErrChannelCapabilityNotFound.Wrap("module does not own channel capability")
 	}
