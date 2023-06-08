@@ -287,8 +287,8 @@ func GetCmdExecAddLiquidity() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).
-				WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
+			txf, _ := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+			txf = txf.WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
 			var msg sdk.Msg
 			txf, balancerPoolMsg, err := NewBuildCreateBalancerPoolMsg(clientCtx, txf, cmd.Flags())
 			if err != nil {

@@ -12,4 +12,5 @@ var (
 	ErrDepositTimeEnded    = sdkerrors.Register(ModuleName, 2, "deposit time ended")
 	ErrDepositTimeNotEnded = sdkerrors.Register(ModuleName, 3, "deposit time not ended")
 	ErrNotMaintainer       = sdkerrors.Register(ModuleName, 4, "not a maintainer")
+	ErrConnectionNotFound  = sdkerrors.Register(ModuleName, 5, "connection not found")
 )

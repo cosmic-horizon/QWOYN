@@ -120,7 +120,7 @@ func (k Keeper) ClaimInGameStakingReward(ctx sdk.Context, addr sdk.AccAddress) e
 	params := k.GetParamSet(ctx)
 
 	// calculate reward amount
-	rewardAmount := deposit.Staking.Sub(deposit.Unbonding).ToDec().
+	rewardAmount := sdk.NewDecFromInt(deposit.Staking.Sub(deposit.Unbonding)).
 		Mul(params.StakingInflation).
 		Mul(sdk.NewDec(int64(duration))).
 		Quo(sdk.NewDec(int64(24 * time.Hour * 365))).RoundInt()

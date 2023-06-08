@@ -149,7 +149,7 @@ func (k Keeper) SwapRate(c context.Context, req *types.QuerySwapRateRequest) (*t
 	srcLiq := liquidity.Amounts[0]
 	tarLiq := liquidity.Amounts[1]
 
-	rate := tarLiq.Amount.ToDec().Quo(srcLiq.Amount.ToDec())
+	rate := sdk.NewDecFromInt(tarLiq.Amount).Quo(sdk.NewDecFromInt(srcLiq.Amount))
 
 	return &types.QuerySwapRateResponse{
 		Rate:     rate,

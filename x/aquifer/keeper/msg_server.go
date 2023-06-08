@@ -2,18 +2,23 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
+	errorsmod "cosmossdk.io/errors"
 	"github.com/cosmic-horizon/qwoyn/x/aquifer/types"
 	gametypes "github.com/cosmic-horizon/qwoyn/x/game/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	icatypes "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/types"
-	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
+	"github.com/cosmos/gogoproto/proto"
+	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
+	icacontrollertypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/types"
+	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
+	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
+	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
+	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
+	host "github.com/cosmos/ibc-go/v7/modules/core/24-host"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -120,7 +125,7 @@ func (m msgServer) BuyAllocationToken(goCtx context.Context, msg *types.MsgBuyAl
 	}
 
 	discountedPrice := params.InitLiquidityPrice.Mul(sdk.OneDec().Sub(params.Discount))
-	allocationAmount := msg.Amount.Amount.ToDec().Quo(discountedPrice).RoundInt()
+	allocationAmount := sdk.NewDecFromInt(msg.Amount.Amount).Quo(discountedPrice).RoundInt()
 	allocationCoins := sdk.Coins{sdk.NewCoin(params.AllocationToken, allocationAmount)}
 	account := m.ak.GetAccount(ctx, sender)
 	switch account.(type) {
@@ -177,9 +182,36 @@ func (m msgServer) InitICA(goCtx context.Context, msg *types.MsgInitICA) (*types
 	params.IcaConnectionId = msg.ConnectionId
 	m.SetParams(ctx, params)
 
-	if err := m.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, types.ModuleName); err != nil {
+	// Get ConnectionEnd (for counterparty connection)
+	connectionEnd, found := m.Keeper.IBCKeeper.ConnectionKeeper.GetConnection(ctx, msg.ConnectionId)
+	if !found {
+		errMsg := fmt.Sprintf("invalid connection id, %s not found", msg.ConnectionId)
+		return nil, errorsmod.Wrapf(types.ErrConnectionNotFound, errMsg)
+	}
+	counterpartyConnection := connectionEnd.Counterparty
+
+	appVersion := string(icatypes.ModuleCdc.MustMarshalJSON(&icatypes.Metadata{
+		Version:                icatypes.Version,
+		ControllerConnectionId: msg.ConnectionId,
+		HostConnectionId:       counterpartyConnection.ConnectionId,
+		Encoding:               icatypes.EncodingProtobuf,
+		TxType:                 icatypes.TxTypeSDKMultiMsg,
+	}))
+
+	msgServer := icacontrollerkeeper.NewMsgServerImpl(&m.icaControllerKeeper)
+	msgRegisterInterchainAccount := icacontrollertypes.NewMsgRegisterInterchainAccount(msg.ConnectionId, types.ModuleName, appVersion)
+
+	_, err := msgServer.RegisterInterchainAccount(sdk.WrapSDKContext(ctx), msgRegisterInterchainAccount)
+	if err != nil {
 		return nil, err
 	}
+
+	portID, err := icatypes.NewControllerPortID(types.ModuleName)
+	if err != nil {
+		return nil, err
+	}
+
+	m.icaControllerKeeper.SetMiddlewareEnabled(ctx, portID, msg.ConnectionId)
 
 	return &types.MsgInitICAResponse{}, nil
 }
@@ -213,7 +245,8 @@ func (m msgServer) ExecTransfer(goCtx context.Context, msg *types.MsgExecTransfe
 		moduleAddr.String(),
 		icaAddr,
 		clienttypes.Height{},
-		timeoutTimestamp))
+		timeoutTimestamp,
+		""))
 	if err != nil {
 		return nil, err
 	}
@@ -237,7 +270,7 @@ func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAdd
 		return nil, icatypes.ErrActiveChannelNotFound.Wrapf("failed to retrieve active channel for port %s", portID)
 	}
 
-	chanCap, found := m.scopedKeeper.GetCapability(ctx, host.ChannelCapabilityPath(portID, channelID))
+	chanCap, found := m.IBCScopperKeeper.GetCapability(ctx, host.ChannelCapabilityPath(portID, channelID))
 	if !found {
 		return nil, channeltypes.ErrChannelCapabilityNotFound.Wrap("module does not own channel capability")
 	}
@@ -249,7 +282,7 @@ func (m msgServer) ExecAddLiquidity(goCtx context.Context, msg *types.MsgExecAdd
 
 	msg.Msg.Sender = addr
 
-	data, err := icatypes.SerializeCosmosTx(m.cdc, []sdk.Msg{&msg.Msg})
+	data, err := icatypes.SerializeCosmosTx(m.cdc, []proto.Message{&msg.Msg})
 	if err != nil {
 		return nil, err
 	}

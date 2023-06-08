@@ -39,7 +39,7 @@ func (k Keeper) DecreaseLiquidity(ctx sdk.Context, amounts sdk.Coins) error {
 	if !liqAmounts.IsAllGTE(amounts) {
 		return types.ErrInsufficientLiquidityAmount
 	}
-	liquidity.Amounts = liqAmounts.Sub(amounts)
+	liquidity.Amounts = liqAmounts.Sub(amounts...)
 	k.SetLiquidity(ctx, liquidity)
 	return nil
 }

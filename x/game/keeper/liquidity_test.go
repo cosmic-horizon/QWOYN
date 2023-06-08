@@ -62,7 +62,7 @@ func (suite *KeeperTestSuite) TestDecreaseLiquidity() {
 
 	liq := suite.app.GameKeeper.GetLiquidity(suite.ctx)
 	suite.Require().Equal(types.Liquidity{
-		Amounts: increaseCoins.Sub(decreaseCoins),
+		Amounts: increaseCoins.Sub(decreaseCoins...),
 	}, liq)
 }
 

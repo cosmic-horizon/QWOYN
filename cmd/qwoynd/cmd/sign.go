@@ -22,7 +22,6 @@ func GetSignBytesCommand() *cobra.Command {
 	}
 
 	cmd.Flags().String(flags.FlagOutputDocument, "", "The document will be written to the given file instead of STDOUT")
-	cmd.Flags().String(flags.FlagChainID, "", "The network chain ID")
 	flags.AddTxFlagsToCmd(cmd)
 
 	cmd.MarkFlagRequired(flags.FlagFrom)
@@ -42,7 +41,10 @@ func makeSignCmd() func(cmd *cobra.Command, args []string) error {
 		from, _ := cmd.Flags().GetString(flags.FlagFrom)
 
 		// Sign those bytes
-		txFactory := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+		txFactory, err := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+		if err != nil {
+			return err
+		}
 		bytesToSign, err := hex.DecodeString(args[0])
 		if err != nil {
 			return err
