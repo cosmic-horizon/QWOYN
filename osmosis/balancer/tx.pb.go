@@ -148,7 +148,7 @@ func init() {
 }
 
 func init() {
-	proto.RegisterFile("osmosis/gamm/pool-models/balancer/tx/tx.proto", fileDescriptor_0647ee155de97433)
+	// proto.RegisterFile("osmosis/gamm/pool-models/balancer/tx/tx.proto", fileDescriptor_0647ee155de97433)
 }
 
 var fileDescriptor_0647ee155de97433 = []byte{
