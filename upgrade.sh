@@ -12,3 +12,5 @@ qwoynd50 tx gov vote 1 yes --from validator --chain-id qwoyn-1 \
 qwoynd50 query gov proposals
 
 qwoynd51 start --pruning=nothing --minimum-gas-prices="0stake"
+
+qwoynd51 query bank total
