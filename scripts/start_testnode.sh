@@ -66,3 +66,4 @@ echo "Adding genesis transaction to genesis.json..."
 qwoynd genesis collect-gentxs || exit_with_error "Error: Could not add transaction to genesis"
 
 echo "If there were no errors above, you can now type 'qwoynd start' to start your node"
+
