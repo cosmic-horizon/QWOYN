@@ -16,7 +16,7 @@ import (
 func GetQueryCmd() *cobra.Command {
 	queryCmd := &cobra.Command{
 		Use:                types.ModuleName,
-		Short:              "Querying commands for the game module",
+		Short:              "Query commands for the game manager module",
 		DisableFlagParsing: true,
 	}
 
@@ -39,7 +39,7 @@ func GetQueryCmd() *cobra.Command {
 func GetCmdQueryParams() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "params [flags]",
-		Long: "Query params.",
+		Long: "Query parameters.",
 		Example: fmt.Sprintf(
 			`$ %s query game params`, version.AppName),
 		Args: cobra.ExactArgs(0),
@@ -132,7 +132,7 @@ func GetCmdInGameNfts() *cobra.Command {
 func GetCmdDepositBalance() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "deposit-balance [address] [flags]",
-		Long: "Query in-game nfts.",
+		Long: "Query in-game deposit balance.",
 		Example: fmt.Sprintf(
 			`$ %s query game deposit-balance [address]`, version.AppName),
 		Args: cobra.ExactArgs(1),
@@ -165,7 +165,7 @@ func GetCmdDepositBalance() *cobra.Command {
 func GetCmdAllDepositBalances() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "all-deposit-balances [flags]",
-		Long: "Query in-game nfts.",
+		Long: "Query all in-game balances.",
 		Example: fmt.Sprintf(
 			`$ %s query game all-deposit-balances`, version.AppName),
 		Args: cobra.ExactArgs(0),
