@@ -10,7 +10,7 @@ import (
 	"github.com/cosmic-horizon/QWOYN/v5_2/app/upgrades"
 )
 
-const Name = "v5.2"
+const Name = "v5.2.0"
 
 var Upgrade = upgrades.Upgrade{
 	UpgradeName: Name,
