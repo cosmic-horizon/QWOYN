@@ -7,7 +7,8 @@ exit_with_error()
 }
 
 KeyringBackend=test
-Chain=test
+Chain=test-1
+GAS_FEE="0uqwoyn"
 
 # Get the options
 while getopts ":kc:" option; do
@@ -25,22 +26,24 @@ done
 # Make sure the path is set correctly
 export PATH=~/go/bin:$PATH
 
-echo "REGEN Version: `regen version`"
+echo "qwoynd Version: `qwoynd version`"
 
-regen keys add validator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Validator add failed"
-regen keys add delegator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Delegator add failed"
-regen init node --chain-id ${Chain} || exit_with_error "Error: Could not init node"
+qwoynd keys add validator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Validator add failed"
+qwoynd keys add delegator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Delegator add failed"
+qwoynd init node --chain-id ${Chain} || exit_with_error "Error: Could not init node"
 
-# Change the staking token to uregen
+# Change the staking token to uqwoyn and change voting period to 1 minute
 # Note: sed works differently on different platforms
-echo "Updating your staking token to uregen in the genesis file..."
+echo "Updating your staking token to uqwoyn in the genesis file..."
 OS=`uname`
 if [[ $OS == "Linux"* ]]; then
     echo "Your OS is a Linux variant..."
-    sed -i "s/stake/uregen/g" ~/.regen/config/genesis.json || exit_with_error "Error: Could not update staking token"
+    sed -i "s/stake/uqwoyn/g" ~/.qwoynd/config/genesis.json || exit_with_error "Error: Could not update staking token"
+    sed -i '/minimum-gas-prices =/c\minimum-gas-prices = "'"$GAS_FEE"'"' ~/.qwoynd/config/app.toml || exit_with_error "Error: Could not update min gas fee"
+    sed -i 's/"voting_period": ".*"/"voting_period": "60s"/' ~/.qwoynd/config/genesis.json || exit_with_error "Error: Could not update voting period"
 elif [[ $OS == "Darwin"* ]]; then
     echo "Your OS is Mac OS/darwin..."
-    sed -i "" "s/stake/uregen/g" ~/.regen/config/genesis.json || exit_with_error "Error: Could not update staking token"
+    sed -i "" "s/stake/uqwoyn/g" ~/.qwoynd/config/genesis.json || exit_with_error "Error: Could not update staking token"
 else
     # Dunno
     echo "Your OS is not supported"
@@ -48,14 +51,19 @@ else
 fi
 
 echo "Adding validator to genesis.json..."
-regen add-genesis-account validator 5000000000uregen --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add validator to genesis"
+qwoynd genesis add-genesis-account validator 5000000000uqwoyn --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add validator to genesis"
 
 echo "Adding delegator to genesis.json..."
-regen add-genesis-account delegator 2000000000uregen --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add delegator to genesis"
+qwoynd genesis add-genesis-account delegator 2000000000uqwoyn --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add delegator to genesis"
+
+echo "Adding qwoyn1qn8mzcel2svf6s47hltuxtkl8e7w07tjaaleuj to genesis.json..."
+qwoynd genesis add-genesis-account qwoyn1qn8mzcel2svf6s47hltuxtkl8e7w07tjaaleuj 1000000uqwoyn --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add delegator to genesis"
+
 echo "Creating genesis transaction..."
-regen gentx validator 1000000uregen --chain-id ${Chain} --keyring-backend ${KeyringBackend} || exit_with_error "Error: Genesis transaction failed"
+qwoynd genesis gentx validator 1000000000uqwoyn --chain-id ${Chain} --keyring-backend ${KeyringBackend} || exit_with_error "Error: Genesis transaction failed"
 
 echo "Adding genesis transaction to genesis.json..."
-regen collect-gentxs || exit_with_error "Error: Could not add transaction to genesis"
+qwoynd genesis collect-gentxs || exit_with_error "Error: Could not add transaction to genesis"
 
-echo "If there were no errors above, you can now type 'regen start' to start your node"
+echo "If there were no errors above, you can now type 'qwoynd start' to start your node"
+

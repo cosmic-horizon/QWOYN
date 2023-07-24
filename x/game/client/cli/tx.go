@@ -19,7 +19,7 @@ import (
 func GetTxCmd() *cobra.Command {
 	txCmd := &cobra.Command{
 		Use:                        types.ModuleName,
-		Short:                      "game transaction subcommands",
+		Short:                      "game manager transaction subcommands",
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
 		RunE:                       client.ValidateCmd,
@@ -48,7 +48,7 @@ func GetTxCmd() *cobra.Command {
 func GetCmdTransferModuleOwnership() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "transfer-module-ownership [newOwner] [flags]",
-		Long: "Transfer module ownership to new address",
+		Long: "Transfer module ownership to a new address",
 		Args: cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
 			`$ %s tx transfer-module-ownership [newOwner]`,
@@ -363,7 +363,7 @@ func GetCmdWithdrawToken() *cobra.Command {
 func GetCmdStakeInGameToken() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "stake-ingame-token [coin] [flags]",
-		Long: "Stake ingame token",
+		Long: "Stake in-game token",
 		Args: cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
 			`$ %s tx stake-ingame-token [coin]`,
@@ -401,7 +401,7 @@ func GetCmdStakeInGameToken() *cobra.Command {
 func GetCmdBeginUnstakeInGameToken() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "begin-unstake-ingame-token [coin] [flags]",
-		Long: "Begin unstake of ingame token",
+		Long: "Begin unstaking the in-game token",
 		Args: cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
 			`$ %s tx begin-unstake-ingame-token [coin]`,
@@ -439,7 +439,7 @@ func GetCmdBeginUnstakeInGameToken() *cobra.Command {
 func GetCmdClaimInGameStakingReward() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:  "claim-ingame-staking-reward [flags]",
-		Long: "Claim ingame staking reward",
+		Long: "Claim in-game staking reward",
 		Args: cobra.ExactArgs(0),
 		Example: fmt.Sprintf(
 			`$ %s tx claim-ingame-staking-reward`,
