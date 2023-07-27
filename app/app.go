@@ -1,12 +1,13 @@
 package app
 
 import (
-	"github.com/cosmos/cosmos-sdk/x/group"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/cosmos/cosmos-sdk/x/group"
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 	reflectionv1 "cosmossdk.io/api/cosmos/reflection/v1"
@@ -15,6 +16,10 @@ import (
 	tmjson "github.com/cometbft/cometbft/libs/json"
 	"github.com/cometbft/cometbft/libs/log"
 	tmos "github.com/cometbft/cometbft/libs/os"
+	keepers "github.com/cosmic-horizon/qwoyn/app/keepers"
+	"github.com/cosmic-horizon/qwoyn/app/upgrades"
+	v5_1 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_1"
+	v5_2 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_2"
 	intertx "github.com/cosmic-horizon/qwoyn/x/intertx"
 	intertxkeeper "github.com/cosmic-horizon/qwoyn/x/intertx/keeper"
 	intertxtypes "github.com/cosmic-horizon/qwoyn/x/intertx/types"
@@ -186,6 +191,8 @@ var (
 	// DefaultNodeHome default home directories for the application daemon
 	DefaultNodeHome string
 
+	Upgrades = []upgrades.Upgrade{v5_1.Upgrade, v5_2.Upgrade}
+
 	// ModuleBasics defines the module BasicManager is in charge of setting up basic,
 	// non-dependant module elements, such as codec registration
 	// and genesis verification.
@@ -256,6 +263,7 @@ func init() {
 // capabilities aren't needed for testing.
 type App struct {
 	*baseapp.BaseApp
+	keepers.AppKeepers
 
 	legacyAmino       *codec.LegacyAmino
 	appCodec          codec.Codec
@@ -266,50 +274,9 @@ type App struct {
 	tkeys   map[string]*storetypes.TransientStoreKey
 	memKeys map[string]*storetypes.MemoryStoreKey
 
-	// keepers
-	AccountKeeper         authkeeper.AccountKeeper
-	BankKeeper            bankkeeper.Keeper
-	CapabilityKeeper      *capabilitykeeper.Keeper
-	StakingKeeper         *stakingkeeper.Keeper
-	SlashingKeeper        slashingkeeper.Keeper
-	MintKeeper            mintkeeper.Keeper
-	DistrKeeper           distrkeeper.Keeper
-	GovKeeper             govkeeper.Keeper
-	CrisisKeeper          *crisiskeeper.Keeper
-	UpgradeKeeper         *upgradekeeper.Keeper
-	ParamsKeeper          paramskeeper.Keeper
-	IBCKeeper             *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	IBCFeeKeeper          ibcfeekeeper.Keeper
-	ICAHostKeeper         icahostkeeper.Keeper
-	ICAControllerKeeper   icacontrollerkeeper.Keeper
-	InterTxKeeper         intertxkeeper.Keeper
-	EvidenceKeeper        evidencekeeper.Keeper
-	TransferKeeper        ibctransferkeeper.Keeper
-	FeeGrantKeeper        feegrantkeeper.Keeper
-	AuthzKeeper           authzkeeper.Keeper
-	GroupKeeper           groupkeeper.Keeper
-	ConsensusParamsKeeper consensusparamkeeper.Keeper
-
-	// make scoped keepers public for test purposes
-	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
-	ScopedIBCFeeKeeper        capabilitykeeper.ScopedKeeper
-	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
-	ScopedInterTxKeeper       capabilitykeeper.ScopedKeeper
-	ScopedAquiferKeeper       capabilitykeeper.ScopedKeeper
-
-	WasmKeeper       wasm.Keeper
-	scopedWasmKeeper capabilitykeeper.ScopedKeeper
-
-	StimulusKeeper stimuluskeeper.Keeper
-	AquiferKeeper  aquiferkeeper.Keeper
-	GameKeeper     gamekeeper.Keeper
-
-	// mm is the module manager
-	mm *module.Manager
-
-	// sm is the simulation manager
-	sm *module.SimulationManager
+	mm           *module.Manager
+	sm           *module.SimulationManager
+	configurator module.Configurator
 }
 
 // New returns a reference to an initialized blockchain app
@@ -382,7 +349,7 @@ func New(
 	scopedICAHostKeeper := app.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
 	app.ScopedICAControllerKeeper = app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	app.ScopedInterTxKeeper = app.CapabilityKeeper.ScopeToModule(intertxtypes.ModuleName)
-	app.scopedWasmKeeper = app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
+	app.ScopedWasmKeeper = app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
 	app.ScopedAquiferKeeper = app.CapabilityKeeper.ScopeToModule(aquifertypes.ModuleName)
 
 	// add keepers
@@ -580,7 +547,7 @@ func New(
 		app.IBCFeeKeeper, // ISC4 Wrapper: fee IBC middleware
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
-		app.scopedWasmKeeper,
+		app.ScopedWasmKeeper,
 		app.TransferKeeper,
 		app.MsgServiceRouter(),
 		app.GRPCQueryRouter(),
