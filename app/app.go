@@ -500,7 +500,6 @@ func New(
 	)
 	interTxModule := intertx.NewAppModule(appCodec, app.InterTxKeeper)
 	interTxIBCModule := intertx.NewIBCModule(app.InterTxKeeper)
-	_ = interTxIBCModule
 
 	app.AquiferKeeper = *aquiferkeeper.NewKeeper(
 		appCodec,
