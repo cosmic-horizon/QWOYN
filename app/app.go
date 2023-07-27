@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -534,6 +535,8 @@ func New(
 		panic("error while reading wasm config: " + err.Error())
 	}
 
+	app.setupUpgradeStoreLoaders()
+
 	// The last arguments can contain custom message handlers, and custom query handlers,
 	// if we want to allow any custom callbacks
 	availableCapabilities := "iterator,staking,stargate,cosmwasm_1_1,cosmwasm_1_2"
@@ -751,6 +754,8 @@ func New(
 		panic(err)
 	}
 	reflectionv1.RegisterReflectionServiceServer(app.GRPCQueryRouter(), reflectionSvc)
+
+	app.setupUpgradeHandlers()
 
 	overrideModules := map[string]module.AppModuleSimulation{
 		authtypes.ModuleName: auth.NewAppModule(app.appCodec, app.AccountKeeper, authsims.RandomGenesisAccounts, app.GetSubspace(authtypes.ModuleName)),
@@ -988,4 +993,35 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 // SimulationManager implements the SimulationApp interface
 func (app *App) SimulationManager() *module.SimulationManager {
 	return app.sm
+}
+
+// configure store loader that checks if version == upgradeHeight and applies store upgrades
+func (app *App) setupUpgradeStoreLoaders() {
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		return
+	}
+
+	for _, upgrade := range Upgrades {
+		if upgradeInfo.Name == upgrade.UpgradeName {
+			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &upgrade.StoreUpgrades))
+		}
+	}
+}
+
+func (app *App) setupUpgradeHandlers() {
+	for _, upgrade := range Upgrades {
+		app.UpgradeKeeper.SetUpgradeHandler(
+			upgrade.UpgradeName,
+			upgrade.CreateUpgradeHandler(
+				app.mm,
+				app.configurator,
+				app.AppKeepers,
+			),
+		)
+	}
 }
