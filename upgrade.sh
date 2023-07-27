@@ -1,6 +1,6 @@
 #!/bin/sh
 
-qwoynd52 tx gov submit-legacy-proposal software-upgrade "v5.2.0" \
+qwoynd51 tx gov submit-legacy-proposal software-upgrade "v5.2.0" \
 --upgrade-height=12 \
 --title="Upgrade to v5.2.0" --description="Upgrade to v5.2.0" --no-validate \
 --from=validator --keyring-backend=test \
