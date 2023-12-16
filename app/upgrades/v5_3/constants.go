@@ -2,8 +2,6 @@ package v5_3
 
 import (
 	"github.com/cosmic-horizon/qwoyn/app/upgrades"
-	store "github.com/cosmos/cosmos-sdk/store/types"
-	"github.com/cosmos/cosmos-sdk/x/group"
 )
 
 const (
@@ -14,7 +12,4 @@ const (
 var Upgrade = upgrades.Upgrade{
 	UpgradeName:          UpgradeName,
 	CreateUpgradeHandler: CreateUpgradeHandler,
-	StoreUpgrades: store.StoreUpgrades{
-		Added: []string{group.ModuleName},
-	},
 }
