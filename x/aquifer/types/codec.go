@@ -11,6 +11,12 @@ import (
 // RegisterLegacyAminoCodec registers the necessary x/distribution interfaces and concrete types
 // on the provided LegacyAmino codec. These types are used for Amino JSON serialization.
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
+	cdc.RegisterConcrete(MsgPutAllocationToken{}, "aquifer/MsgPutAllocationToken", nil)
+	cdc.RegisterConcrete(MsgTakeOutAllocationToken{}, "aquifer/MsgTakeOutAllocationToken", nil)
+	cdc.RegisterConcrete(MsgBuyAllocationToken{}, "aquifer/MsgBuyAllocationToken", nil)
+	cdc.RegisterConcrete(MsgSetDepositEndTime{}, "aquifer/MsgSetDepositEndTime", nil)
+	cdc.RegisterConcrete(MsgInitICA{}, "aquifer/MsgInitICA", nil)
+	cdc.RegisterConcrete(MsgExecAddLiquidity{}, "aquifer/MsgExecAddLiquidity", nil)
 }
 
 func RegisterInterfaces(registry types.InterfaceRegistry) {
