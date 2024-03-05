@@ -27,6 +27,7 @@ import (
 	ibcfeekeeper "github.com/cosmos/ibc-go/v7/modules/apps/29-fee/keeper"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v7/modules/apps/transfer/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
+	ibcproviderkeeper "github.com/cosmos/interchain-security/v3/x/ccv/provider/keeper"
 )
 
 type AppKeepers struct {
@@ -57,6 +58,8 @@ type AppKeepers struct {
 	AquiferKeeper         aquiferkeeper.Keeper
 	GameKeeper            gamekeeper.Keeper
 
+	ProviderKeeper ibcproviderkeeper.Keeper
+
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
@@ -65,4 +68,5 @@ type AppKeepers struct {
 	ScopedInterTxKeeper       capabilitykeeper.ScopedKeeper
 	ScopedAquiferKeeper       capabilitykeeper.ScopedKeeper
 	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
+	ScopedIBCProviderKeeper   capabilitykeeper.ScopedKeeper
 }
