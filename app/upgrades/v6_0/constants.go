@@ -1,4 +1,4 @@
-package v5_4
+package v6_0
 
 import (
 	"github.com/cosmic-horizon/qwoyn/app/upgrades"
@@ -8,7 +8,7 @@ import (
 
 const (
 	// UpgradeName defines the on-chain upgrade name.
-	UpgradeName = "v5.5.0"
+	UpgradeName = "v6.0.0"
 )
 
 var Upgrade = upgrades.Upgrade{
