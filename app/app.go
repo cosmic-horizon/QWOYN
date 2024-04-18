@@ -21,7 +21,7 @@ import (
 	v5_2 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_2"
 	v5_3 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_3"
 	v5_4 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_4"
-	v5_5 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_5"
+        v6_0 "github.com/cosmic-horizon/qwoyn/app/upgrades/v6_0"
 	intertx "github.com/cosmic-horizon/qwoyn/x/intertx"
 	intertxkeeper "github.com/cosmic-horizon/qwoyn/x/intertx/keeper"
 	intertxtypes "github.com/cosmic-horizon/qwoyn/x/intertx/types"
@@ -199,7 +199,7 @@ var (
 	// DefaultNodeHome default home directories for the application daemon
 	DefaultNodeHome string
 
-	Upgrades = []upgrades.Upgrade{v5_1.Upgrade, v5_2.Upgrade, v5_3.Upgrade, v5_4.Upgrade, v5_5.Upgrade}
+	Upgrades = []upgrades.Upgrade{v5_1.Upgrade, v5_2.Upgrade, v5_3.Upgrade, v5_4.Upgrade, v6_0.Upgrade}
 
 	// ModuleBasics defines the module BasicManager is in charge of setting up basic,
 	// non-dependant module elements, such as codec registration
