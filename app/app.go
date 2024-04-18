@@ -21,6 +21,7 @@ import (
 	v5_2 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_2"
 	v5_3 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_3"
 	v5_4 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_4"
+	v5_5 "github.com/cosmic-horizon/qwoyn/app/upgrades/v5_5"
 	intertx "github.com/cosmic-horizon/qwoyn/x/intertx"
 	intertxkeeper "github.com/cosmic-horizon/qwoyn/x/intertx/keeper"
 	intertxtypes "github.com/cosmic-horizon/qwoyn/x/intertx/types"
@@ -126,6 +127,10 @@ import (
 	"github.com/rakyll/statik/fs"
 	"github.com/spf13/cast"
 
+	ibcprovider "github.com/cosmos/interchain-security/v3/x/ccv/provider"
+	ibcproviderkeeper "github.com/cosmos/interchain-security/v3/x/ccv/provider/keeper"
+	providertypes "github.com/cosmos/interchain-security/v3/x/ccv/provider/types"
+
 	stimulus "github.com/cosmic-horizon/qwoyn/x/stimulus"
 	stimuluskeeper "github.com/cosmic-horizon/qwoyn/x/stimulus/keeper"
 	stimulustypes "github.com/cosmic-horizon/qwoyn/x/stimulus/types"
@@ -194,7 +199,7 @@ var (
 	// DefaultNodeHome default home directories for the application daemon
 	DefaultNodeHome string
 
-	Upgrades = []upgrades.Upgrade{v5_1.Upgrade, v5_2.Upgrade, v5_3.Upgrade, v5_4.Upgrade}
+	Upgrades = []upgrades.Upgrade{v5_1.Upgrade, v5_2.Upgrade, v5_3.Upgrade, v5_4.Upgrade, v5_5.Upgrade}
 
 	// ModuleBasics defines the module BasicManager is in charge of setting up basic,
 	// non-dependant module elements, such as codec registration
@@ -318,6 +323,7 @@ func New(
 		stimulustypes.StoreKey,
 		aquifertypes.StoreKey,
 		gametypes.StoreKey,
+		providertypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -349,6 +355,7 @@ func New(
 	// grant capabilities for the ibc and ibc-transfer modules
 	app.ScopedIBCKeeper = app.CapabilityKeeper.ScopeToModule(ibcexported.ModuleName)
 	app.ScopedTransferKeeper = app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
+	app.ScopedIBCProviderKeeper = app.CapabilityKeeper.ScopeToModule(providertypes.ModuleName)
 	scopedICAHostKeeper := app.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
 	app.ScopedICAControllerKeeper = app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	app.ScopedInterTxKeeper = app.CapabilityKeeper.ScopeToModule(intertxtypes.ModuleName)
@@ -364,11 +371,12 @@ func New(
 		Bech32Prefix,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
+	moduleAddrs := app.ModuleAccountAddrs()
 	app.BankKeeper = bankkeeper.NewBaseKeeper(
 		appCodec,
 		keys[banktypes.StoreKey],
 		app.AccountKeeper,
-		app.ModuleAccountAddrs(),
+		app.BlockedModuleAccountAddrs(moduleAddrs),
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 	app.AuthzKeeper = authzkeeper.NewKeeper(keys[authzkeeper.StoreKey], appCodec, app.MsgServiceRouter(), app.AccountKeeper)
@@ -418,7 +426,11 @@ func New(
 	// register the staking hooks
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
 	app.StakingKeeper.SetHooks(
-		stakingtypes.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks()),
+		stakingtypes.NewMultiStakingHooks(
+			app.DistrKeeper.Hooks(),
+			app.SlashingKeeper.Hooks(),
+			app.ProviderKeeper.Hooks(),
+		),
 	)
 
 	// get skipUpgradeHeights from the app options
@@ -458,7 +470,8 @@ func New(
 	govRouter.AddRoute(govtypes.RouterKey, govv1beta1.ProposalHandler).
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
-		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper))
+		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
+		AddRoute(providertypes.RouterKey, ibcprovider.NewProviderProposalHandler(app.ProviderKeeper))
 
 	// Create Transfer Keepers
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
@@ -575,16 +588,6 @@ func New(
 	wasmStack = wasm.NewIBCHandler(app.WasmKeeper, app.IBCKeeper.ChannelKeeper, app.IBCFeeKeeper)
 	wasmStack = ibcfee.NewIBCMiddleware(wasmStack, app.IBCFeeKeeper)
 
-	// Create static IBC router, add transfer route, then set and seal it
-	ibcRouter := porttypes.NewRouter()
-	ibcRouter.AddRoute(aquifertypes.ModuleName, aquiferStack)
-	ibcRouter.AddRoute(intertxtypes.ModuleName, interTxIBCModule)
-	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, aquiferStack)
-	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule)
-	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
-	ibcRouter.AddRoute(wasm.ModuleName, wasmStack)
-	app.IBCKeeper.SetRouter(ibcRouter)
-
 	govConfig := govtypes.DefaultConfig()
 	govKeeper := govkeeper.NewKeeper(
 		appCodec,
@@ -598,6 +601,36 @@ func New(
 	)
 	govKeeper.SetLegacyRouter(govRouter)
 	app.GovKeeper = *govKeeper
+
+	app.ProviderKeeper = ibcproviderkeeper.NewKeeper(
+		appCodec,
+		app.keys[providertypes.StoreKey],
+		app.GetSubspace(providertypes.ModuleName),
+		app.ScopedIBCProviderKeeper,
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		app.IBCKeeper.ConnectionKeeper,
+		app.IBCKeeper.ClientKeeper,
+		app.StakingKeeper,
+		app.SlashingKeeper,
+		app.AccountKeeper,
+		app.DistrKeeper,
+		app.BankKeeper,
+		app.GovKeeper,
+		authtypes.FeeCollectorName,
+	)
+	providerModule := ibcprovider.NewAppModule(&app.ProviderKeeper, app.GetSubspace(providertypes.ModuleName))
+
+	// Create static IBC router, add transfer route, then set and seal it
+	ibcRouter := porttypes.NewRouter()
+	ibcRouter.AddRoute(aquifertypes.ModuleName, aquiferStack)
+	ibcRouter.AddRoute(intertxtypes.ModuleName, interTxIBCModule)
+	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, aquiferStack)
+	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule)
+	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
+	ibcRouter.AddRoute(providertypes.ModuleName, providerModule)
+	ibcRouter.AddRoute(wasm.ModuleName, wasmStack)
+	app.IBCKeeper.SetRouter(ibcRouter)
 
 	app.GameKeeper = *gamekeeper.NewKeeper(
 		appCodec,
@@ -849,11 +882,20 @@ func (app *App) LoadHeight(height int64) error {
 func (app *App) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
 	for acc := range maccPerms {
-		if acc == aquifertypes.ModuleName {
-			continue
-		}
 		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
 	}
+
+	return modAccAddrs
+}
+
+// BlockedModuleAccountAddrs returns all the app's blocked module account
+// addresses.
+func (app *App) BlockedModuleAccountAddrs(modAccAddrs map[string]bool) map[string]bool {
+	// remove module accounts that are ALLOWED to received funds
+	delete(modAccAddrs, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+
+	// Remove the ConsumerRewardsPool from the group of blocked recipient addresses in bank
+	delete(modAccAddrs, authtypes.NewModuleAddress(providertypes.ConsumerRewardsPool).String())
 
 	return modAccAddrs
 }
@@ -988,6 +1030,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(aquifertypes.ModuleName)
 	paramsKeeper.Subspace(gametypes.ModuleName)
 	paramsKeeper.Subspace(wasm.ModuleName)
+	paramsKeeper.Subspace(providertypes.ModuleName)
 
 	return paramsKeeper
 }
